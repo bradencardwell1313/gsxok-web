@@ -1,0 +1,164 @@
+// GSX — Prisma Schema
+// Architecture v1.3
+// Stores: user accounts, orders, order items, company profiles, password reset tokens.
+// Content (products, dispensaries, articles) is managed in Sanity.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  // Neon requires directUrl for migrations
+  directUrl = env("DATABASE_URL")
+}
+
+// ─────────────────────────────────────────────────────────────
+// Enums
+// ─────────────────────────────────────────────────────────────
+
+enum UserRole {
+  BUYER
+  ADMIN
+}
+
+enum AccountStatus {
+  PENDING                  // New signup — awaiting admin approval
+  PASSWORD_RESET_REQUIRED  // Migrated account — must set new password before login
+  ACTIVE
+  SUSPENDED
+}
+
+enum OrderStatus {
+  SUBMITTED   // Buyer submitted — pending GSX acknowledgement
+  PROCESSING  // GSX is fulfilling
+  COMPLETED   // Fulfilled
+  CANCELLED
+}
+
+// ─────────────────────────────────────────────────────────────
+// User
+// Dispensary buyers and GSX admin staff.
+// ─────────────────────────────────────────────────────────────
+
+model User {
+  id            String        @id @default(cuid())
+  email         String        @unique
+  passwordHash  String?       // bcrypt (cost 12). Null until password reset confirmed.
+  firstName     String
+  lastName      String
+  phone         String
+  address       String
+  city          String
+  state         String
+  zip           String
+  ommaLicense   String        // Oklahoma Medical Marijuana Authority license number
+  role          UserRole      @default(BUYER)
+  accountStatus AccountStatus @default(PENDING)
+
+  // Relations
+  company       Company?
+  orders        Order[]
+  resetTokens   PasswordResetToken[]
+
+  // Timestamps
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  // Migration reference — original accounts.id from MySQL
+  legacyId      Int?          @unique
+}
+
+// ─────────────────────────────────────────────────────────────
+// Company
+// Dispensary company details, attached to a buyer account.
+// Used in order confirmation emails and order records.
+// ─────────────────────────────────────────────────────────────
+
+model Company {
+  id          String  @id @default(cuid())
+  name        String
+  address     String
+  city        String
+  state       String
+  zip         String
+  ommaLicense String
+  email       String
+  phone       String
+
+  // Relations
+  user        User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      String  @unique
+}
+
+// ─────────────────────────────────────────────────────────────
+// PasswordResetToken
+// Used for both post-migration forced resets and ongoing forgot-password flows.
+// The raw token is emailed; only the SHA-256 hash is stored.
+// ─────────────────────────────────────────────────────────────
+
+model PasswordResetToken {
+  id        String    @id @default(cuid())
+  tokenHash String    @unique  // SHA-256 hash of the raw token sent in the email
+  userId    String
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  usedAt    DateTime? // Set when token is consumed — prevents reuse
+  createdAt DateTime  @default(now())
+}
+
+// ─────────────────────────────────────────────────────────────
+// Order
+// A wholesale order submitted by a dispensary buyer.
+// No payment data is stored — orders are fulfilled offline.
+// ─────────────────────────────────────────────────────────────
+
+model Order {
+  id          String      @id @default(cuid())
+  userId      String
+  user        User        @relation(fields: [userId], references: [id])
+  items       OrderItem[]
+  status      OrderStatus @default(SUBMITTED)
+  notes       String?     // Optional buyer notes
+
+  // Snapshot of buyer's company info at time of order
+  // (company record may be updated later)
+  companyName    String?
+  companyAddress String?
+  companyCity    String?
+  companyState   String?
+  companyZip     String?
+  companyOmma    String?
+  companyEmail   String?
+  companyPhone   String?
+
+  submittedAt DateTime  @default(now())
+  completedAt DateTime?
+  updatedAt   DateTime  @updatedAt
+
+  // Migration reference — original orders.id from MySQL
+  legacyId    Int?      @unique
+}
+
+// ─────────────────────────────────────────────────────────────
+// OrderItem
+// A line item within an order. Product details are snapshotted
+// at order time — Sanity product data may change later.
+// ─────────────────────────────────────────────────────────────
+
+model OrderItem {
+  id               String   @id @default(cuid())
+  orderId          String
+  order            Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  // Product snapshot (from Sanity at time of order)
+  sanityProductId  String   // Sanity document _id
+  productTitle     String   // Captured at order time
+  unitPrice        Decimal  @db.Decimal(10, 2)
+  quantity         Int
+  subtotal         Decimal  @db.Decimal(10, 2)
+
+  // Migration reference — original image filename from MySQL
+  legacyImageRef   String?
+}
