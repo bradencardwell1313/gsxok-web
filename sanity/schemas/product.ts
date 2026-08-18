@@ -80,9 +80,9 @@ export const product = defineType({
           ],
           preview: {
             select: { title: 'cannabinoid.abbreviation', subtitle: 'amountMg' },
-            prepare: ({ title, subtitle }: { title: string; subtitle: number }) => ({
+            prepare: ({ title, subtitle }) => ({
               title,
-              subtitle: subtitle ? `${subtitle}mg per piece` : '',
+              subtitle: subtitle ? `${subtitle as number}mg per piece` : '',
             }),
           },
         },
