@@ -54,8 +54,8 @@ export const manufacturingStep = defineType({
       title: 'title',
       order: 'order',
     },
-    prepare: ({ title, order }: { title: string; order: number }) => ({
-      title: `${order}. ${title}`,
+    prepare: ({ title, order }) => ({
+      title: `${order as number}. ${title as string}`,
     }),
   },
 })

@@ -194,9 +194,9 @@ export const product = defineType({
       media: 'image',
       status: 'availabilityStatus',
     },
-    prepare: ({ title, media, status }: { title: string; media: unknown; status: string }) => ({
+    prepare: ({ title, media, status }) => ({
       title,
-      subtitle: status?.replace('_', ' '),
+      subtitle: (status as string)?.replace('_', ' '),
       media,
     }),
   },

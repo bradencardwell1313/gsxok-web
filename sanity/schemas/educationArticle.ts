@@ -99,7 +99,7 @@ export const educationArticle = defineType({
       media: 'heroImage',
       category: 'category.name',
     },
-    prepare: ({ title, media, category }: { title: string; media: unknown; category: string }) => ({
+    prepare: ({ title, media, category }) => ({
       title,
       subtitle: category,
       media,

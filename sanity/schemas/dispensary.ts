@@ -118,19 +118,9 @@ export const dispensary = defineType({
       state: 'state',
       status: 'availabilityStatus',
     },
-    prepare: ({
+    prepare: ({ title, city, state, status }) => ({
       title,
-      city,
-      state,
-      status,
-    }: {
-      title: string
-      city: string
-      state: string
-      status: string
-    }) => ({
-      title,
-      subtitle: `${city}, ${state} · ${status}`,
+      subtitle: `${city as string}, ${state as string} · ${status as string}`,
     }),
   },
 })
