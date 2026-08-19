@@ -104,7 +104,7 @@ export function Nav() {
             ) : isLoggedIn ? (
               <>
                 <span className="text-label text-[rgba(250,248,243,0.45)] truncate max-w-[140px]">
-                  {session.user.name ?? session.user.email}
+                  {session?.user?.name ?? session?.user?.email}
                 </span>
                 <Button href="/api/auth/signout" variant="secondary" size="sm">
                   Sign out
