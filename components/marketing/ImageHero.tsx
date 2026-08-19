@@ -7,6 +7,7 @@ import { urlFor } from '@/lib/sanity/client'
 // Image-led hero — dark overlay on a full-bleed photo.
 // Primary use: homepage hero. Image crops to available height with hotspot control.
 // Best candidates: 56E9BD64 or 55323CB6 (from media library review).
+// image is optional — renders gradient-only fallback when Sanity is not yet populated.
 
 type OverlayStrength = 'light' | 'medium' | 'heavy'
 
@@ -16,15 +17,17 @@ const overlayGradients: Record<OverlayStrength, string> = {
   heavy:  'from-[rgba(15,26,20,0.97)] via-[rgba(15,26,20,0.70)] to-[rgba(15,26,20,0.35)]',
 }
 
+type HeroImage = SanityImageSource & { alt?: string; hotspot?: { x: number; y: number } }
+
 interface ImageHeroProps {
   headline: string
   subheadline?: string
-  image: SanityImageSource & { alt?: string; hotspot?: { x: number; y: number } }
+  image?: HeroImage | null
   primaryCta?: { label: string; href: string }
   secondaryCta?: { label: string; href: string }
   eyebrow?: string
   minHeight?: string
-  overlayStrength?: OverlayStrength  // Tune for each photo without touching the image
+  overlayStrength?: OverlayStrength
 }
 
 function hotspotToPosition(hotspot?: { x: number; y: number }) {
@@ -42,26 +45,29 @@ export function ImageHero({
   minHeight = '90vh',
   overlayStrength = 'medium',
 }: ImageHeroProps) {
-  const src = urlFor(image).auto('format').fit('max').width(1920).url()
-  const alt = (image as { alt?: string }).alt ?? ''
-  const hotspot = (image as { hotspot?: { x: number; y: number } }).hotspot
-  const objectPosition = hotspotToPosition(hotspot)
+  const hasImage = image != null
+
+  const src = hasImage ? urlFor(image).auto('format').fit('max').width(1920).url() : null
+  const alt = hasImage ? ((image as HeroImage).alt ?? '') : ''
+  const objectPosition = hasImage ? hotspotToPosition((image as HeroImage).hotspot) : 'center center'
 
   return (
     <section
       className="relative flex items-end overflow-hidden bg-[var(--color-dark)]"
       style={{ minHeight }}
     >
-      {/* Background image */}
-      <Image
-        src={src}
-        alt={alt}
-        fill
-        priority
-        sizes="100vw"
-        className="object-cover"
-        style={{ objectPosition }}
-      />
+      {/* Background image — only when Sanity image is available */}
+      {hasImage && src && (
+        <Image
+          src={src}
+          alt={alt}
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover"
+          style={{ objectPosition }}
+        />
+      )}
 
       {/* Gradient overlay — strength tunable per image for headline legibility */}
       <div className={`absolute inset-0 bg-gradient-to-t ${overlayGradients[overlayStrength]}`} />

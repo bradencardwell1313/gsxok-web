@@ -50,6 +50,28 @@ export const siteSettings = defineType({
         defineField({ name: 'alt', title: 'Alt Text', type: 'string', initialValue: 'Green Science Extracts' }),
       ],
     }),
+    defineField({
+      name: 'heroImage',
+      title: 'Homepage Hero Image',
+      type: 'image',
+      group: 'identity',
+      description: 'Full-bleed hero image on the homepage. Best options: 56E9BD64 or 55323CB6 from the media library.',
+      options: { hotspot: true },
+      fields: [
+        defineField({ name: 'alt', title: 'Alt Text', type: 'string', initialValue: 'Green Science Extracts facility' }),
+      ],
+    }),
+    defineField({
+      name: 'processImage',
+      title: 'Manufacturing Process Image',
+      type: 'image',
+      group: 'identity',
+      description: 'Split-panel image on the homepage manufacturing section. Best option: F1ABAA24 (horizontal process shot).',
+      options: { hotspot: true },
+      fields: [
+        defineField({ name: 'alt', title: 'Alt Text', type: 'string', initialValue: 'GSX manufacturing process' }),
+      ],
+    }),
 
     // ── SEO & Social ──────────────────────────────────────
     defineField({
