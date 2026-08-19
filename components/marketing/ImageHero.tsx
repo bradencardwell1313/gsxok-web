@@ -8,14 +8,23 @@ import { urlFor } from '@/lib/sanity/client'
 // Primary use: homepage hero. Image crops to available height with hotspot control.
 // Best candidates: 56E9BD64 or 55323CB6 (from media library review).
 
+type OverlayStrength = 'light' | 'medium' | 'heavy'
+
+const overlayGradients: Record<OverlayStrength, string> = {
+  light:  'from-[rgba(15,26,20,0.75)] via-[rgba(15,26,20,0.30)] to-[rgba(15,26,20,0.08)]',
+  medium: 'from-[rgba(15,26,20,0.92)] via-[rgba(15,26,20,0.45)] to-[rgba(15,26,20,0.15)]',
+  heavy:  'from-[rgba(15,26,20,0.97)] via-[rgba(15,26,20,0.70)] to-[rgba(15,26,20,0.35)]',
+}
+
 interface ImageHeroProps {
   headline: string
   subheadline?: string
   image: SanityImageSource & { alt?: string; hotspot?: { x: number; y: number } }
   primaryCta?: { label: string; href: string }
   secondaryCta?: { label: string; href: string }
-  eyebrow?: string       // Section label above headline
-  minHeight?: string     // CSS min-height, default '90vh'
+  eyebrow?: string
+  minHeight?: string
+  overlayStrength?: OverlayStrength  // Tune for each photo without touching the image
 }
 
 function hotspotToPosition(hotspot?: { x: number; y: number }) {
@@ -31,6 +40,7 @@ export function ImageHero({
   secondaryCta,
   eyebrow,
   minHeight = '90vh',
+  overlayStrength = 'medium',
 }: ImageHeroProps) {
   const src = urlFor(image).auto('format').fit('max').width(1920).url()
   const alt = (image as { alt?: string }).alt ?? ''
@@ -53,8 +63,8 @@ export function ImageHero({
         style={{ objectPosition }}
       />
 
-      {/* Gradient overlay — darker at bottom for legible text */}
-      <div className="absolute inset-0 bg-gradient-to-t from-[rgba(15,26,20,0.92)] via-[rgba(15,26,20,0.45)] to-[rgba(15,26,20,0.15)]" />
+      {/* Gradient overlay — strength tunable per image for headline legibility */}
+      <div className={`absolute inset-0 bg-gradient-to-t ${overlayGradients[overlayStrength]}`} />
 
       {/* Content */}
       <Container className="relative z-10 pb-20 md:pb-28 pt-32">

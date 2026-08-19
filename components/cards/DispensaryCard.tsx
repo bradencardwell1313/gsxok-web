@@ -51,7 +51,7 @@ export function DispensaryCard({
           {phone && (
             <a
               href={`tel:${phone}`}
-              className="text-body-sm text-[rgba(250,248,243,0.4)] hover:text-[var(--color-accent)] transition-colors duration-150 mt-1 block"
+              className="text-body-sm text-[rgba(250,248,243,0.4)] hover:text-[var(--color-accent)] transition-colors duration-150 mt-1 block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:rounded-sm"
             >
               {phone}
             </a>

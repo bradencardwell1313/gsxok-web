@@ -40,7 +40,7 @@ export function Footer() {
               <br />
               <a
                 href="mailto:sales@gsxok.com"
-                className="hover:text-[var(--color-accent)] transition-colors duration-150"
+                className="hover:text-[var(--color-accent)] transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:rounded-sm"
               >
                 sales@gsxok.com
               </a>
@@ -56,7 +56,7 @@ export function Footer() {
                   <li key={href}>
                     <Link
                       href={href}
-                      className="text-body-sm text-[rgba(250,248,243,0.55)] hover:text-[var(--color-cream)] transition-colors duration-150"
+                      className="text-body-sm text-[rgba(250,248,243,0.55)] hover:text-[var(--color-cream)] transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:rounded-sm"
                     >
                       {label}
                     </Link>

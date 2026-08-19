@@ -50,7 +50,7 @@ const sizeStyles: Record<Size, string> = {
 }
 
 const base =
-  'inline-flex items-center justify-center font-[family-name:var(--font-space-grotesk)] text-button tracking-[0.1em] uppercase transition-colors duration-150'
+  'inline-flex items-center justify-center font-[family-name:var(--font-space-grotesk)] text-button tracking-[0.1em] uppercase transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:ring-offset-1 focus-visible:ring-offset-[var(--color-dark)]'
 
 export function Button({ variant = 'primary', size = 'md', className = '', ...props }: ButtonProps) {
   const styles = `${base} ${variantStyles[variant]} ${sizeStyles[size]} ${className}`

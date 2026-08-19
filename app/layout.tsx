@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { Space_Grotesk, Manrope } from 'next/font/google'
+import { Providers } from '@/app/providers'
 import './globals.css'
 
 // ── Fonts ────────────────────────────────────────────────────
@@ -50,7 +51,9 @@ export default function RootLayout({
       lang="en"
       className={`${spaceGrotesk.variable} ${manrope.variable}`}
     >
-      <body>{children}</body>
+      <body>
+        <Providers>{children}</Providers>
+      </body>
     </html>
   )
 }

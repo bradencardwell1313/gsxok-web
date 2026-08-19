@@ -19,6 +19,7 @@ interface ProductCardProps {
   cannabinoidProfile?: CannabinoidEntry[]
   totalMgPerUnit?: number
   productFamily?: { name: string }
+  showPrice?: boolean  // Must be explicitly true — never shown on public-facing pages
 }
 
 const availabilityMap = {
@@ -38,13 +39,14 @@ export function ProductCard({
   cannabinoidProfile,
   totalMgPerUnit,
   productFamily,
+  showPrice = false,
 }: ProductCardProps) {
   const badgeVariant = availabilityMap[availabilityStatus]
 
   return (
     <Link
       href={`/products/${slug}`}
-      className="group flex flex-col bg-[rgba(250,248,243,0.04)] border border-[rgba(250,248,243,0.08)] hover:border-[rgba(250,248,243,0.16)] transition-colors duration-200"
+      className="group flex flex-col bg-[rgba(250,248,243,0.04)] border border-[rgba(250,248,243,0.08)] hover:border-[rgba(250,248,243,0.16)] transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)]"
     >
       {/* Image */}
       {image ? (
@@ -94,8 +96,8 @@ export function ProductCard({
           </p>
         )}
 
-        {/* Price */}
-        {wholesalePrice !== undefined && (
+        {/* Price — only shown when explicitly enabled (portal context) */}
+        {showPrice && wholesalePrice !== undefined && (
           <p className="text-body text-[var(--color-cream)] mt-auto pt-2 border-t border-[rgba(250,248,243,0.06)]">
             ${wholesalePrice.toFixed(2)}
             <span className="text-label text-[rgba(250,248,243,0.35)] ml-1">wholesale</span>
