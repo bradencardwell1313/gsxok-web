@@ -22,6 +22,7 @@ const SITE_SETTINGS_QUERY = groq`
     logoLight { ${imageFields} },
     heroImage { ${imageFields} },
     processImage { ${imageFields} },
+    proofPoints,
     defaultMetaTitle,
     defaultMetaDescription,
     ogImage { ${imageFields} },

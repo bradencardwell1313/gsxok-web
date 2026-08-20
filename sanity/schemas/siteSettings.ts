@@ -125,6 +125,17 @@ export const siteSettings = defineType({
       ],
     }),
 
+    // ── Proof Points ─────────────────────────────────────
+    defineField({
+      name: 'proofPoints',
+      title: 'Homepage Proof Points',
+      type: 'array',
+      group: 'identity',
+      description: 'Short credential statements shown in the strip below the hero. Only add claims that have been verified. "OMMA Licensed Manufacturer" and "Made in Chelsea, Oklahoma" are pre-confirmed defaults.',
+      of: [{ type: 'string' }],
+      validation: r => r.max(6),
+    }),
+
     // ── Banners ───────────────────────────────────────────
     defineField({
       name: 'siteBanner',

@@ -29,11 +29,12 @@ type Article = {
   category?: { name: string }
 }
 
-const PROOF_POINTS = [
+// Fallback proof points — only confirmed, verifiable facts.
+// Additional claims (lab testing, dosing consistency, etc.) must be added
+// via Sanity Studio > Site Settings > Proof Points once verified.
+const CONFIRMED_PROOF_POINTS = [
   'OMMA Licensed Manufacturer',
-  'Third-Party Lab Tested',
   'Made in Chelsea, Oklahoma',
-  'Consistent Dosing in Every Unit',
 ]
 
 export default async function HomePage() {
@@ -56,6 +57,11 @@ export default async function HomePage() {
   const heroImage = s?.heroImage as any ?? null
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const processImage = s?.processImage as any ?? null
+  // CMS-driven proof points; fall back to confirmed-only defaults when empty
+  const proofPoints: string[] =
+    Array.isArray(s?.proofPoints) && (s.proofPoints as string[]).length > 0
+      ? (s.proofPoints as string[])
+      : CONFIRMED_PROOF_POINTS
 
   return (
     <>
@@ -75,8 +81,8 @@ export default async function HomePage() {
         {/* ── 2. Proof bar ─────────────────────────────────────────── */}
         <div className="bg-[#0a1410] border-b border-[rgba(250,248,243,0.06)]">
           <Container className="py-7">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-y-5 gap-x-6 md:gap-0 md:divide-x md:divide-[rgba(250,248,243,0.08)]">
-              {PROOF_POINTS.map((label) => (
+            <div className="flex flex-wrap gap-x-0 gap-y-5 divide-y md:divide-y-0 md:divide-x divide-[rgba(250,248,243,0.08)]">
+              {proofPoints.map((label) => (
                 <div
                   key={label}
                   className="flex items-center gap-3 md:px-8 first:pl-0 last:pr-0"
@@ -93,20 +99,19 @@ export default async function HomePage() {
           </Container>
         </div>
 
-        {/* ── 3. Product Families ──────────────────────────────────── */}
-        <Section background="darkAlt">
-          <Container>
-            <SectionLabel>What We Make</SectionLabel>
-            <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mt-4 mb-12">
-              <h2 className="text-h1 text-[var(--color-cream)] max-w-md leading-tight">
-                A focused lineup.<br />Zero shortcuts.
-              </h2>
-              <Button href="/products" variant="secondary" size="md" className="shrink-0">
-                View All Products
-              </Button>
-            </div>
-
-            {families.length > 0 ? (
+        {/* ── 3. Product Families — hidden until Sanity is populated ── */}
+        {families.length > 0 && (
+          <Section background="darkAlt">
+            <Container>
+              <SectionLabel>What We Make</SectionLabel>
+              <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mt-4 mb-12">
+                <h2 className="text-h1 text-[var(--color-cream)] max-w-md leading-tight">
+                  A focused lineup.<br />Zero shortcuts.
+                </h2>
+                <Button href="/products" variant="secondary" size="md" className="shrink-0">
+                  View All Products
+                </Button>
+              </div>
               <Grid cols={3} gap="md">
                 {families.map((family) => (
                   <Link
@@ -124,46 +129,16 @@ export default async function HomePage() {
                     )}
                     <span className="flex items-center gap-2 text-label text-[var(--color-accent)] mt-auto pt-4">
                       Shop {family.name}
-                      <svg
-                        width="14"
-                        height="14"
-                        viewBox="0 0 14 14"
-                        fill="none"
-                        aria-hidden="true"
-                      >
-                        <path
-                          d="M2 7h10M8 3l4 4-4 4"
-                          stroke="currentColor"
-                          strokeWidth="1.5"
-                          strokeLinecap="square"
-                          strokeLinejoin="miter"
-                        />
+                      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                        <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square" strokeLinejoin="miter"/>
                       </svg>
                     </span>
                   </Link>
                 ))}
               </Grid>
-            ) : (
-              /* Placeholder grid while Sanity is populated via Studio */
-              <Grid cols={3} gap="md">
-                {['Gummies', 'Chocolates', 'Tinctures'].map((name) => (
-                  <div
-                    key={name}
-                    className="flex flex-col gap-4 p-8 border border-[rgba(250,248,243,0.08)] bg-[rgba(250,248,243,0.02)]"
-                  >
-                    <h3 className="text-h3 text-[var(--color-cream)]">{name}</h3>
-                    <p className="text-body-sm text-[rgba(250,248,243,0.4)] flex-1">
-                      Available in multiple cannabinoid profiles and dosing options.
-                    </p>
-                    <span className="text-label text-[var(--color-accent)] mt-auto pt-4">
-                      Shop {name} →
-                    </span>
-                  </div>
-                ))}
-              </Grid>
-            )}
-          </Container>
-        </Section>
+            </Container>
+          </Section>
+        )}
 
         {/* ── 4. Manufacturing Story ───────────────────────────────── */}
         <ManufacturingHero
@@ -171,12 +146,7 @@ export default async function HomePage() {
           headline="Every product made the same way, every time."
           body="We don't cut corners on process or ingredients. Every batch follows documented procedures, undergoes third-party testing, and ships only when it meets our internal standards."
           image={processImage}
-          stat={[
-            { value: '100%', label: 'Third-party lab tested' },
-            { value: 'OMMA', label: 'Licensed facility' },
-            { value: 'In-house', label: 'Development & production' },
-          ]}
-          cta={{ label: 'See how we make it', href: '/about' }}
+          cta={{ label: 'See how we make it', href: '/manufacturing' }}
         />
 
         {/* ── 5. Find GSX ─────────────────────────────────────────── */}
