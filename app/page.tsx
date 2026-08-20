@@ -214,7 +214,7 @@ export default async function HomePage() {
               <SectionLabel>From the Lab</SectionLabel>
               <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mt-4 mb-12">
                 <h2 className="text-h2 text-[var(--color-cream)] max-w-sm leading-tight">
-                  Know what you're buying.
+                  Know what you&apos;re buying.
                 </h2>
                 <Button href="/learn" variant="secondary" size="md" className="shrink-0">
                   All Articles
