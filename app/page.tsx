@@ -5,15 +5,12 @@ import { ImageHero } from '@/components/marketing/ImageHero'
 import { ManufacturingHero } from '@/components/marketing/ManufacturingHero'
 import { Section } from '@/components/layout/Section'
 import { Container } from '@/components/layout/Container'
-import { Grid } from '@/components/layout/Grid'
 import { SectionLabel } from '@/components/layout/SectionLabel'
 import { Button } from '@/components/ui/Button'
 import { getSiteSettings, getAllProductFamilies, getAllArticles } from '@/lib/sanity/queries'
 
 export const revalidate = 3600
 
-// Opaque types returned by Sanity — typed loosely at the page level.
-// Individual component interfaces handle their own typing.
 type SanitySettings = Record<string, unknown>
 type ProductFamily = {
   _id: string
@@ -28,14 +25,6 @@ type Article = {
   summary?: string
   category?: { name: string }
 }
-
-// Fallback proof points — only confirmed, verifiable facts.
-// Additional claims (lab testing, dosing consistency, etc.) must be added
-// via Sanity Studio > Site Settings > Proof Points once verified.
-const CONFIRMED_PROOF_POINTS = [
-  'OMMA Licensed Manufacturer',
-  'Made in Chelsea, Oklahoma',
-]
 
 export default async function HomePage() {
   const [settings, productFamilies, articles] = await Promise.allSettled([
@@ -57,174 +46,208 @@ export default async function HomePage() {
   const heroImage = s?.heroImage as any ?? null
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const processImage = s?.processImage as any ?? null
-  // CMS-driven proof points; fall back to confirmed-only defaults when empty
-  const proofPoints: string[] =
-    Array.isArray(s?.proofPoints) && (s.proofPoints as string[]).length > 0
-      ? (s.proofPoints as string[])
-      : CONFIRMED_PROOF_POINTS
 
   return (
     <>
       <Nav />
       <main>
-        {/* ── 1. Hero ─────────────────────────────────────────────── */}
+
+        {/* ── 1. Hero ─────────────────────────────────────────────────────────
+            Full-bleed, immersive. Let the photo carry the weight.
+            Upload 56E9BD64 or 55323CB6 via Sanity Studio > Site Settings.
+        ─────────────────────────────────────────────────────────────────────── */}
         <ImageHero
-          eyebrow="Green Science Extracts"
-          headline="Oklahoma Cannabis, Manufactured Right."
-          subheadline="Precision-dosed edibles developed and produced in-house. Available at dispensaries across Oklahoma."
+          eyebrow="Oklahoma Cannabis Manufacturer"
+          headline="Built for retailers who care what they sell."
+          subheadline="GSX makes precision-dosed edibles in-house, from formulation to final package."
           image={heroImage}
           overlayStrength={heroImage ? 'medium' : 'heavy'}
+          minHeight="95vh"
           primaryCta={{ label: 'View Products', href: '/products' }}
           secondaryCta={{ label: 'Find GSX', href: '/find-gsx' }}
         />
 
-        {/* ── 2. Proof bar ─────────────────────────────────────────── */}
-        <div className="bg-[#0a1410] border-b border-[rgba(250,248,243,0.06)]">
-          <Container className="py-7">
-            <div className="flex flex-wrap gap-x-0 gap-y-5 divide-y md:divide-y-0 md:divide-x divide-[rgba(250,248,243,0.08)]">
-              {proofPoints.map((label) => (
-                <div
-                  key={label}
-                  className="flex items-center gap-3 md:px-8 first:pl-0 last:pr-0"
-                >
-                  <span
-                    className="w-1.5 h-1.5 shrink-0 bg-[var(--color-accent)]"
-                    style={{ borderRadius: '0px' }}
-                    aria-hidden="true"
-                  />
-                  <span className="text-label text-[rgba(250,248,243,0.55)]">{label}</span>
-                </div>
-              ))}
+        {/* ── 2. Brand Statement ──────────────────────────────────────────────
+            No chrome. No badges. Direct prose. Credentialing through
+            confident language, not a row of chips.
+        ─────────────────────────────────────────────────────────────────────── */}
+        <div className="bg-[var(--color-dark)]">
+          <Container className="py-24 md:py-32">
+            <div className="max-w-3xl">
+              <p className="text-h3 md:text-h2 text-[var(--color-cream)] font-[family-name:var(--font-space-grotesk)] font-normal leading-snug">
+                We develop, manufacture, and package every product ourselves&mdash;in our
+                facility in Chelsea, Oklahoma.
+              </p>
+              <p className="text-body-lg text-[rgba(250,248,243,0.55)] mt-6 leading-relaxed max-w-2xl">
+                No contract manufacturing. No outsourced formulation. We control every
+                step because consistent product requires consistent process.
+              </p>
+              <p className="text-label text-[rgba(250,248,243,0.28)] mt-10 tracking-widest uppercase">
+                OMMA Licensed Manufacturer &nbsp;&middot;&nbsp; Chelsea, OK 74016
+              </p>
             </div>
           </Container>
         </div>
 
-        {/* ── 3. Product Families — hidden until Sanity is populated ── */}
-        {families.length > 0 && (
-          <Section background="darkAlt">
-            <Container>
-              <SectionLabel>What We Make</SectionLabel>
-              <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mt-4 mb-12">
-                <h2 className="text-h1 text-[var(--color-cream)] max-w-md leading-tight">
-                  A focused lineup.<br />Zero shortcuts.
-                </h2>
-                <Button href="/products" variant="secondary" size="md" className="shrink-0">
-                  View All Products
-                </Button>
-              </div>
-              <Grid cols={3} gap="md">
-                {families.map((family) => (
-                  <Link
-                    key={family._id}
-                    href={`/products?family=${family.slug.current}`}
-                    className="group flex flex-col gap-4 p-8 border border-[rgba(250,248,243,0.08)] bg-[rgba(250,248,243,0.02)] hover:border-[rgba(250,248,243,0.18)] hover:bg-[rgba(250,248,243,0.04)] transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)]"
-                  >
-                    <h3 className="text-h3 text-[var(--color-cream)] group-hover:text-[var(--color-accent)] transition-colors duration-150">
-                      {family.name}
-                    </h3>
-                    {family.description && (
-                      <p className="text-body-sm text-[rgba(250,248,243,0.5)] leading-relaxed flex-1">
-                        {family.description}
-                      </p>
-                    )}
-                    <span className="flex items-center gap-2 text-label text-[var(--color-accent)] mt-auto pt-4">
-                      Shop {family.name}
-                      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-                        <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square" strokeLinejoin="miter"/>
-                      </svg>
-                    </span>
-                  </Link>
-                ))}
-              </Grid>
-            </Container>
-          </Section>
-        )}
-
-        {/* ── 4. Manufacturing Story ───────────────────────────────── */}
+        {/* ── 3. Manufacturing Moment ─────────────────────────────────────────
+            Cinematic. Large. Let the process image do the talking.
+            Upload F1ABAA24 via Sanity Studio > Site Settings.
+        ─────────────────────────────────────────────────────────────────────── */}
         <ManufacturingHero
-          eyebrow="Our Process"
-          headline="Every product made the same way, every time."
-          body="We don't cut corners on process or ingredients. Every batch follows documented procedures, undergoes third-party testing, and ships only when it meets our internal standards."
+          eyebrow="How We Work"
+          headline="Documented process. Required testing. Consistent product."
+          body="From ingredient sourcing to final packaging, every step follows written procedures. We track every batch so problems stay small and product stays reliable."
           image={processImage}
-          cta={{ label: 'See how we make it', href: '/manufacturing' }}
+          cta={{ label: 'Our manufacturing process', href: '/manufacturing' }}
         />
 
-        {/* ── 5. Find GSX ─────────────────────────────────────────── */}
-        <Section background="cream">
+        {/* ── 4. Products ─────────────────────────────────────────────────────
+            Editorial statement, not a storefront grid.
+            If Sanity has families, they appear as inline text links — not cards.
+            Section hidden entirely when Sanity is empty.
+        ─────────────────────────────────────────────────────────────────────── */}
+        <Section background="darkAlt">
           <Container>
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-10">
-              <div className="flex flex-col gap-4 max-w-lg">
-                <SectionLabel className="text-[rgba(15,26,20,0.5)]">Retail Locations</SectionLabel>
-                <h2 className="text-h2 text-[var(--color-dark)] leading-tight">
-                  Find GSX at a dispensary near you.
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-start">
+
+              {/* Left: statement */}
+              <div className="flex flex-col gap-6">
+                <SectionLabel>Products</SectionLabel>
+                <h2 className="text-h1 text-[var(--color-cream)] leading-tight">
+                  A focused lineup.<br />Built right.
                 </h2>
-                <p className="text-body text-[rgba(15,26,20,0.6)] leading-relaxed">
-                  GSX products are available at select Oklahoma dispensaries. Use our retailer map
-                  to find a location carrying your preferred products.
+                <p className="text-body-lg text-[rgba(250,248,243,0.55)] leading-relaxed">
+                  Every GSX product is developed and manufactured in-house. We keep the
+                  catalog tight because we&apos;re not interested in products we can&apos;t
+                  do well.
                 </p>
+                <div className="pt-2">
+                  <Button href="/products" variant="primary" size="lg">
+                    View Products
+                  </Button>
+                </div>
               </div>
-              <div className="shrink-0">
-                <Button
-                  href="/find-gsx"
-                  variant="primary"
-                  size="lg"
-                  className="bg-[var(--color-dark)] border-[var(--color-dark)] hover:bg-[rgba(15,26,20,0.85)] hover:border-[rgba(15,26,20,0.85)]"
-                >
-                  Find a Retailer
-                </Button>
-              </div>
+
+              {/* Right: family list — editorial inline links, only when Sanity has content */}
+              {families.length > 0 && (
+                <div className="flex flex-col gap-0 border-t border-[rgba(250,248,243,0.08)] lg:border-t-0 lg:border-l lg:border-[rgba(250,248,243,0.08)] pt-12 lg:pt-0 lg:pl-16 self-center">
+                  {families.map((family, i) => (
+                    <Link
+                      key={family._id}
+                      href={`/products?family=${family.slug.current}`}
+                      className={`group flex items-center justify-between py-5 border-b border-[rgba(250,248,243,0.07)] hover:border-[rgba(250,248,243,0.18)] transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)]${i === 0 ? ' border-t border-t-[rgba(250,248,243,0.07)]' : ''}`}
+                    >
+                      <span className="text-h4 text-[rgba(250,248,243,0.65)] group-hover:text-[var(--color-cream)] transition-colors duration-150">
+                        {family.name}
+                      </span>
+                      <svg
+                        width="16"
+                        height="16"
+                        viewBox="0 0 16 16"
+                        fill="none"
+                        aria-hidden="true"
+                        className="text-[rgba(250,248,243,0.25)] group-hover:text-[var(--color-accent)] transition-colors duration-150 shrink-0"
+                      >
+                        <path
+                          d="M3 8h10M9 4l4 4-4 4"
+                          stroke="currentColor"
+                          strokeWidth="1.5"
+                          strokeLinecap="square"
+                          strokeLinejoin="miter"
+                        />
+                      </svg>
+                    </Link>
+                  ))}
+                </div>
+              )}
             </div>
           </Container>
         </Section>
 
-        {/* ── 6. Education Teaser — only rendered once Sanity has articles ── */}
-        {featuredArticles.length > 0 && (
-          <Section background="dark">
-            <Container>
-              <SectionLabel>From the Lab</SectionLabel>
-              <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mt-4 mb-12">
-                <h2 className="text-h2 text-[var(--color-cream)] max-w-sm leading-tight">
-                  Know what you&apos;re buying.
+        {/* ── 5. Find GSX ─────────────────────────────────────────────────────
+            Minimal. One line, one button. Not a boxed module.
+        ─────────────────────────────────────────────────────────────────────── */}
+        <div className="bg-[var(--color-dark)] border-t border-[rgba(250,248,243,0.06)]">
+          <Container className="py-20 md:py-24">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-8">
+              <div className="flex flex-col gap-3">
+                <h2 className="text-h2 text-[var(--color-cream)] leading-tight">
+                  Find GSX near you.
                 </h2>
+                <p className="text-body text-[rgba(250,248,243,0.5)]">
+                  Available at select dispensaries across Oklahoma.
+                </p>
+              </div>
+              <Button href="/find-gsx" variant="secondary" size="lg" className="shrink-0">
+                Find a Retailer
+              </Button>
+            </div>
+          </Container>
+        </div>
+
+        {/* ── 6. Education Teaser ─────────────────────────────────────────────
+            Hidden until articles exist in Sanity Studio.
+        ─────────────────────────────────────────────────────────────────────── */}
+        {featuredArticles.length > 0 && (
+          <Section background="darkAlt">
+            <Container>
+              <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+                <div className="flex flex-col gap-3">
+                  <SectionLabel>Education</SectionLabel>
+                  <h2 className="text-h2 text-[var(--color-cream)] leading-tight">
+                    Know what you&apos;re buying.
+                  </h2>
+                </div>
                 <Button href="/learn" variant="secondary" size="md" className="shrink-0">
                   All Articles
                 </Button>
               </div>
-              <Grid cols={3} gap="md">
+              <div className="flex flex-col divide-y divide-[rgba(250,248,243,0.07)]">
                 {featuredArticles.map((article) => (
                   <Link
                     key={article._id}
                     href={`/learn/${article.slug.current}`}
-                    className="group flex flex-col gap-3 p-6 border border-[rgba(250,248,243,0.08)] hover:border-[rgba(250,248,243,0.18)] transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)]"
+                    className="group flex flex-col sm:flex-row sm:items-start gap-4 py-7 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)]"
                   >
                     {article.category && (
-                      <span className="text-label text-[var(--color-accent)]">
+                      <span className="text-label text-[var(--color-accent)] shrink-0 sm:w-36 sm:pt-1">
                         {article.category.name}
                       </span>
                     )}
-                    <h3 className="text-h4 text-[var(--color-cream)] leading-snug group-hover:text-[var(--color-accent)] transition-colors duration-150">
-                      {article.title}
-                    </h3>
-                    {article.summary && (
-                      <p className="text-body-sm text-[rgba(250,248,243,0.5)] line-clamp-3 flex-1">
-                        {article.summary}
-                      </p>
-                    )}
-                    <span className="text-label text-[rgba(250,248,243,0.35)] mt-auto pt-4">
-                      Read more →
-                    </span>
+                    <div className="flex flex-col gap-2 flex-1">
+                      <h3 className="text-h4 text-[var(--color-cream)] leading-snug group-hover:text-[var(--color-accent)] transition-colors duration-150">
+                        {article.title}
+                      </h3>
+                      {article.summary && (
+                        <p className="text-body-sm text-[rgba(250,248,243,0.45)] line-clamp-2">
+                          {article.summary}
+                        </p>
+                      )}
+                    </div>
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 16 16"
+                      fill="none"
+                      aria-hidden="true"
+                      className="text-[rgba(250,248,243,0.2)] group-hover:text-[var(--color-accent)] transition-colors duration-150 shrink-0 mt-1 hidden sm:block"
+                    >
+                      <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square" strokeLinejoin="miter"/>
+                    </svg>
                   </Link>
                 ))}
-              </Grid>
+              </div>
             </Container>
           </Section>
         )}
 
-        {/* ── 7. Retailer CTA Strip ────────────────────────────────── */}
+        {/* ── 7. Retailer Strip ────────────────────────────────────────────────
+            Persistent retailer path. Green, direct, unfussy.
+        ─────────────────────────────────────────────────────────────────────── */}
         <div className="bg-[var(--color-green)]">
           <Container className="py-16 md:py-20">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-8">
-              <div className="flex flex-col gap-2 max-w-md">
+              <div className="flex flex-col gap-2">
                 <h2 className="text-h2 text-[var(--color-cream)] leading-tight">
                   Carry GSX in your store.
                 </h2>
@@ -232,13 +255,13 @@ export default async function HomePage() {
                   Oklahoma-licensed dispensaries can apply to stock GSX products.
                 </p>
               </div>
-              <div className="flex flex-wrap items-center gap-4 shrink-0">
+              <div className="flex flex-wrap items-center gap-5 shrink-0">
                 <Button href="/contact" variant="secondary" size="lg">
                   Carry GSX
                 </Button>
                 <Link
                   href="/login"
-                  className="text-label text-[rgba(250,248,243,0.72)] hover:text-[var(--color-cream)] transition-colors duration-150 flex items-center gap-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-cream)] focus-visible:rounded-sm"
+                  className="text-label text-[rgba(250,248,243,0.72)] hover:text-[var(--color-cream)] transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-cream)] focus-visible:rounded-sm"
                 >
                   Retailer Portal →
                 </Link>
@@ -246,6 +269,7 @@ export default async function HomePage() {
             </div>
           </Container>
         </div>
+
       </main>
       <Footer />
     </>
