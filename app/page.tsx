@@ -109,7 +109,7 @@ export default async function HomePage() {
           </div>
         </section>
 
-        <div className={G} style={{ paddingTop: '3rem', paddingBottom: '3rem' }}>
+        <div className={G} style={{ paddingTop: '5rem', paddingBottom: '5rem' }}>
           <p
             className="text-[var(--color-cream)] font-[family-name:var(--font-space-grotesk)]"
             style={{
@@ -140,8 +140,8 @@ export default async function HomePage() {
             <div
               className={`flex flex-col justify-center pl-6 md:pl-16 xl:pl-24 ${processSrc ? '' : 'pr-6 md:pr-16 xl:pr-24'}`}
               style={{
-                paddingTop: '3.5rem',
-                paddingBottom: '3.5rem',
+                paddingTop: '5rem',
+                paddingBottom: '5rem',
                 paddingRight: processSrc ? '3rem' : undefined,
               }}
             >
@@ -199,7 +199,7 @@ export default async function HomePage() {
 
         <Rule />
 
-        <div className={G} style={{ paddingTop: '2.5rem', paddingBottom: '2.5rem' }}>
+        <div className={G} style={{ paddingTop: '5rem', paddingBottom: '3.5rem' }}>
           <div className={families.length > 0 ? 'lg:grid lg:grid-cols-[1fr_1fr] lg:gap-20 lg:items-start' : ''}>
             <div>
               <h2
@@ -257,7 +257,7 @@ export default async function HomePage() {
 
         <Rule />
 
-        <div className={G} style={{ paddingTop: '2.5rem', paddingBottom: '2.5rem' }}>
+        <div className={G} style={{ paddingTop: '3.5rem', paddingBottom: '3.5rem' }}>
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
             <div>
               <h2
@@ -286,7 +286,7 @@ export default async function HomePage() {
         {featured.length > 0 && (
           <>
             <Rule />
-            <div className={G} style={{ paddingTop: '2.5rem', paddingBottom: '2.5rem' }}>
+            <div className={G} style={{ paddingTop: '3.5rem', paddingBottom: '3.5rem' }}>
               <div className="flex items-baseline justify-between gap-4 mb-8">
                 <h2
                   className="text-[var(--color-cream)] font-[family-name:var(--font-space-grotesk)] font-semibold"
@@ -323,7 +323,7 @@ export default async function HomePage() {
         )}
 
         <div className="bg-[var(--color-green)]">
-          <div className={G} style={{ paddingTop: '2.5rem', paddingBottom: '2.5rem' }}>
+          <div className={G} style={{ paddingTop: '3.5rem', paddingBottom: '3.5rem' }}>
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
               <div>
                 <h2
