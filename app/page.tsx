@@ -258,7 +258,7 @@ export default async function HomePage() {
         <Rule />
 
         <div className={G} style={{ paddingTop: '3.5rem', paddingBottom: '3.5rem' }}>
-          <div className="flex flex-col sm:flex-row sm:items-center gap-5 sm:gap-10" style={{ maxWidth: '620px' }}>
+          <div className="lg:grid lg:grid-cols-2 lg:items-center lg:gap-16">
             <div>
               <h2
                 className="text-[var(--color-cream)] font-[family-name:var(--font-space-grotesk)] font-semibold"
@@ -277,9 +277,11 @@ export default async function HomePage() {
                 Available at select dispensaries across Oklahoma.
               </p>
             </div>
-            <Button href="/find-gsx" variant="secondary" size="md" className="shrink-0">
-              Find a Retailer
-            </Button>
+            <div className="mt-6 lg:mt-0 flex lg:justify-end">
+              <Button href="/find-gsx" variant="secondary" size="md" className="shrink-0">
+                Find a Retailer
+              </Button>
+            </div>
           </div>
         </div>
 
@@ -324,12 +326,12 @@ export default async function HomePage() {
 
         <div className="bg-[var(--color-green)]">
           <div className={G} style={{ paddingTop: '3.5rem', paddingBottom: '3.5rem' }}>
-            <div className="flex flex-col md:flex-row md:items-center gap-5 md:gap-10" style={{ maxWidth: '620px' }}>
+            <div className="lg:grid lg:grid-cols-2 lg:items-center lg:gap-16">
               <div>
                 <h2
-                  className="text-[var(--color-cream)] font-[family-name:var(--font-space-grotesk)] font-semibold"
+                  className="text-[var(--color-cream)] font-[family-name:var(--font-space-grotesk)] font-semibold whitespace-nowrap"
                   style={{
-                    fontSize: 'clamp(1.375rem, 2.2vw, 2rem)',
+                    fontSize: 'clamp(1.375rem, 2vw, 2rem)',
                     lineHeight: '1.05',
                     letterSpacing: '-0.025em',
                   }}
@@ -343,7 +345,7 @@ export default async function HomePage() {
                   Oklahoma-licensed dispensaries can apply to stock GSX products.
                 </p>
               </div>
-              <div className="flex flex-wrap items-center gap-4 shrink-0">
+              <div className="mt-6 lg:mt-0 flex flex-wrap items-center gap-4 lg:justify-end">
                 <Button href="/contact" variant="secondary" size="md">Carry GSX</Button>
                 <Link
                   href="/login"
