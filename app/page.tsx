@@ -53,7 +53,7 @@ export default async function HomePage() {
         <section
           aria-label="Hero"
           className="relative flex flex-col justify-end overflow-hidden"
-          style={{ minHeight: '80vh' }}
+          style={{ minHeight: 'clamp(420px, 56vh, 600px)' }}
         >
           {heroSrc ? (
             <Image
@@ -74,14 +74,14 @@ export default async function HomePage() {
                 : 'linear-gradient(160deg, #0f1a14 0%, #0c0c0b 100%)',
             }}
           />
-          <div className={`${G} relative z-10`} style={{ paddingBottom: '5rem', paddingTop: '8rem' }}>
+          <div className={`${G} relative z-10`} style={{ paddingBottom: '3rem', paddingTop: '5rem' }}>
             <h1
               className="text-[var(--color-cream)] font-[family-name:var(--font-space-grotesk)] font-semibold"
               style={{
-                fontSize: 'clamp(3rem, 7.5vw, 7rem)',
-                lineHeight: '0.93',
-                letterSpacing: '-0.045em',
-                maxWidth: '13ch',
+                fontSize: 'clamp(2.5rem, 5vw, 4.25rem)',
+                lineHeight: '0.98',
+                letterSpacing: '-0.04em',
+                maxWidth: '14ch',
               }}
             >
               Built for retailers who care what they sell.
@@ -91,13 +91,13 @@ export default async function HomePage() {
               style={{
                 fontSize: 'clamp(0.9375rem, 1.15vw, 1.0625rem)',
                 lineHeight: '1.68',
-                marginTop: '1.75rem',
+                marginTop: '1.25rem',
                 maxWidth: '38ch',
               }}
             >
               GSX makes precision-dosed edibles in-house, from formulation to final package. Oklahoma-based. OMMA licensed.
             </p>
-            <div className="flex flex-wrap items-center gap-4" style={{ marginTop: '2rem' }}>
+            <div className="flex flex-wrap items-center gap-4" style={{ marginTop: '1.5rem' }}>
               <Button href="/products" variant="primary" size="lg">View Products</Button>
               <Link
                 href="/find-gsx"
@@ -109,7 +109,7 @@ export default async function HomePage() {
           </div>
         </section>
 
-        <div className={G} style={{ paddingTop: '5rem', paddingBottom: '5rem' }}>
+        <div className={G} style={{ paddingTop: '3rem', paddingBottom: '3rem' }}>
           <p
             className="text-[var(--color-cream)] font-[family-name:var(--font-space-grotesk)]"
             style={{
@@ -134,18 +134,18 @@ export default async function HomePage() {
 
         <div
           className="overflow-hidden"
-          style={{ minHeight: processSrc ? '520px' : 'auto' }}
+          style={{ minHeight: processSrc ? '440px' : 'auto' }}
         >
-          <div className={processSrc ? 'lg:grid lg:grid-cols-2' : ''} style={{ minHeight: 'inherit' }}>
+          <div className={processSrc ? 'lg:grid lg:grid-cols-[1.15fr_1fr]' : ''} style={{ minHeight: 'inherit' }}>
             <div
               className={`flex flex-col justify-center pl-6 md:pl-16 xl:pl-24 ${processSrc ? '' : 'pr-6 md:pr-16 xl:pr-24'}`}
               style={{
-                paddingTop: '5rem',
-                paddingBottom: '5rem',
+                paddingTop: '3.5rem',
+                paddingBottom: '3.5rem',
                 paddingRight: processSrc ? '3rem' : undefined,
               }}
             >
-              <div style={{ maxWidth: '460px' }}>
+              <div style={{ maxWidth: '520px' }}>
                 <h2
                   className="text-[var(--color-cream)] font-[family-name:var(--font-space-grotesk)] font-semibold"
                   style={{
@@ -199,7 +199,7 @@ export default async function HomePage() {
 
         <Rule />
 
-        <div className={G} style={{ paddingTop: '5rem', paddingBottom: '5rem' }}>
+        <div className={G} style={{ paddingTop: '2.5rem', paddingBottom: '2.5rem' }}>
           <div className={families.length > 0 ? 'lg:grid lg:grid-cols-[1fr_1fr] lg:gap-20 lg:items-start' : ''}>
             <div>
               <h2
@@ -257,7 +257,7 @@ export default async function HomePage() {
 
         <Rule />
 
-        <div className={G} style={{ paddingTop: '3.5rem', paddingBottom: '3.5rem' }}>
+        <div className={G} style={{ paddingTop: '2.5rem', paddingBottom: '2.5rem' }}>
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
             <div>
               <h2
@@ -286,7 +286,7 @@ export default async function HomePage() {
         {featured.length > 0 && (
           <>
             <Rule />
-            <div className={G} style={{ paddingTop: '3.5rem', paddingBottom: '3.5rem' }}>
+            <div className={G} style={{ paddingTop: '2.5rem', paddingBottom: '2.5rem' }}>
               <div className="flex items-baseline justify-between gap-4 mb-8">
                 <h2
                   className="text-[var(--color-cream)] font-[family-name:var(--font-space-grotesk)] font-semibold"
@@ -323,7 +323,7 @@ export default async function HomePage() {
         )}
 
         <div className="bg-[var(--color-green)]">
-          <div className={G} style={{ paddingTop: '3rem', paddingBottom: '3rem' }}>
+          <div className={G} style={{ paddingTop: '2.5rem', paddingBottom: '2.5rem' }}>
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
               <div>
                 <h2
