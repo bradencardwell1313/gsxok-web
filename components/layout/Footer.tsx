@@ -24,7 +24,7 @@ const footerLinks = {
 export function Footer() {
   return (
     <footer className="bg-[#0a1410] border-t border-[rgba(250,248,243,0.06)]">
-      <Container className="py-16 md:py-20">
+      <Container className="py-10 md:py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[2fr_1fr_1fr_1fr] gap-12 md:gap-8">
 
           {/* Brand column */}
@@ -68,7 +68,7 @@ export function Footer() {
         </div>
 
         {/* Bottom bar */}
-        <div className="mt-16 pt-8 border-t border-[rgba(250,248,243,0.06)] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div className="mt-10 pt-6 border-t border-[rgba(250,248,243,0.06)] flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-6">
           <p className="text-caption text-[rgba(250,248,243,0.25)]">
             © {year} Green Science Extracts. Oklahoma OMMA Licensed Manufacturer.
           </p>
