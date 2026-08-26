@@ -258,7 +258,7 @@ export default async function HomePage() {
         <Rule />
 
         <div className={G} style={{ paddingTop: '3.5rem', paddingBottom: '3.5rem' }}>
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
+          <div className="flex flex-col sm:flex-row sm:items-center gap-5 sm:gap-10" style={{ maxWidth: '620px' }}>
             <div>
               <h2
                 className="text-[var(--color-cream)] font-[family-name:var(--font-space-grotesk)] font-semibold"
@@ -324,7 +324,7 @@ export default async function HomePage() {
 
         <div className="bg-[var(--color-green)]">
           <div className={G} style={{ paddingTop: '3.5rem', paddingBottom: '3.5rem' }}>
-            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+            <div className="flex flex-col md:flex-row md:items-center gap-5 md:gap-10" style={{ maxWidth: '620px' }}>
               <div>
                 <h2
                   className="text-[var(--color-cream)] font-[family-name:var(--font-space-grotesk)] font-semibold"
