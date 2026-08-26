@@ -76,27 +76,34 @@
 
 /* ─────────────────────────────────────────────────────────────
    Base resets
+   Wrapped in @layer base so Tailwind's utility classes (px-*,
+   py-*, gap-*, etc., which Tailwind v4 emits inside its own
+   layer) still win in the cascade. Unlayered CSS always beats
+   layered CSS regardless of specificity — leaving this
+   unlayered silently zeroes out every spacing utility site-wide.
 ───────────────────────────────────────────────────────────── */
 
-*, *::before, *::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
+@layer base {
+  *, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
 
-html {
-  font-size: 16px;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-rendering: optimizeLegibility;
-}
+  html {
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
 
-body {
-  font-family: var(--font-body);
-  font-size: 0.9375rem;
-  line-height: 1.68;
-  color: var(--color-text);
-  background-color: var(--color-cream);
+  body {
+    font-family: var(--font-body);
+    font-size: 0.9375rem;
+    line-height: 1.68;
+    color: var(--color-text);
+    background-color: var(--color-cream);
+  }
 }
 
 /* ─────────────────────────────────────────────────────────────
