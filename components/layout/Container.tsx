@@ -1,7 +1,8 @@
 import { type ComponentPropsWithoutRef } from 'react'
 
 // Max-width container with consistent horizontal padding.
-// 1280px max, 24px padding on mobile, 48px on md+, 80px on xl+.
+// 1280px max, 24px padding on mobile, 64px on md+, 96px on xl+.
+// Matches the `G` grid constant in app/page.tsx and Nav.tsx — keep in sync.
 
 interface ContainerProps extends ComponentPropsWithoutRef<'div'> {
   as?: 'div' | 'section' | 'article' | 'main' | 'header' | 'footer'
@@ -17,7 +18,7 @@ export function Container({
 }: ContainerProps) {
   return (
     <Tag
-      className={`w-full px-6 md:px-12 xl:px-20 ${
+      className={`w-full px-6 md:px-16 xl:px-24 ${
         narrow ? 'max-w-[800px]' : 'max-w-[1280px]'
       } ${className}`}
       {...props}
