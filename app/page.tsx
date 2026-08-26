@@ -19,7 +19,7 @@ function hotspotPos(img?: SanityImage) {
   return `${Math.round(img.hotspot.x * 100)}% ${Math.round(img.hotspot.y * 100)}%`
 }
 
-const G = 'w-full max-w-[1280px] mx-auto px-6 md:px-16 xl:px-24'
+const G = 'w-full max-w-[1280px] px-6 md:px-16 xl:px-24'
 
 function Rule({ className = '' }: { className?: string }) {
   return (
