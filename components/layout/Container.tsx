@@ -17,7 +17,7 @@ export function Container({
 }: ContainerProps) {
   return (
     <Tag
-      className={`w-full mx-auto px-6 md:px-12 xl:px-20 ${
+      className={`w-full px-6 md:px-12 xl:px-20 ${
         narrow ? 'max-w-[800px]' : 'max-w-[1280px]'
       } ${className}`}
       {...props}
