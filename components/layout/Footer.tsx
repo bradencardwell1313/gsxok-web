@@ -24,15 +24,15 @@ const footerLinks = {
 export function Footer() {
   return (
     <footer className="bg-[#0a1410] border-t border-[rgba(250,248,243,0.06)]">
-      <Container className="pt-16 pb-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[1.6fr_1fr_1fr_1fr] gap-12 md:gap-8">
+      <Container className="py-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[1.2fr_1fr_1fr_1fr] gap-12 md:gap-10">
 
           {/* Brand column */}
           <div className="flex flex-col gap-6">
             <span className="text-h4 text-[var(--color-cream)] font-[family-name:var(--font-space-grotesk)] tracking-tight">
               GSX
             </span>
-            <p className="text-body-sm text-[rgba(250,248,243,0.45)] max-w-[340px] leading-relaxed">
+            <p className="text-body-sm text-[rgba(250,248,243,0.45)] leading-relaxed">
               Oklahoma-licensed cannabis manufacturer. Documented processes. Required testing. Consistent product.
             </p>
             <address className="not-italic text-body-sm text-[rgba(250,248,243,0.35)] leading-relaxed">
@@ -68,7 +68,7 @@ export function Footer() {
         </div>
 
         {/* Bottom bar */}
-        <div className="mt-10 pt-5 border-t border-[rgba(250,248,243,0.06)] flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-6">
+        <div className="mt-12 pt-6 border-t border-[rgba(250,248,243,0.06)] flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-6">
           <p className="text-caption text-[rgba(250,248,243,0.25)]">
             © {year} Green Science Extracts. Oklahoma OMMA Licensed Manufacturer.
           </p>
