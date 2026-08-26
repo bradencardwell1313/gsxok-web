@@ -21,6 +21,7 @@ const SITE_SETTINGS_ID = 'siteSettings'
 export default defineConfig({
   name: 'gsxok',
   title: 'GSX Studio',
+    basePath: '/studio',
 
   // Filled in from environment variables — do not hard-code.
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID!,
