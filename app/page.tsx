@@ -21,12 +21,6 @@ function hotspotPos(img?: SanityImage) {
 
 const G = 'w-full max-w-[1280px] px-6 md:px-16 xl:px-24'
 
-const HERO_PRODUCTS = [
-  { name: 'Relax', url: 'https://cdn.sanity.io/images/o7wavkxv/production/700d25707bcc7fbd61ca0a7b69021cfb300b89f6-1840x1812.png', rotate: -9, z: 1 },
-  { name: 'Balance', url: 'https://cdn.sanity.io/images/o7wavkxv/production/a58f9591f98e011ab78255b76fbc296a025eea00-1840x1812.png', rotate: 0, z: 3 },
-  { name: 'Focus', url: 'https://cdn.sanity.io/images/o7wavkxv/production/642f1bec68400ec93d8c30bc752775cf29508755-1840x1812.png', rotate: 9, z: 2 },
-]
-
 function Rule({ className = '' }: { className?: string }) {
   return (
     <div className={`${G} ${className}`}>
@@ -46,7 +40,9 @@ export default async function HomePage() {
   const families = productFamilies.status === 'fulfilled' && Array.isArray(productFamilies.value) ? productFamilies.value as ProductFamily[] : []
   const featured = (articles.status       === 'fulfilled' && Array.isArray(articles.value) ? articles.value as Article[] : []).slice(0, 3)
 
+  const heroImg    : SanityImage = s?.heroImage    ?? null
   const processImg : SanityImage = s?.processImage ?? null
+  const heroSrc    = heroImg    ? urlFor(heroImg).auto('format').fit('max').width(1920).url() : null
   const processSrc = processImg ? urlFor(processImg).auto('format').fit('max').width(1400).url() : null
 
   return (
@@ -54,68 +50,61 @@ export default async function HomePage() {
       <Nav />
       <main className="bg-[#0c0c0b]">
 
-        <section aria-label="Hero" className="relative overflow-hidden">
+        <section
+          aria-label="Hero"
+          className="relative flex flex-col justify-end overflow-hidden"
+          style={{ minHeight: '80vh' }}
+        >
+          {heroSrc ? (
+            <Image
+              src={heroSrc}
+              alt={heroImg?.alt ?? ''}
+              fill
+              priority
+              sizes="100vw"
+              className="object-cover"
+              style={{ objectPosition: hotspotPos(heroImg) }}
+            />
+          ) : null}
           <div
-            className={`${G} relative z-10 lg:grid lg:grid-cols-[1.05fr_1fr] lg:items-center lg:gap-10`}
-            style={{ paddingBottom: '4rem', paddingTop: '9rem' }}
-          >
-            <div>
-              <h1
-                className="text-[var(--color-cream)] font-[family-name:var(--font-space-grotesk)] font-semibold"
-                style={{
-                  fontSize: 'clamp(3rem, 7.5vw, 7rem)',
-                  lineHeight: '0.93',
-                  letterSpacing: '-0.045em',
-                  maxWidth: '13ch',
-                }}
+            className="absolute inset-0 pointer-events-none"
+            style={{
+              background: heroSrc
+                ? 'linear-gradient(to top, #0c0c0b 0%, rgba(12,12,11,0.72) 40%, rgba(12,12,11,0.15) 80%, transparent 100%)'
+                : 'linear-gradient(160deg, #0f1a14 0%, #0c0c0b 100%)',
+            }}
+          />
+          <div className={`${G} relative z-10`} style={{ paddingBottom: '5rem', paddingTop: '8rem' }}>
+            <h1
+              className="text-[var(--color-cream)] font-[family-name:var(--font-space-grotesk)] font-semibold"
+              style={{
+                fontSize: 'clamp(3rem, 7.5vw, 7rem)',
+                lineHeight: '0.93',
+                letterSpacing: '-0.045em',
+                maxWidth: '13ch',
+              }}
+            >
+              Built for retailers who care what they sell.
+            </h1>
+            <p
+              className="text-[rgba(250,248,243,0.5)] font-[family-name:var(--font-manrope)] font-light"
+              style={{
+                fontSize: 'clamp(0.9375rem, 1.15vw, 1.0625rem)',
+                lineHeight: '1.68',
+                marginTop: '1.75rem',
+                maxWidth: '38ch',
+              }}
+            >
+              GSX makes precision-dosed edibles in-house, from formulation to final package. Oklahoma-based. OMMA licensed.
+            </p>
+            <div className="flex flex-wrap items-center gap-4" style={{ marginTop: '2rem' }}>
+              <Button href="/products" variant="primary" size="lg">View Products</Button>
+              <Link
+                href="/find-gsx"
+                className="text-button text-[rgba(250,248,243,0.38)] hover:text-[var(--color-cream)] transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:rounded-sm"
               >
-                Built for retailers who care what they sell.
-              </h1>
-              <p
-                className="text-[rgba(250,248,243,0.5)] font-[family-name:var(--font-manrope)] font-light"
-                style={{
-                  fontSize: 'clamp(0.9375rem, 1.15vw, 1.0625rem)',
-                  lineHeight: '1.68',
-                  marginTop: '1.75rem',
-                  maxWidth: '38ch',
-                }}
-              >
-                GSX makes precision-dosed edibles in-house, from formulation to final package. Oklahoma-based. OMMA licensed.
-              </p>
-              <div className="flex flex-wrap items-center gap-4" style={{ marginTop: '2rem' }}>
-                <Button href="/products" variant="primary" size="lg">View Products</Button>
-                <Link
-                  href="/find-gsx"
-                  className="text-button text-[rgba(250,248,243,0.38)] hover:text-[var(--color-cream)] transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:rounded-sm"
-                >
-                  Find GSX →
-                </Link>
-              </div>
-            </div>
-
-            <div className="relative mt-16 lg:mt-0 flex items-center justify-center" style={{ height: '340px' }}>
-              {HERO_PRODUCTS.map((p, i) => (
-                <div
-                  key={p.name}
-                  className="relative"
-                  style={{
-                    width: i === 1 ? '210px' : '185px',
-                    marginLeft: i === 0 ? 0 : '-38px',
-                    transform: `rotate(${p.rotate}deg)`,
-                    zIndex: p.z,
-                    filter: 'drop-shadow(0 20px 30px rgba(0,0,0,0.45))',
-                  }}
-                >
-                  <Image
-                    src={p.url}
-                    alt={`GSX ${p.name} gummies`}
-                    width={380}
-                    height={374}
-                    style={{ width: '100%', height: 'auto' }}
-                    priority={i === 1}
-                  />
-                </div>
-              ))}
+                Find GSX →
+              </Link>
             </div>
           </div>
         </section>
