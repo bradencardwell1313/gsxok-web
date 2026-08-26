@@ -59,7 +59,7 @@ export function Nav() {
           : 'bg-transparent'
       }`}
     >
-      <div className="w-full max-w-[1280px] mx-auto px-6 md:px-12 xl:px-20">
+      <div className="w-full max-w-[1280px] px-6 md:px-12 xl:px-20">
         <div className="flex items-center justify-between h-16 md:h-18">
 
           {/* Logo */}
