@@ -21,6 +21,15 @@ function hotspotPos(img?: SanityImage) {
 
 const G = 'w-full max-w-[1280px] px-6 md:px-16 xl:px-24'
 
+// Real GSX product photography (flavor renders already in the Sanity asset
+// library). Shown as genuine product imagery — not a stand-in for real
+// productFamily records, which don't exist yet.
+const PRODUCT_SHOWCASE = [
+  { name: 'Relax', url: 'https://cdn.sanity.io/images/o7wavkxv/production/700d25707bcc7fbd61ca0a7b69021cfb300b89f6-1840x1812.png' },
+  { name: 'Balance', url: 'https://cdn.sanity.io/images/o7wavkxv/production/a58f9591f98e011ab78255b76fbc296a025eea00-1840x1812.png' },
+  { name: 'Focus', url: 'https://cdn.sanity.io/images/o7wavkxv/production/642f1bec68400ec93d8c30bc752775cf29508755-1840x1812.png' },
+]
+
 function Rule({ className = '' }: { className?: string }) {
   return (
     <div className={`${G} ${className}`}>
@@ -200,7 +209,7 @@ export default async function HomePage() {
         <Rule />
 
         <div className={G} style={{ paddingTop: '5rem', paddingBottom: '3.5rem' }}>
-          <div className={families.length > 0 ? 'lg:grid lg:grid-cols-[1fr_1fr] lg:gap-20 lg:items-start' : ''}>
+          <div className="lg:grid lg:grid-cols-[1fr_1fr] lg:gap-16 lg:items-center">
             <div>
               <h2
                 className="text-[var(--color-cream)] font-[family-name:var(--font-space-grotesk)] font-semibold"
@@ -227,31 +236,46 @@ export default async function HomePage() {
               <div style={{ marginTop: '2rem' }}>
                 <Button href="/products" variant="primary" size="lg">View Products</Button>
               </div>
+
+              {families.length > 0 && (
+                <div className="mt-8 pt-6 border-t border-[rgba(250,248,243,0.08)]">
+                  {families.map((f) => (
+                    <Link
+                      key={f._id}
+                      href={`/products?family=${f.slug.current}`}
+                      className="group flex items-center justify-between py-3 border-b border-[rgba(250,248,243,0.07)] hover:border-[rgba(250,248,243,0.16)] transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)]"
+                    >
+                      <span
+                        className="text-[rgba(250,248,243,0.52)] font-[family-name:var(--font-space-grotesk)] font-medium group-hover:text-[var(--color-cream)] transition-colors duration-150"
+                        style={{ fontSize: 'clamp(1rem, 1.6vw, 1.375rem)', letterSpacing: '-0.015em' }}
+                      >
+                        {f.name}
+                      </span>
+                      <svg
+                        width="13" height="9" viewBox="0 0 13 9" fill="none" aria-hidden="true"
+                        className="text-[rgba(250,248,243,0.16)] group-hover:text-[var(--color-accent)] transition-colors duration-150 shrink-0 ml-6"
+                      >
+                        <path d="M1 4.5h11M7.5 1l4 3.5-4 3.5" stroke="currentColor" strokeWidth="1.2" strokeLinecap="square" strokeLinejoin="miter"/>
+                      </svg>
+                    </Link>
+                  ))}
+                </div>
+              )}
             </div>
-            {families.length > 0 && (
-              <div className="mt-12 lg:mt-0 pt-8 lg:pt-0 border-t border-[rgba(250,248,243,0.08)] lg:border-t-0 lg:border-l lg:border-[rgba(250,248,243,0.1)] lg:pl-16">
-                {families.map((f) => (
-                  <Link
-                    key={f._id}
-                    href={`/products?family=${f.slug.current}`}
-                    className="group flex items-center justify-between py-4 border-b border-[rgba(250,248,243,0.07)] hover:border-[rgba(250,248,243,0.16)] transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)]"
-                  >
-                    <span
-                      className="text-[rgba(250,248,243,0.52)] font-[family-name:var(--font-space-grotesk)] font-medium group-hover:text-[var(--color-cream)] transition-colors duration-150"
-                      style={{ fontSize: 'clamp(1rem, 1.6vw, 1.375rem)', letterSpacing: '-0.015em' }}
-                    >
-                      {f.name}
-                    </span>
-                    <svg
-                      width="13" height="9" viewBox="0 0 13 9" fill="none" aria-hidden="true"
-                      className="text-[rgba(250,248,243,0.16)] group-hover:text-[var(--color-accent)] transition-colors duration-150 shrink-0 ml-6"
-                    >
-                      <path d="M1 4.5h11M7.5 1l4 3.5-4 3.5" stroke="currentColor" strokeWidth="1.2" strokeLinecap="square" strokeLinejoin="miter"/>
-                    </svg>
-                  </Link>
-                ))}
-              </div>
-            )}
+
+            <div className="mt-10 lg:mt-0 grid grid-cols-3 gap-4 md:gap-6">
+              {PRODUCT_SHOWCASE.map((p) => (
+                <div key={p.name} className="relative aspect-square">
+                  <Image
+                    src={p.url}
+                    alt={`GSX ${p.name} gummies`}
+                    fill
+                    sizes="(max-width: 1024px) 33vw, 220px"
+                    className="object-contain"
+                  />
+                </div>
+              ))}
+            </div>
           </div>
         </div>
 
