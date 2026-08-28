@@ -19,7 +19,7 @@ function hotspotPos(img?: SanityImage) {
   return `${Math.round(img.hotspot.x * 100)}% ${Math.round(img.hotspot.y * 100)}%`
 }
 
-const G = 'w-full max-w-[1280px] px-6 md:px-16 xl:px-24'
+const G = 'w-full max-w-[1280px] mx-auto px-6 md:px-16 xl:px-24'
 
 function Rule({ className = '' }: { className?: string }) {
   return (
@@ -131,37 +131,42 @@ export default async function HomePage() {
           </div>
         </section>
 
-        {/* ── BRAND / CREDIBILITY — centered statement + proof row ───── */}
-        <section className={G} style={{ paddingTop: '4.5rem', paddingBottom: '4.5rem' }}>
-          <p
-            className="text-[var(--color-cream)] font-[family-name:var(--font-space-grotesk)] mx-auto text-center"
-            style={{
-              fontSize: 'clamp(1.375rem, 2.4vw, 2rem)',
-              lineHeight: '1.25',
-              letterSpacing: '-0.02em',
-              fontWeight: 400,
-              maxWidth: '32ch',
-            }}
-          >
-            We develop, manufacture, and package every product ourselves — in Chelsea, Oklahoma. No contract manufacturing. No outsourced formulation.
-          </p>
-          <div
-            className="grid grid-cols-1 sm:grid-cols-3 mx-auto"
-            style={{ marginTop: '3rem', maxWidth: '760px', borderTop: '1px solid rgba(250,248,243,0.1)', paddingTop: '2rem' }}
-          >
-            {TRUST_BAR.map((item, i) => (
-              <div
-                key={item.label}
-                className={`text-center py-3 sm:py-0 ${i > 0 ? 'sm:border-l border-[rgba(250,248,243,0.1)]' : ''}`}
-              >
-                <p className="text-[var(--color-cream)] font-[family-name:var(--font-space-grotesk)] font-semibold" style={{ fontSize: '0.9375rem' }}>
-                  {item.label}
-                </p>
-                <p className="text-[rgba(250,248,243,0.38)] font-[family-name:var(--font-manrope)]" style={{ fontSize: '0.8125rem', marginTop: '0.25rem' }}>
-                  {item.detail}
-                </p>
-              </div>
-            ))}
+        {/* ── BRAND / CREDIBILITY — connected credibility block ───────── */}
+        <section className="border-t border-[rgba(250,248,243,0.06)]">
+          <div className={G} style={{ paddingTop: '4rem', paddingBottom: '4rem' }}>
+            <div className="flex justify-center" style={{ marginBottom: '1.5rem' }}>
+              <span className="section-label">Our Standard</span>
+            </div>
+            <p
+              className="text-[var(--color-cream)] font-[family-name:var(--font-space-grotesk)] mx-auto text-center"
+              style={{
+                fontSize: 'clamp(1.375rem, 2.4vw, 2.125rem)',
+                lineHeight: '1.28',
+                letterSpacing: '-0.02em',
+                fontWeight: 400,
+                maxWidth: '38ch',
+              }}
+            >
+              We develop, manufacture, and package every product ourselves — in Chelsea, Oklahoma. No contract manufacturing. No outsourced formulation.
+            </p>
+            <div
+              className="grid grid-cols-1 sm:grid-cols-3 mx-auto"
+              style={{ marginTop: '2.5rem', maxWidth: '760px', borderTop: '1px solid rgba(250,248,243,0.1)', paddingTop: '2rem' }}
+            >
+              {TRUST_BAR.map((item, i) => (
+                <div
+                  key={item.label}
+                  className={`text-center py-3 sm:py-0 ${i > 0 ? 'sm:border-l border-[rgba(250,248,243,0.1)]' : ''}`}
+                >
+                  <p className="text-[var(--color-cream)] font-[family-name:var(--font-space-grotesk)] font-semibold" style={{ fontSize: '0.9375rem' }}>
+                    {item.label}
+                  </p>
+                  <p className="text-[rgba(250,248,243,0.38)] font-[family-name:var(--font-manrope)]" style={{ fontSize: '0.8125rem', marginTop: '0.25rem' }}>
+                    {item.detail}
+                  </p>
+                </div>
+              ))}
+            </div>
           </div>
         </section>
 
@@ -221,22 +226,22 @@ export default async function HomePage() {
 
         {/* ── PRODUCTS — major visual section: header row + card grid ── */}
         <section className={G} style={{ paddingTop: '4.5rem', paddingBottom: '4.5rem' }}>
-          <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4" style={{ marginBottom: '2.5rem' }}>
-            <div>
-              <h2
-                className="text-[var(--color-cream)] font-[family-name:var(--font-space-grotesk)] font-semibold"
-                style={{ fontSize: 'clamp(1.75rem, 2.6vw, 2.5rem)', lineHeight: '1.05', letterSpacing: '-0.028em' }}
-              >
-                A focused lineup. Built right.
-              </h2>
-              <p
-                className="text-[rgba(250,248,243,0.46)] font-[family-name:var(--font-manrope)] font-light"
-                style={{ fontSize: '1rem', lineHeight: '1.6', marginTop: '0.75rem', maxWidth: '48ch' }}
-              >
-                Every GSX product is developed and manufactured in-house. We keep the catalog tight on purpose.
-              </p>
+          <div style={{ maxWidth: '640px', marginBottom: '2.5rem' }}>
+            <h2
+              className="text-[var(--color-cream)] font-[family-name:var(--font-space-grotesk)] font-semibold"
+              style={{ fontSize: 'clamp(1.75rem, 2.6vw, 2.5rem)', lineHeight: '1.05', letterSpacing: '-0.028em' }}
+            >
+              A focused lineup. Built right.
+            </h2>
+            <p
+              className="text-[rgba(250,248,243,0.46)] font-[family-name:var(--font-manrope)] font-light"
+              style={{ fontSize: '1rem', lineHeight: '1.6', marginTop: '0.75rem' }}
+            >
+              Every GSX product is developed and manufactured in-house. We keep the catalog tight on purpose.
+            </p>
+            <div style={{ marginTop: '1.75rem' }}>
+              <Button href="/products" variant="primary" size="lg">View Products</Button>
             </div>
-            <Button href="/products" variant="primary" size="lg" className="shrink-0">View Products</Button>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
@@ -299,7 +304,10 @@ export default async function HomePage() {
         {/* ── FIND GSX — distinct surface (ink-alt), icon + inline CTA ── */}
         <section className="bg-[var(--color-ink-alt)] border-t border-[rgba(250,248,243,0.06)]">
           <div className={G} style={{ paddingTop: '3.5rem', paddingBottom: '3.5rem' }}>
-            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
+            <div
+              className="flex flex-col sm:flex-row sm:items-center sm:justify-center gap-6 sm:gap-12 mx-auto"
+              style={{ maxWidth: '780px' }}
+            >
               <div className="flex items-center gap-5">
                 <svg width="28" height="28" viewBox="0 0 24 24" fill="none" className="shrink-0 text-[var(--color-accent)]" aria-hidden="true">
                   <path d="M12 2C7.6 2 4 5.6 4 10c0 6 8 12 8 12s8-6 8-12c0-4.4-3.6-8-8-8Z" stroke="currentColor" strokeWidth="1.4" />
@@ -321,32 +329,35 @@ export default async function HomePage() {
           </div>
         </section>
 
-        {/* ── CARRY GSX — distinct hierarchy: stacked, label-led, own weight ── */}
+        {/* ── CARRY GSX — compact horizontal CTA band ─────────────────── */}
         <section className="bg-[var(--color-green)]">
-          <div className={G} style={{ paddingTop: '4.5rem', paddingBottom: '4.5rem' }}>
-            <p className="text-label" style={{ color: 'rgba(250,248,243,0.7)', marginBottom: '0.75rem' }}>
-              For Retailers
-            </p>
-            <div className="lg:flex lg:items-end lg:justify-between lg:gap-10">
-              <h2
-                className="text-[var(--color-cream)] font-[family-name:var(--font-space-grotesk)] font-semibold"
-                style={{ fontSize: 'clamp(2rem, 3.4vw, 3rem)', lineHeight: '1.05', letterSpacing: '-0.03em', maxWidth: '14ch' }}
-              >
-                Carry GSX in your store.
-              </h2>
-              <div className="lg:text-right" style={{ marginTop: '1.5rem' }}>
-                <p className="text-[rgba(250,248,243,0.65)] font-[family-name:var(--font-manrope)]" style={{ fontSize: '0.9375rem', maxWidth: '38ch' }}>
-                  Oklahoma-licensed dispensaries can apply to stock GSX products.
+          <div className={G} style={{ paddingTop: '1.75rem', paddingBottom: '1.75rem' }}>
+            <div className="flex flex-col lg:flex-row lg:items-center lg:justify-center gap-3 lg:gap-10 text-center lg:text-left">
+              <div className="flex flex-col lg:flex-row lg:items-center gap-1 lg:gap-4 shrink-0">
+                <p className="text-label" style={{ color: 'rgba(250,248,243,0.7)' }}>
+                  For Retailers
                 </p>
-                <div className="flex flex-wrap items-center gap-5 lg:justify-end" style={{ marginTop: '1.25rem' }}>
-                  <Button href="/contact" variant="secondary" size="lg">Carry GSX</Button>
-                  <Link
-                    href="/login"
-                    className="text-button text-[rgba(250,248,243,0.55)] hover:text-[var(--color-cream)] transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-cream)] focus-visible:rounded-sm"
-                  >
-                    Retailer Portal →
-                  </Link>
-                </div>
+                <h2
+                  className="text-[var(--color-cream)] font-[family-name:var(--font-space-grotesk)] font-semibold whitespace-nowrap"
+                  style={{ fontSize: 'clamp(1.375rem, 2.2vw, 1.875rem)', letterSpacing: '-0.02em' }}
+                >
+                  Carry GSX in your store.
+                </h2>
+              </div>
+              <p
+                className="text-[rgba(250,248,243,0.68)] font-[family-name:var(--font-manrope)]"
+                style={{ fontSize: '0.875rem', maxWidth: '32ch' }}
+              >
+                Oklahoma-licensed dispensaries can apply to stock GSX products.
+              </p>
+              <div className="flex flex-wrap items-center justify-center gap-5 shrink-0">
+                <Button href="/contact" variant="secondary" size="lg">Carry GSX</Button>
+                <Link
+                  href="/login"
+                  className="text-button text-[rgba(250,248,243,0.55)] hover:text-[var(--color-cream)] transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-cream)] focus-visible:rounded-sm"
+                >
+                  Retailer Portal →
+                </Link>
               </div>
             </div>
           </div>
