@@ -325,4 +325,89 @@ export default async function HomePage() {
                   From the lab
                 </h2>
                 <Link href="/learn" className="text-label text-[rgba(250,248,243,0.28)] hover:text-[var(--color-cream)] transition-colors duration-150 shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:rounded-sm">
-                  
+                  All articles →
+                </Link>
+              </div>
+              {featured.map((a, i) => (
+                <Link
+                  key={a._id}
+                  href={`/learn/${a.slug.current}`}
+                  className={`group flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-8 py-4 border-b border-[rgba(250,248,243,0.07)] hover:border-[rgba(250,248,243,0.14)] transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] ${i === 0 ? 'border-t border-t-[rgba(250,248,243,0.07)]' : ''}`}
+                >
+                  {a.category && <span className="text-label text-[rgba(250,248,243,0.26)] shrink-0 sm:w-28">{a.category.name}</span>}
+                  <span className="text-[rgba(250,248,243,0.56)] font-[family-name:var(--font-space-grotesk)] font-medium group-hover:text-[var(--color-cream)] transition-colors duration-150 flex-1" style={{ fontSize: 'clamp(0.875rem, 1.3vw, 1.125rem)', letterSpacing: '-0.012em' }}>
+                    {a.title}
+                  </span>
+                </Link>
+              ))}
+            </div>
+          </>
+        )}
+
+        {/* ── FIND GSX — compact, functional, no photo ─────────────────── */}
+        <section className="bg-[var(--color-ink-alt)] border-t border-[rgba(250,248,243,0.06)]">
+          <div className={G} style={{ paddingTop: '3.5rem', paddingBottom: '3.5rem' }}>
+            <div
+              className="flex flex-col sm:flex-row sm:items-center sm:justify-center gap-6 sm:gap-12 mx-auto"
+              style={{ maxWidth: '780px' }}
+            >
+              <div className="flex items-center gap-5">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" className="shrink-0 text-[var(--color-accent)]" aria-hidden="true">
+                  <path d="M12 2C7.6 2 4 5.6 4 10c0 6 8 12 8 12s8-6 8-12c0-4.4-3.6-8-8-8Z" stroke="currentColor" strokeWidth="1.4" />
+                  <circle cx="12" cy="10" r="2.5" stroke="currentColor" strokeWidth="1.4" />
+                </svg>
+                <div>
+                  <h2 className="text-[var(--color-cream)] font-[family-name:var(--font-space-grotesk)] font-semibold" style={{ fontSize: 'clamp(1.375rem, 2vw, 1.75rem)', letterSpacing: '-0.02em' }}>
+                    Find GSX near you.
+                  </h2>
+                  <p className="text-[rgba(250,248,243,0.4)] font-[family-name:var(--font-manrope)]" style={{ fontSize: '0.875rem', marginTop: '0.25rem' }}>
+                    Available at select dispensaries across Oklahoma.
+                  </p>
+                </div>
+              </div>
+              <Button href="/find-gsx" variant="secondary" size="lg" className="shrink-0">
+                Find a Retailer
+              </Button>
+            </div>
+          </div>
+        </section>
+
+        {/* ── RETAILER STRIP — thin 3-part band: label+headline / copy / CTAs ── */}
+        <section className="bg-[var(--color-green)]">
+          <div className={G} style={{ paddingTop: '2.25rem', paddingBottom: '2.25rem' }}>
+            <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+              <div className="shrink-0">
+                <p className="text-label" style={{ color: 'rgba(250,248,243,0.7)', marginBottom: '0.3rem' }}>
+                  For Retailers
+                </p>
+                <h2
+                  className="text-[var(--color-cream)] font-[family-name:var(--font-space-grotesk)] font-semibold whitespace-nowrap"
+                  style={{ fontSize: 'clamp(1.375rem, 2.2vw, 1.875rem)', letterSpacing: '-0.02em' }}
+                >
+                  Carry GSX in your store.
+                </h2>
+              </div>
+              <p
+                className="text-[rgba(250,248,243,0.68)] font-[family-name:var(--font-manrope)]"
+                style={{ fontSize: '0.9375rem', maxWidth: '34ch' }}
+              >
+                Oklahoma-licensed dispensaries can apply to stock GSX products.
+              </p>
+              <div className="flex flex-wrap items-center gap-5 shrink-0">
+                <Button href="/contact" variant="secondary" size="lg">Carry GSX</Button>
+                <Link
+                  href="/login"
+                  className="text-button text-[rgba(250,248,243,0.55)] hover:text-[var(--color-cream)] transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-cream)] focus-visible:rounded-sm"
+                >
+                  Retailer Portal →
+                </Link>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </main>
+      <Footer />
+    </>
+  )
+}
