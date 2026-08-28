@@ -53,10 +53,10 @@ export function Nav() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-200 ${
+      className={`fixed top-0 left-0 right-0 z-[60] transition-all duration-200 ${
         scrolled
           ? 'bg-[rgba(15,26,20,0.96)] backdrop-blur-md border-b border-[rgba(250,248,243,0.06)]'
-          : 'bg-transparent'
+          : 'bg-gradient-to-b from-[rgba(8,8,7,0.65)] via-[rgba(8,8,7,0.3)] to-transparent'
       }`}
     >
       <div className="w-full max-w-[1280px] mx-auto px-6 md:px-16 xl:px-24">
