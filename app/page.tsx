@@ -46,11 +46,42 @@ const PROOF_POINTS = [
 
 const PROCESS_MARKERS = ['Ingredient sourcing', 'Written batch procedures', 'Final packaging']
 
-// Approved "Built in Oklahoma. Made by GSX." section graphic. Locked composed
-// asset (typography, proof strip, and equipment photo baked in by design), used
-// as-is. Native resolution is 640x427; display width is capped so upscaling
-// stays mild rather than stretching it across the full 1280px+ grid.
-const BUILT_IN_OKLAHOMA_URL = 'https://cdn.sanity.io/images/o7wavkxv/production/06eba6c058919fc95e0abdd164ac519fb1e127bc-640x427.png'
+// Real GSX facility photo for the "Built in Oklahoma" section, reused from the
+// approved production-line shot (active bag sealer, real packaging visible).
+const FACILITY_PHOTO_URL = 'https://cdn.sanity.io/images/o7wavkxv/production/03b7d7ac5d70c5943ef07e65c7ba1da21d886d5e-1536x710.jpg'
+
+function FlaskIcon() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M9 2h6M10 2v6.5L4.8 18a2 2 0 0 0 1.7 3h11a2 2 0 0 0 1.7-3L14 8.5V2" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M7.5 15h9" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+    </svg>
+  )
+}
+
+function GearIcon() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <circle cx="12" cy="12" r="3.2" stroke="currentColor" strokeWidth="1.4" />
+      <path d="M12 3v2.2M12 18.8V21M21 12h-2.2M5.2 12H3M18.4 5.6l-1.6 1.6M7.2 16.8l-1.6 1.6M18.4 18.4l-1.6-1.6M7.2 7.2 5.6 5.6" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+    </svg>
+  )
+}
+
+function BoxIcon() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M3.5 8 12 4l8.5 4v8L12 20l-8.5-4Z" stroke="currentColor" strokeWidth="1.4" strokeLinejoin="round" />
+      <path d="M3.5 8 12 12l8.5-4M12 12v8" stroke="currentColor" strokeWidth="1.4" strokeLinejoin="round" />
+    </svg>
+  )
+}
+
+const PROOF_STRIP = [
+  { Icon: FlaskIcon, line1: 'Formulated', line2: 'In-House' },
+  { Icon: GearIcon,  line1: 'Manufactured', line2: 'In-House' },
+  { Icon: BoxIcon,   line1: 'Packaged', line2: 'In-House' },
+]
 
 export default async function HomePage() {
   const [settings, productFamilies, articles] = await Promise.allSettled([
@@ -129,8 +160,8 @@ export default async function HomePage() {
 
         {/* ── COMPANY PROOF STATEMENT — compact editorial 2/3 + proof points ── */}
         <section className="border-t border-[rgba(250,248,243,0.06)]">
-          <div className={G} style={{ paddingTop: '3rem', paddingBottom: '3rem' }}>
-            <div className="lg:flex lg:items-start lg:gap-16">
+          <div className={G} style={{ paddingTop: '2.5rem', paddingBottom: '2.5rem' }}>
+            <div className="lg:flex lg:items-center lg:gap-16">
               <p
                 className="text-[var(--color-cream)] font-[family-name:var(--font-space-grotesk)]"
                 style={{
@@ -144,8 +175,8 @@ export default async function HomePage() {
                 GSX develops, manufactures, and packages every product it sells, right here in Chelsea, Oklahoma. No contract manufacturing. No outsourced formulation.
               </p>
               <div
-                className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-1 lg:shrink-0"
-                style={{ marginTop: '2rem', gap: '1.5rem', maxWidth: '360px', paddingTop: '1.5rem', borderTop: '1px solid rgba(250,248,243,0.1)' }}
+                className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-1 lg:shrink-0 mt-8 lg:mt-0"
+                style={{ gap: '1.5rem', maxWidth: '360px', paddingTop: '1.5rem', borderTop: '1px solid rgba(250,248,243,0.1)' }}
               >
                 {PROOF_POINTS.map((item) => (
                   <div key={item.label}>
@@ -164,18 +195,71 @@ export default async function HomePage() {
 
         <Rule />
 
-        {/* ── BUILT IN OKLAHOMA. MADE BY GSX. — locked full-width graphic ── */}
+        {/* ── BUILT IN OKLAHOMA. MADE BY GSX. — real HTML/CSS, full-width ── */}
         <section className="w-full" style={{ backgroundColor: '#050505' }}>
-          <div className="w-full flex justify-center" style={{ paddingTop: '3rem', paddingBottom: '3rem' }}>
-            <div className="relative w-full" style={{ maxWidth: '1000px', paddingLeft: '1.5rem', paddingRight: '1.5rem' }}>
-              <Image
-                src={BUILT_IN_OKLAHOMA_URL}
-                alt="Built in Oklahoma. Made by GSX. From formulation through manufacturing and final packaging, every GSX edible is produced by our team in Chelsea, Oklahoma. Formulated in-house, manufactured in-house, packaged in-house."
-                width={640}
-                height={427}
-                sizes="(max-width: 1024px) 100vw, 1000px"
-                className="w-full h-auto"
-              />
+          <div className={G} style={{ paddingTop: '4.5rem', paddingBottom: '4rem' }}>
+            <div className="lg:grid lg:grid-cols-[1.05fr_1fr] lg:gap-16 lg:items-center">
+              <div className="relative w-full" style={{ aspectRatio: '4 / 5' }}>
+                <Image
+                  src={FACILITY_PHOTO_URL}
+                  alt="Real GSX production equipment sealing packaged product in Chelsea, Oklahoma"
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                  className="object-cover"
+                />
+              </div>
+              <div className="mt-10 lg:mt-0">
+                <h2
+                  className="text-[var(--color-cream)] font-[family-name:var(--font-space-grotesk)] font-bold uppercase"
+                  style={{ fontSize: 'clamp(2rem, 3.2vw, 2.75rem)', lineHeight: '1.08', letterSpacing: '-0.02em' }}
+                >
+                  Built in Oklahoma.
+                  <br />
+                  <span style={{ color: 'var(--color-accent)' }}>Made by GSX.</span>
+                </h2>
+                <div style={{ width: '40px', height: '2px', backgroundColor: 'var(--color-accent)', marginTop: '1.25rem', marginBottom: '1.25rem' }} />
+                <p
+                  className="font-[family-name:var(--font-manrope)] font-light"
+                  style={{ color: 'rgba(250,248,243,0.55)', fontSize: '1rem', lineHeight: '1.7' }}
+                >
+                  From formulation through manufacturing and final packaging, every GSX edible is produced by our team in Chelsea, Oklahoma.
+                </p>
+                <p
+                  className="text-label"
+                  style={{ color: 'var(--color-accent)', marginTop: '1rem' }}
+                >
+                  One Facility. One Team. One Standard.
+                </p>
+                <Button href="/about" variant="secondary" size="lg" className="inline-flex items-center gap-2" style={{ marginTop: '2rem' }}>
+                  Our Story
+                  <Arrow />
+                </Button>
+              </div>
+            </div>
+
+            <div
+              className="grid grid-cols-1 sm:grid-cols-3"
+              style={{ marginTop: '3.5rem', gap: '2rem', paddingTop: '2rem', borderTop: '1px solid rgba(250,248,243,0.1)' }}
+            >
+              {PROOF_STRIP.map(({ Icon, line1, line2 }) => (
+                <div key={line1} className="flex items-center gap-4">
+                  <div
+                    className="flex items-center justify-center shrink-0 rounded-full"
+                    style={{ width: '44px', height: '44px', border: '1px solid var(--color-accent)', color: 'var(--color-accent)' }}
+                  >
+                    <Icon />
+                  </div>
+                  <div>
+                    <p className="text-label" style={{ color: 'rgba(250,248,243,0.4)' }}>{line1}</p>
+                    <p
+                      className="font-[family-name:var(--font-space-grotesk)] font-semibold"
+                      style={{ color: 'var(--color-accent)', fontSize: '0.9375rem', letterSpacing: '-0.01em', marginTop: '0.15rem' }}
+                    >
+                      {line2}
+                    </p>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </section>
@@ -219,11 +303,11 @@ export default async function HomePage() {
               {processSrc ? (
                 <Image
                   src={processSrc}
-                  alt={processImg?.alt ?? 'GSX team member in gloves packaging product on the production line'}
+                  alt={processImg?.alt ?? 'GSX team member in gloves holding a tray of product beside production equipment'}
                   fill
                   sizes="(max-width: 1024px) 100vw, 55vw"
                   className="object-cover"
-                  style={{ objectPosition: processImg?.hotspot ? hotspotPos(processImg) : '38% 42%' }}
+                  style={{ objectPosition: processImg?.hotspot ? hotspotPos(processImg) : '50% 20%' }}
                 />
               ) : (
                 <div className="absolute inset-0 bg-[var(--color-ink-alt)]" />
@@ -241,89 +325,4 @@ export default async function HomePage() {
                   From the lab
                 </h2>
                 <Link href="/learn" className="text-label text-[rgba(250,248,243,0.28)] hover:text-[var(--color-cream)] transition-colors duration-150 shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:rounded-sm">
-                  All articles →
-                </Link>
-              </div>
-              {featured.map((a, i) => (
-                <Link
-                  key={a._id}
-                  href={`/learn/${a.slug.current}`}
-                  className={`group flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-8 py-4 border-b border-[rgba(250,248,243,0.07)] hover:border-[rgba(250,248,243,0.14)] transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] ${i === 0 ? 'border-t border-t-[rgba(250,248,243,0.07)]' : ''}`}
-                >
-                  {a.category && <span className="text-label text-[rgba(250,248,243,0.26)] shrink-0 sm:w-28">{a.category.name}</span>}
-                  <span className="text-[rgba(250,248,243,0.56)] font-[family-name:var(--font-space-grotesk)] font-medium group-hover:text-[var(--color-cream)] transition-colors duration-150 flex-1" style={{ fontSize: 'clamp(0.875rem, 1.3vw, 1.125rem)', letterSpacing: '-0.012em' }}>
-                    {a.title}
-                  </span>
-                </Link>
-              ))}
-            </div>
-          </>
-        )}
-
-        {/* ── FIND GSX — compact, functional, no photo ─────────────────── */}
-        <section className="bg-[var(--color-ink-alt)] border-t border-[rgba(250,248,243,0.06)]">
-          <div className={G} style={{ paddingTop: '3.5rem', paddingBottom: '3.5rem' }}>
-            <div
-              className="flex flex-col sm:flex-row sm:items-center sm:justify-center gap-6 sm:gap-12 mx-auto"
-              style={{ maxWidth: '780px' }}
-            >
-              <div className="flex items-center gap-5">
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" className="shrink-0 text-[var(--color-accent)]" aria-hidden="true">
-                  <path d="M12 2C7.6 2 4 5.6 4 10c0 6 8 12 8 12s8-6 8-12c0-4.4-3.6-8-8-8Z" stroke="currentColor" strokeWidth="1.4" />
-                  <circle cx="12" cy="10" r="2.5" stroke="currentColor" strokeWidth="1.4" />
-                </svg>
-                <div>
-                  <h2 className="text-[var(--color-cream)] font-[family-name:var(--font-space-grotesk)] font-semibold" style={{ fontSize: 'clamp(1.375rem, 2vw, 1.75rem)', letterSpacing: '-0.02em' }}>
-                    Find GSX near you.
-                  </h2>
-                  <p className="text-[rgba(250,248,243,0.4)] font-[family-name:var(--font-manrope)]" style={{ fontSize: '0.875rem', marginTop: '0.25rem' }}>
-                    Available at select dispensaries across Oklahoma.
-                  </p>
-                </div>
-              </div>
-              <Button href="/find-gsx" variant="secondary" size="lg" className="shrink-0">
-                Find a Retailer
-              </Button>
-            </div>
-          </div>
-        </section>
-
-        {/* ── RETAILER STRIP — thin 3-part band: label+headline / copy / CTAs ── */}
-        <section className="bg-[var(--color-green)]">
-          <div className={G} style={{ paddingTop: '2.25rem', paddingBottom: '2.25rem' }}>
-            <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
-              <div className="shrink-0">
-                <p className="text-label" style={{ color: 'rgba(250,248,243,0.7)', marginBottom: '0.3rem' }}>
-                  For Retailers
-                </p>
-                <h2
-                  className="text-[var(--color-cream)] font-[family-name:var(--font-space-grotesk)] font-semibold whitespace-nowrap"
-                  style={{ fontSize: 'clamp(1.375rem, 2.2vw, 1.875rem)', letterSpacing: '-0.02em' }}
-                >
-                  Carry GSX in your store.
-                </h2>
-              </div>
-              <p
-                className="text-[rgba(250,248,243,0.68)] font-[family-name:var(--font-manrope)]"
-                style={{ fontSize: '0.9375rem', maxWidth: '34ch' }}
-              >
-                Oklahoma-licensed dispensaries can apply to stock GSX products.
-              </p>
-              <div className="flex flex-wrap items-center gap-5 shrink-0">
-                <Button href="/contact" variant="secondary" size="lg">Carry GSX</Button>
-                <Link
-                  href="/login"
-                  className="text-button text-[rgba(250,248,243,0.55)] hover:text-[var(--color-cream)] transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-cream)] focus-visible:rounded-sm"
-                >
-                  Retailer Portal →
-                </Link>
-              </div>
-            </div>
-          </div>
-        </section>
-
-      </main>
-      <Footer />
-    </>
-  )
-}
+                  
