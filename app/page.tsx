@@ -37,7 +37,7 @@ function Arrow({ className = '' }: { className?: string }) {
   )
 }
 
-// Verified, already-approved facts only — no invented stats or certifications.
+// Verified, already-approved facts only, no invented stats or certifications.
 const PROOF_POINTS = [
   { label: 'Chelsea, Oklahoma', detail: 'Manufactured in-house, start to finish' },
   { label: 'Formulation to Final Package', detail: 'Every step handled under one roof' },
@@ -46,16 +46,11 @@ const PROOF_POINTS = [
 
 const PROCESS_MARKERS = ['Ingredient sourcing', 'Written batch procedures', 'Final packaging']
 
-// GSX product-family artwork — real packaging renders, transparent background.
-// Chosen to represent breadth (gummies, fruit crunchers, chocolates, The Hammer),
-// not the full 10-item catalog. No name captions: the packaging already carries
-// the product name/family, so this reads as a brand composition, not a shop grid.
-const PRODUCT_UNIVERSE = [
-  { key: 'focus',  url: 'https://cdn.sanity.io/images/o7wavkxv/production/642f1bec68400ec93d8c30bc752775cf29508755-1840x1812.png', alt: 'GSX Focus — Precision Crafted Gummies' },
-  { key: 'hammer', url: 'https://cdn.sanity.io/images/o7wavkxv/production/b02174bf96aee1e13349637609c3b42225e876c5-619x541.png',   alt: 'GSX The Hammer chocolate bar' },
-  { key: 'elevate',url: 'https://cdn.sanity.io/images/o7wavkxv/production/dc14997eb175b6bf90d4f65a803c0325e542dbc8-1840x1812.png', alt: 'GSX Fruit Crunchers — Elevate' },
-  { key: 'pbbites',url: 'https://cdn.sanity.io/images/o7wavkxv/production/ba4ae5231c72ff395cee6e52c09d3cd73f7e9678-1840x1812.png', alt: 'GSX Peanut Butter Bites' },
-]
+// Approved "Built in Oklahoma. Made by GSX." section graphic. Locked composed
+// asset (typography, proof strip, and equipment photo baked in by design), used
+// as-is. Native resolution is 640x427; display width is capped so upscaling
+// stays mild rather than stretching it across the full 1280px+ grid.
+const BUILT_IN_OKLAHOMA_URL = 'https://cdn.sanity.io/images/o7wavkxv/production/06eba6c058919fc95e0abdd164ac519fb1e127bc-640x427.png'
 
 export default async function HomePage() {
   const [settings, productFamilies, articles] = await Promise.allSettled([
@@ -79,20 +74,11 @@ export default async function HomePage() {
       <Nav />
       <main className="bg-[#0c0c0b]">
 
-        {/* ── HERO — 46/54 split: identity + headline left, real production media right ── */}
-        <section aria-label="Hero" className="lg:grid lg:grid-cols-[46fr_54fr] lg:items-stretch lg:min-h-[720px]">
+        {/* ── HERO — locked brand/product-universe graphic, 46/54 split ──── */}
+        <section aria-label="Hero" className="lg:grid lg:grid-cols-[46fr_54fr] lg:items-center">
           <div className="flex flex-col justify-center" style={{ paddingTop: '6.5rem', paddingBottom: '3rem' }}>
             <div className={G} style={{ paddingLeft: 0, paddingRight: 0 }}>
               <div className="pl-6 md:pl-16 xl:pl-24 pr-6 lg:pr-12" style={{ maxWidth: '460px' }}>
-                <div style={{ marginBottom: '2rem' }}>
-                  <span
-                    className="block text-[var(--color-cream)] font-[family-name:var(--font-space-grotesk)] font-bold"
-                    style={{ fontSize: '1.75rem', letterSpacing: '-0.02em', lineHeight: 1 }}
-                  >
-                    GSX
-                  </span>
-                  <span className="section-label" style={{ marginTop: '0.5rem' }}>Green Science Extracts</span>
-                </div>
                 <h1
                   className="text-[var(--color-cream)] font-[family-name:var(--font-space-grotesk)] font-semibold"
                   style={{
@@ -107,7 +93,7 @@ export default async function HomePage() {
                   className="text-[rgba(250,248,243,0.5)] font-[family-name:var(--font-manrope)] font-light"
                   style={{ fontSize: '1.0625rem', lineHeight: '1.68', marginTop: '1.25rem', maxWidth: '36ch' }}
                 >
-                  GSX formulates, manufactures, and packages every product itself — from Chelsea, Oklahoma to dispensary shelves across the state.
+                  GSX formulates, manufactures, and packages every product itself, from Chelsea, Oklahoma to dispensary shelves across the state.
                 </p>
                 <p className="text-label text-[rgba(250,248,243,0.32)]" style={{ marginTop: '1.25rem' }}>
                   OMMA Licensed Manufacturer &nbsp;·&nbsp; Chelsea, Oklahoma
@@ -124,19 +110,19 @@ export default async function HomePage() {
               </div>
             </div>
           </div>
-          <div className="relative min-h-[320px] lg:min-h-0">
+          <div className="flex items-center justify-center lg:justify-end w-full" style={{ paddingBottom: '2rem' }}>
             {heroSrc ? (
               <Image
                 src={heroSrc}
-                alt={heroImg?.alt ?? 'GSX production line packaging real product'}
-                fill
+                alt={heroImg?.alt ?? 'GSX product lineup: Precision Crafted Gummies, The Hammer, Fruit Crunchers, and Chocolate Bites'}
+                width={1672}
+                height={941}
                 priority
                 sizes="(max-width: 1024px) 100vw, 54vw"
-                className="object-cover"
-                style={{ objectPosition: hotspotPos(heroImg) }}
+                className="w-full h-auto lg:max-w-[820px]"
               />
             ) : (
-              <div className="absolute inset-0" style={{ background: 'linear-gradient(160deg, #0f1a14 0%, #0c0c0b 100%)' }} />
+              <div className="w-full" style={{ aspectRatio: '16 / 9', background: 'linear-gradient(160deg, #0f1a14 0%, #0c0c0b 100%)' }} />
             )}
           </div>
         </section>
@@ -155,7 +141,7 @@ export default async function HomePage() {
                   maxWidth: '46ch',
                 }}
               >
-                GSX develops, manufactures, and packages every product it sells — in Chelsea, Oklahoma. No contract manufacturing. No outsourced formulation.
+                GSX develops, manufactures, and packages every product it sells, right here in Chelsea, Oklahoma. No contract manufacturing. No outsourced formulation.
               </p>
               <div
                 className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-1 lg:shrink-0"
@@ -178,58 +164,28 @@ export default async function HomePage() {
 
         <Rule />
 
-        {/* ── GSX PRODUCT UNIVERSE — brand composition, not a shop grid ──── */}
-        <section className={G} style={{ paddingTop: '4.5rem', paddingBottom: '4.5rem' }}>
-          <div style={{ maxWidth: '640px', marginBottom: '3rem' }}>
-            <h2
-              className="text-[var(--color-cream)] font-[family-name:var(--font-space-grotesk)] font-semibold"
-              style={{ fontSize: 'clamp(1.75rem, 2.6vw, 2.5rem)', lineHeight: '1.05', letterSpacing: '-0.028em' }}
-            >
-              A full lineup, made in-house.
-            </h2>
-            <p
-              className="text-[rgba(250,248,243,0.46)] font-[family-name:var(--font-manrope)] font-light"
-              style={{ fontSize: '1rem', lineHeight: '1.6', marginTop: '0.75rem' }}
-            >
-              Gummies, chocolates, and fruit crunchers — every GSX product is formulated, manufactured, and packaged under one roof in Oklahoma.
-            </p>
-            <div style={{ marginTop: '1.75rem' }}>
-              <Button href="/products" variant="primary" size="lg">View Products</Button>
-            </div>
-          </div>
-
-          {/* Mobile / tablet: clean 2x2, no overlap */}
-          <div className="grid grid-cols-2 gap-6 md:hidden">
-            {PRODUCT_UNIVERSE.map((p) => (
-              <div key={p.key} className="relative" style={{ aspectRatio: '4 / 5' }}>
-                <Image src={p.url} alt={p.alt} fill sizes="50vw" className="object-contain" />
-              </div>
-            ))}
-          </div>
-
-          {/* Desktop: asymmetric scale + hierarchy — two anchors, two supporting */}
-          <div className="hidden md:grid md:grid-cols-12 md:gap-6 md:items-end" style={{ minHeight: '420px' }}>
-            <div className="col-span-4 self-end relative" style={{ aspectRatio: '4 / 5' }}>
-              <Image src={PRODUCT_UNIVERSE[0].url} alt={PRODUCT_UNIVERSE[0].alt} fill sizes="30vw" className="object-contain" />
-            </div>
-            <div className="col-span-3 self-start relative" style={{ aspectRatio: '4 / 5', marginTop: '1.5rem' }}>
-              <Image src={PRODUCT_UNIVERSE[1].url} alt={PRODUCT_UNIVERSE[1].alt} fill sizes="22vw" className="object-contain" />
-            </div>
-            <div className="col-span-3 self-end relative" style={{ aspectRatio: '4 / 5' }}>
-              <Image src={PRODUCT_UNIVERSE[2].url} alt={PRODUCT_UNIVERSE[2].alt} fill sizes="22vw" className="object-contain" />
-            </div>
-            <div className="col-span-2 self-start relative" style={{ aspectRatio: '4 / 5', marginTop: '2.5rem' }}>
-              <Image src={PRODUCT_UNIVERSE[3].url} alt={PRODUCT_UNIVERSE[3].alt} fill sizes="16vw" className="object-contain" />
+        {/* ── BUILT IN OKLAHOMA. MADE BY GSX. — locked full-width graphic ── */}
+        <section className="w-full" style={{ backgroundColor: '#050505' }}>
+          <div className="w-full flex justify-center" style={{ paddingTop: '3rem', paddingBottom: '3rem' }}>
+            <div className="relative w-full" style={{ maxWidth: '1000px', paddingLeft: '1.5rem', paddingRight: '1.5rem' }}>
+              <Image
+                src={BUILT_IN_OKLAHOMA_URL}
+                alt="Built in Oklahoma. Made by GSX. From formulation through manufacturing and final packaging, every GSX edible is produced by our team in Chelsea, Oklahoma. Formulated in-house, manufactured in-house, packaged in-house."
+                width={640}
+                height={427}
+                sizes="(max-width: 1024px) 100vw, 1000px"
+                className="w-full h-auto"
+              />
             </div>
           </div>
         </section>
 
         <Rule />
 
-        {/* ── MADE HERE — one dominant image: real equipment, people, product ── */}
-        <section aria-label="Manufacturing" className="lg:grid lg:grid-cols-[1fr_1.35fr] lg:items-stretch">
-          <div className="flex flex-col justify-center" style={{ paddingTop: '4.5rem', paddingBottom: '4.5rem' }}>
-            <div className="pl-6 md:pl-16 xl:pl-24 pr-6 lg:pr-10" style={{ maxWidth: '460px' }}>
+        {/* ── REAL EQUIPMENT, REAL PEOPLE, REAL PRODUCT — inset editorial photo ── */}
+        <section aria-label="Manufacturing" className={G} style={{ paddingTop: '3.5rem', paddingBottom: '3.5rem' }}>
+          <div className="lg:grid lg:grid-cols-[1fr_1.35fr] lg:items-center lg:gap-12">
+            <div className="flex flex-col justify-center">
               <h2
                 className="text-[var(--color-cream)] font-[family-name:var(--font-space-grotesk)] font-semibold"
                 style={{ fontSize: 'clamp(1.75rem, 2.6vw, 2.5rem)', lineHeight: '1.05', letterSpacing: '-0.028em' }}
@@ -240,7 +196,7 @@ export default async function HomePage() {
                 className="text-[rgba(250,248,243,0.48)] font-[family-name:var(--font-manrope)] font-light"
                 style={{ fontSize: '1rem', lineHeight: '1.7', marginTop: '1.25rem' }}
               >
-                Our Chelsea, Oklahoma facility handles every step — formulation, production, and packaging — under one roof, by our own team.
+                Our Chelsea, Oklahoma facility handles every step: formulation, production, and packaging, all under one roof, by our own team.
               </p>
               <ul style={{ marginTop: '1.75rem' }} className="flex flex-col gap-2.5">
                 {PROCESS_MARKERS.map((step) => (
@@ -259,20 +215,20 @@ export default async function HomePage() {
                 <Arrow />
               </Link>
             </div>
-          </div>
-          <div className="relative min-h-[360px] lg:min-h-0">
-            {processSrc ? (
-              <Image
-                src={processSrc}
-                alt={processImg?.alt ?? 'GSX team packaging product on the production line'}
-                fill
-                sizes="(max-width: 1024px) 100vw, 60vw"
-                className="object-cover"
-                style={{ objectPosition: hotspotPos(processImg) }}
-              />
-            ) : (
-              <div className="absolute inset-0 bg-[var(--color-ink-alt)]" />
-            )}
+            <div className="relative w-full mt-10 lg:mt-0" style={{ aspectRatio: '4 / 3' }}>
+              {processSrc ? (
+                <Image
+                  src={processSrc}
+                  alt={processImg?.alt ?? 'GSX team member in gloves packaging product on the production line'}
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 55vw"
+                  className="object-cover"
+                  style={{ objectPosition: processImg?.hotspot ? hotspotPos(processImg) : '38% 42%' }}
+                />
+              ) : (
+                <div className="absolute inset-0 bg-[var(--color-ink-alt)]" />
+              )}
+            </div>
           </div>
         </section>
 
