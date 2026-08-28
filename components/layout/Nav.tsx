@@ -1,10 +1,19 @@
 'use client'
 
+import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useSession } from 'next-auth/react'
 import { useState, useEffect } from 'react'
 import { Button } from '@/components/ui/Button'
+
+// Oklahoma / Respect the Dose GSX logo. Cropped from the approved hero
+// graphic (no standalone transparent source file exists for this exact
+// mark). Automated background extraction was attempted and rejected: the
+// photographic sky/mountain fill inside the state outline broke the key,
+// producing visible artifacts. This is a plain rectangular crop, so a
+// faint dark-green background edge is present around the mark.
+const NAV_LOGO_URL = 'https://cdn.sanity.io/images/o7wavkxv/production/cd7dfae749e2b515484c3a1e8c3463a261af31fe-565x335.png'
 
 const publicNavLinks = [
   { href: '/products', label: 'Products' },
@@ -53,10 +62,10 @@ export function Nav() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-[60] transition-all duration-200 ${
+      className={`sticky top-0 z-[60] transition-all duration-200 ${
         scrolled
           ? 'bg-[rgba(15,26,20,0.96)] backdrop-blur-md border-b border-[rgba(250,248,243,0.06)]'
-          : 'bg-gradient-to-b from-[rgba(8,8,7,0.65)] via-[rgba(8,8,7,0.3)] to-transparent'
+          : 'bg-[var(--color-ink)]'
       }`}
     >
       <div className="w-full max-w-[1280px] mx-auto px-6 md:px-16 xl:px-24">
@@ -68,9 +77,14 @@ export function Nav() {
             className="flex items-center gap-2 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
             aria-label="Green Science Extracts home"
           >
-            <span className="text-h4 text-[var(--color-cream)] font-[family-name:var(--font-space-grotesk)] tracking-tight group-hover:text-[var(--color-accent)] transition-colors duration-150">
-              GSX
-            </span>
+            <Image
+              src={NAV_LOGO_URL}
+              alt="GSX, Oklahoma, Green Science Extracts, Respect the Dose"
+              width={565}
+              height={335}
+              priority
+              className="h-11 w-auto shrink-0"
+            />
             {isAdmin && (
               <span className="text-label text-[rgba(250,248,243,0.4)] hidden sm:block">Admin</span>
             )}
