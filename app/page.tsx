@@ -107,7 +107,7 @@ export default async function HomePage() {
 
         {/* ── HERO — locked brand/product-universe graphic, 46/54 split ──── */}
         <section aria-label="Hero" className="lg:grid lg:grid-cols-[46fr_54fr] lg:items-center">
-          <div className="flex flex-col justify-center" style={{ paddingTop: '6.5rem', paddingBottom: '3rem' }}>
+          <div className="flex flex-col justify-center" style={{ paddingTop: '3rem', paddingBottom: '3rem' }}>
             <div className={G} style={{ paddingLeft: 0, paddingRight: 0 }}>
               <div className="pl-6 md:pl-16 xl:pl-24 pr-6 lg:pr-12" style={{ maxWidth: '460px' }}>
                 <h1
@@ -215,9 +215,9 @@ export default async function HomePage() {
                 >
                   Built in Oklahoma.
                   <br />
-                  <span style={{ color: 'var(--color-accent)' }}>Made by GSX.</span>
+                  <span style={{ color: 'var(--color-green)' }}>Made by GSX.</span>
                 </h2>
-                <div style={{ width: '40px', height: '2px', backgroundColor: 'var(--color-accent)', marginTop: '1.25rem', marginBottom: '1.25rem' }} />
+                <div style={{ width: '40px', height: '2px', backgroundColor: 'var(--color-green)', marginTop: '1.25rem', marginBottom: '1.25rem' }} />
                 <p
                   className="font-[family-name:var(--font-manrope)] font-light"
                   style={{ color: 'rgba(250,248,243,0.55)', fontSize: '1rem', lineHeight: '1.7' }}
@@ -226,7 +226,7 @@ export default async function HomePage() {
                 </p>
                 <p
                   className="text-label"
-                  style={{ color: 'var(--color-accent)', marginTop: '1rem' }}
+                  style={{ color: 'var(--color-green)', marginTop: '1rem' }}
                 >
                   One Facility. One Team. One Standard.
                 </p>
@@ -245,7 +245,7 @@ export default async function HomePage() {
                 <div key={line1} className="flex items-center gap-4">
                   <div
                     className="flex items-center justify-center shrink-0 rounded-full"
-                    style={{ width: '44px', height: '44px', border: '1px solid var(--color-accent)', color: 'var(--color-accent)' }}
+                    style={{ width: '44px', height: '44px', border: '1px solid var(--color-green)', color: 'var(--color-green)' }}
                   >
                     <Icon />
                   </div>
@@ -253,7 +253,7 @@ export default async function HomePage() {
                     <p className="text-label" style={{ color: 'rgba(250,248,243,0.4)' }}>{line1}</p>
                     <p
                       className="font-[family-name:var(--font-space-grotesk)] font-semibold"
-                      style={{ color: 'var(--color-accent)', fontSize: '0.9375rem', letterSpacing: '-0.01em', marginTop: '0.15rem' }}
+                      style={{ color: 'var(--color-green)', fontSize: '0.9375rem', letterSpacing: '-0.01em', marginTop: '0.15rem' }}
                     >
                       {line2}
                     </p>
