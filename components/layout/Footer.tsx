@@ -25,7 +25,7 @@ export function Footer() {
   return (
     <footer className="bg-[#0a1410] border-t border-[rgba(250,248,243,0.06)]">
       <Container className="py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[1.2fr_1fr_1fr_1fr] gap-12 md:gap-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[2fr_1fr_1fr_1fr] gap-12 md:gap-10">
 
           {/* Brand column */}
           <div className="flex flex-col gap-6">
