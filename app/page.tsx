@@ -46,11 +46,10 @@ const PROOF_POINTS = [
 
 const PROCESS_MARKERS = ['Ingredient sourcing', 'Written batch procedures', 'Final packaging']
 
-// Approved extracted factory image for the "Built in Oklahoma" section.
-// Native resolution is 345x316. Displayed near native size (capped, not
-// stretched to fill the column) so it stays sharp; the dark section
-// background absorbs any leftover column width instead.
-const FACILITY_PHOTO_URL = 'https://cdn.sanity.io/images/o7wavkxv/production/e032bc34e388612658bca3e4e3cab84231af7f69-345x316.png'
+// Approved high-resolution factory image for the "Built in Oklahoma" section
+// (production line, American and Oklahoma flags, GSX wall logo). Native
+// resolution 1310x1200, rendered at intrinsic aspect ratio, no crop.
+const FACILITY_PHOTO_URL = 'https://cdn.sanity.io/images/o7wavkxv/production/488d2b67b8289033440ea79284b9772023b2961c-1310x1200.jpg'
 
 function FlaskIcon() {
   return (
@@ -201,13 +200,13 @@ export default async function HomePage() {
         <section className="w-full" style={{ backgroundColor: '#050505' }}>
           <div className={G} style={{ paddingTop: '4.5rem', paddingBottom: '4rem' }}>
             <div className="lg:grid lg:grid-cols-[1.05fr_1fr] lg:gap-16 lg:items-center">
-              <div className="w-full" style={{ maxWidth: '260px' }}>
+              <div className="w-full">
                 <Image
                   src={FACILITY_PHOTO_URL}
-                  alt="Real GSX production line with active packaging equipment, flags, and GSX signage in Chelsea, Oklahoma"
-                  width={345}
-                  height={316}
-                  sizes="(max-width: 1024px) 60vw, 260px"
+                  alt="GSX production line with American and Oklahoma flags and the GSX Green Science Extracts wall logo in Chelsea, Oklahoma"
+                  width={1310}
+                  height={1200}
+                  sizes="(max-width: 1024px) 100vw, 50vw"
                   className="w-full h-auto"
                 />
               </div>
