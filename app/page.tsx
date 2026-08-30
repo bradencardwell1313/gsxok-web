@@ -109,7 +109,7 @@ export default async function HomePage() {
 
         {/* ── HERO — locked brand/product-universe graphic, 46/54 split ──── */}
         <section aria-label="Hero" className="lg:grid lg:grid-cols-[46fr_54fr] lg:items-center">
-          <div className="flex flex-col justify-center" style={{ paddingTop: '3rem', paddingBottom: '3rem' }}>
+          <div className="flex flex-col justify-center" style={{ paddingTop: '2rem', paddingBottom: '3rem' }}>
             <div className={G} style={{ paddingLeft: 0, paddingRight: 0 }}>
               <div className="pl-6 md:pl-16 xl:pl-24 pr-6 lg:pr-12" style={{ maxWidth: '460px' }}>
                 <h1
@@ -201,13 +201,13 @@ export default async function HomePage() {
         <section className="w-full" style={{ backgroundColor: '#050505' }}>
           <div className={G} style={{ paddingTop: '4.5rem', paddingBottom: '4rem' }}>
             <div className="lg:grid lg:grid-cols-[1.05fr_1fr] lg:gap-16 lg:items-center">
-              <div className="w-full" style={{ maxWidth: '480px' }}>
+              <div className="w-full" style={{ maxWidth: '380px' }}>
                 <Image
                   src={FACILITY_PHOTO_URL}
                   alt="Real GSX production line with active packaging equipment, flags, and GSX signage in Chelsea, Oklahoma"
                   width={345}
                   height={316}
-                  sizes="(max-width: 1024px) 100vw, 480px"
+                  sizes="(max-width: 1024px) 100vw, 380px"
                   className="w-full h-auto"
                 />
               </div>
