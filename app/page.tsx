@@ -37,7 +37,7 @@ function Arrow({ className = '' }: { className?: string }) {
   )
 }
 
-// Verified, already-approved facts only, no invented stats or certifications.
+// Verified, already-approved facts only — no invented stats or certifications.
 const PROOF_POINTS = [
   { label: 'Chelsea, Oklahoma', detail: 'Manufactured in-house, start to finish' },
   { label: 'Formulation to Final Package', detail: 'Every step handled under one roof' },
