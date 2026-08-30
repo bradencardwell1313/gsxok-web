@@ -107,11 +107,11 @@ export default async function HomePage() {
       <Nav />
       <main className="bg-[#0c0c0b]">
 
-        {/* ── HERO — locked brand/product-universe graphic, 46/54 split ──── */}
-        <section aria-label="Hero" className="lg:grid lg:grid-cols-[46fr_54fr] lg:items-center">
-          <div className="flex flex-col justify-center" style={{ paddingTop: '2rem', paddingBottom: '3rem' }}>
-            <div className={G} style={{ paddingLeft: 0, paddingRight: 0 }}>
-              <div className="pl-6 md:pl-16 xl:pl-24 pr-6 lg:pr-12" style={{ maxWidth: '460px' }}>
+        {/* ── HERO — locked brand/product-universe graphic, 42/58 split ──── */}
+        <section aria-label="Hero">
+          <div className={`${G} lg:grid lg:grid-cols-[42fr_58fr] lg:items-center lg:gap-10 xl:gap-14`}>
+            <div className="flex flex-col justify-center" style={{ paddingTop: '2rem', paddingBottom: '3rem' }}>
+              <div style={{ maxWidth: '460px' }}>
                 <h1
                   className="text-[var(--color-cream)] font-[family-name:var(--font-space-grotesk)] font-semibold"
                   style={{
@@ -142,21 +142,21 @@ export default async function HomePage() {
                 </div>
               </div>
             </div>
-          </div>
-          <div className="flex items-center justify-center lg:justify-end w-full" style={{ paddingBottom: '2rem' }}>
-            {heroSrc ? (
-              <Image
-                src={heroSrc}
-                alt={heroImg?.alt ?? 'GSX product lineup: Precision Crafted Gummies, The Hammer, Fruit Crunchers, and Chocolate Bites'}
-                width={1672}
-                height={941}
-                priority
-                sizes="(max-width: 1024px) 100vw, 54vw"
-                className="w-full h-auto lg:max-w-[820px]"
-              />
-            ) : (
-              <div className="w-full" style={{ aspectRatio: '16 / 9', background: 'linear-gradient(160deg, #0f1a14 0%, #0c0c0b 100%)' }} />
-            )}
+            <div className="flex items-center justify-center lg:justify-end w-full" style={{ paddingBottom: '2rem' }}>
+              {heroSrc ? (
+                <Image
+                  src={heroSrc}
+                  alt={heroImg?.alt ?? 'GSX product lineup: Precision Crafted Gummies, The Hammer, Fruit Crunchers, and Chocolate Bites'}
+                  width={1672}
+                  height={941}
+                  priority
+                  sizes="(max-width: 1024px) 100vw, 58vw"
+                  className="w-full h-auto lg:max-w-[820px]"
+                />
+              ) : (
+                <div className="w-full" style={{ aspectRatio: '16 / 9', background: 'linear-gradient(160deg, #0f1a14 0%, #0c0c0b 100%)' }} />
+              )}
+            </div>
           </div>
         </section>
 
@@ -201,13 +201,13 @@ export default async function HomePage() {
         <section className="w-full" style={{ backgroundColor: '#050505' }}>
           <div className={G} style={{ paddingTop: '4.5rem', paddingBottom: '4rem' }}>
             <div className="lg:grid lg:grid-cols-[1.05fr_1fr] lg:gap-16 lg:items-center">
-              <div className="w-full" style={{ maxWidth: '380px' }}>
+              <div className="w-full" style={{ maxWidth: '260px' }}>
                 <Image
                   src={FACILITY_PHOTO_URL}
                   alt="Real GSX production line with active packaging equipment, flags, and GSX signage in Chelsea, Oklahoma"
                   width={345}
                   height={316}
-                  sizes="(max-width: 1024px) 100vw, 380px"
+                  sizes="(max-width: 1024px) 60vw, 260px"
                   className="w-full h-auto"
                 />
               </div>
