@@ -11,7 +11,7 @@ import { Button } from '@/components/ui/Button'
 // (state outline, "Respect the Dose" script, GSX / Green Science Extracts
 // wordmark). Background removed via alpha extraction from the approved
 // source image, true transparency, verified against a dark background.
-const NAV_LOGO_URL = 'https://cdn.sanity.io/images/o7wavkxv/production/6088154e5631e3bd5b0bf79ad6313b210ab7ccbb-1000x545.png'
+const NAV_LOGO_URL = 'https://cdn.sanity.io/images/o7wavkxv/production/1b4c22a1c2ffe8f8ef712f03a818baf7260aa18d-808x448.png'
 
 const publicNavLinks = [
   { href: '/products', label: 'Products' },
@@ -78,8 +78,8 @@ export function Nav() {
             <Image
               src={NAV_LOGO_URL}
               alt="GSX, Oklahoma, Green Science Extracts, Respect the Dose"
-              width={1000}
-              height={545}
+              width={808}
+              height={448}
               priority
               className="h-12 w-auto shrink-0"
             />
