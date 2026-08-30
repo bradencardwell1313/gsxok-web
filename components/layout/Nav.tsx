@@ -7,13 +7,11 @@ import { useSession } from 'next-auth/react'
 import { useState, useEffect } from 'react'
 import { Button } from '@/components/ui/Button'
 
-// Oklahoma / Respect the Dose GSX logo. Cropped from the approved hero
-// graphic (no standalone transparent source file exists for this exact
-// mark). Automated background extraction was attempted and rejected: the
-// photographic sky/mountain fill inside the state outline broke the key,
-// producing visible artifacts. This is a plain rectangular crop, so a
-// faint dark-green background edge is present around the mark.
-const NAV_LOGO_URL = 'https://cdn.sanity.io/images/o7wavkxv/production/cd7dfae749e2b515484c3a1e8c3463a261af31fe-565x335.png'
+// Oklahoma / Respect the Dose GSX logo, the approved standalone lockup
+// (state outline, "Respect the Dose" script, GSX / Green Science Extracts
+// wordmark). Background removed via alpha extraction from the approved
+// source image, true transparency, verified against a dark background.
+const NAV_LOGO_URL = 'https://cdn.sanity.io/images/o7wavkxv/production/6088154e5631e3bd5b0bf79ad6313b210ab7ccbb-1000x545.png'
 
 const publicNavLinks = [
   { href: '/products', label: 'Products' },
@@ -80,10 +78,10 @@ export function Nav() {
             <Image
               src={NAV_LOGO_URL}
               alt="GSX, Oklahoma, Green Science Extracts, Respect the Dose"
-              width={565}
-              height={335}
+              width={1000}
+              height={545}
               priority
-              className="h-11 w-auto shrink-0"
+              className="h-12 w-auto shrink-0"
             />
             {isAdmin && (
               <span className="text-label text-[rgba(250,248,243,0.4)] hidden sm:block">Admin</span>
