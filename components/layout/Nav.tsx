@@ -66,13 +66,13 @@ export function Nav() {
           : 'bg-[var(--color-ink)]'
       }`}
     >
-      <div className="w-full max-w-[1280px] mx-auto px-6 md:px-16 xl:px-24">
-        <div className="flex items-center justify-between h-16 md:h-18">
+      <div className="w-full px-6 md:px-8 lg:px-10">
+        <div className="grid grid-cols-[1fr_auto_1fr] items-center h-16 md:h-18">
 
-          {/* Logo */}
+          {/* Logo — far left */}
           <Link
             href={isAdmin ? '/admin' : isRetailer ? '/portal' : '/'}
-            className="flex items-center gap-2 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
+            className="col-start-1 flex items-center gap-2 group justify-self-start focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
             aria-label="Green Science Extracts home"
           >
             <Image
@@ -88,8 +88,8 @@ export function Nav() {
             )}
           </Link>
 
-          {/* Desktop nav */}
-          <nav className="hidden md:flex items-center gap-8" aria-label="Main navigation">
+          {/* Desktop nav — centered in the viewport regardless of side-group width */}
+          <nav className="col-start-2 hidden md:flex items-center gap-8 justify-self-center" aria-label="Main navigation">
             {navLinks.map(({ href, label }) => {
               const active = pathname === href || pathname.startsWith(href + '/')
               return (
@@ -108,47 +108,49 @@ export function Nav() {
             })}
           </nav>
 
-          {/* Desktop right CTAs — differ by auth state */}
-          <div className="hidden md:flex items-center gap-4">
-            {status === 'loading' ? (
-              // Skeleton while session resolves — prevents layout shift
-              <div className="w-24 h-4 bg-[rgba(250,248,243,0.1)] animate-pulse" />
-            ) : isLoggedIn ? (
-              <>
-                <span className="text-label text-[rgba(250,248,243,0.45)] truncate max-w-[140px]">
-                  {session?.user?.name ?? session?.user?.email}
-                </span>
-                <Button href="/api/auth/signout" variant="secondary" size="sm">
-                  Sign out
-                </Button>
-              </>
-            ) : (
-              <>
-                <Link
-                  href="/login"
-                  className="text-label text-[rgba(250,248,243,0.55)] hover:text-[var(--color-cream)] transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:rounded-sm"
-                >
-                  Portal Login
-                </Link>
-                <Button href="/contact" variant="primary" size="sm">
-                  Carry GSX
-                </Button>
-              </>
-            )}
-          </div>
+          {/* Right side — far right: desktop CTAs, or mobile toggle */}
+          <div className="col-start-3 flex items-center justify-end gap-4">
+            <div className="hidden md:flex items-center gap-4">
+              {status === 'loading' ? (
+                // Skeleton while session resolves — prevents layout shift
+                <div className="w-24 h-4 bg-[rgba(250,248,243,0.1)] animate-pulse" />
+              ) : isLoggedIn ? (
+                <>
+                  <span className="text-label text-[rgba(250,248,243,0.45)] truncate max-w-[140px]">
+                    {session?.user?.name ?? session?.user?.email}
+                  </span>
+                  <Button href="/api/auth/signout" variant="secondary" size="sm">
+                    Sign out
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Link
+                    href="/login"
+                    className="text-label text-[rgba(250,248,243,0.55)] hover:text-[var(--color-cream)] transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:rounded-sm"
+                  >
+                    Portal Login
+                  </Link>
+                  <Button href="/contact" variant="primary" size="sm">
+                    Carry GSX
+                  </Button>
+                </>
+              )}
+            </div>
 
-          {/* Mobile menu toggle */}
-          <button
-            className="md:hidden flex flex-col gap-[5px] p-2 -mr-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:rounded-sm"
-            aria-label={open ? 'Close menu' : 'Open menu'}
-            aria-expanded={open}
-            aria-controls="mobile-nav"
-            onClick={() => setOpen(v => !v)}
-          >
-            <span className={`block w-5 h-[1.5px] bg-[var(--color-cream)] origin-center transition-transform duration-200 ${open ? 'translate-y-[6.5px] rotate-45' : ''}`} />
-            <span className={`block w-5 h-[1.5px] bg-[var(--color-cream)] transition-opacity duration-200 ${open ? 'opacity-0' : ''}`} />
-            <span className={`block w-5 h-[1.5px] bg-[var(--color-cream)] origin-center transition-transform duration-200 ${open ? '-translate-y-[6.5px] -rotate-45' : ''}`} />
-          </button>
+            {/* Mobile menu toggle */}
+            <button
+              className="md:hidden flex flex-col gap-[5px] p-2 -mr-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:rounded-sm"
+              aria-label={open ? 'Close menu' : 'Open menu'}
+              aria-expanded={open}
+              aria-controls="mobile-nav"
+              onClick={() => setOpen(v => !v)}
+            >
+              <span className={`block w-5 h-[1.5px] bg-[var(--color-cream)] origin-center transition-transform duration-200 ${open ? 'translate-y-[6.5px] rotate-45' : ''}`} />
+              <span className={`block w-5 h-[1.5px] bg-[var(--color-cream)] transition-opacity duration-200 ${open ? 'opacity-0' : ''}`} />
+              <span className={`block w-5 h-[1.5px] bg-[var(--color-cream)] origin-center transition-transform duration-200 ${open ? '-translate-y-[6.5px] -rotate-45' : ''}`} />
+            </button>
+          </div>
         </div>
       </div>
 
