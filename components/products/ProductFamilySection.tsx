@@ -33,7 +33,7 @@ export function ProductFamilySection({ family, index, emphasis = 'standard', ton
         <p className="text-body text-[var(--color-muted)] mt-3 max-w-[52ch]">{family.description}</p>
 
         <div
-          className={`grid grid-cols-1 ${gridCols} gap-x-8 gap-y-12 md:gap-x-12 mt-10 md:mt-12 ${
+          className={`grid grid-cols-1 ${gridCols} gap-x-8 gap-y-12 md:gap-x-12 mt-8 md:mt-10 ${
             singleItemWidth ? `${singleItemWidth} mx-auto` : ''
           }`}
         >
