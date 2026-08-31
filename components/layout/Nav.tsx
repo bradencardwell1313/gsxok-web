@@ -88,8 +88,15 @@ export function Nav() {
             )}
           </Link>
 
-          {/* Desktop nav — centered in the viewport regardless of side-group width */}
-          <nav className="col-start-2 hidden md:flex items-center gap-24 justify-self-center" aria-label="Main navigation">
+          {/* Desktop nav — centered in the viewport regardless of side-group width.
+              Gap scales fluidly from 768px (tight, avoids colliding with the
+              logo/CTA groups) up to 1280px, where it locks at the approved
+              96px and stays there through every wider desktop width. */}
+          <nav
+            className="col-start-2 hidden md:flex items-center justify-self-center"
+            style={{ columnGap: 'clamp(10px, 16.8vw - 119px, 96px)' }}
+            aria-label="Main navigation"
+          >
             {navLinks.map(({ href, label }) => {
               const active = pathname === href || pathname.startsWith(href + '/')
               return (
@@ -138,9 +145,10 @@ export function Nav() {
               )}
             </div>
 
-            {/* Mobile menu toggle */}
+            {/* Mobile menu toggle — min-w/h-11 keeps the tap target at the
+                44px minimum recommended size without enlarging the icon */}
             <button
-              className="md:hidden flex flex-col gap-[5px] p-2 -mr-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:rounded-sm"
+              className="md:hidden flex flex-col items-center justify-center gap-[5px] min-w-11 min-h-11 -mr-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:rounded-sm"
               aria-label={open ? 'Close menu' : 'Open menu'}
               aria-expanded={open}
               aria-controls="mobile-nav"
