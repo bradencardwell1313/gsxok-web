@@ -51,9 +51,8 @@ export function ProductFamilySection({ family, index, emphasis = 'standard', ton
     >
       <div className={`${G} ${emphasis === 'simple' ? 'py-10 md:py-12' : 'py-12 md:py-16'}`}>
         <div className={`xl:grid ${introSplit} xl:items-center xl:gap-x-12`}>
-          {/* Family intro: number, heading, green rule, description */}
+          {/* Family intro: heading, green rule, description */}
           <div>
-            <p className="text-label text-[var(--color-muted)]">{String(index).padStart(2, '0')}</p>
             <h2 className="text-h2 text-[var(--color-dark)] mt-2">
               {family.name}
             </h2>
