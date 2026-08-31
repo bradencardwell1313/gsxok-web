@@ -9,9 +9,11 @@ interface ProductFamilySectionProps {
   /** Flagship gets larger package artwork and a wider product column (not a larger heading, headings stay uniform across families). */
   emphasis?: 'flagship' | 'standard' | 'simple'
   tone?: 'cream' | 'cream-2'
+  /** Anchor id for footer/nav deep links (e.g. footer's "/products#gummies"). */
+  id?: string
 }
 
-export function ProductFamilySection({ family, index, emphasis = 'standard', tone = 'cream' }: ProductFamilySectionProps) {
+export function ProductFamilySection({ family, index, emphasis = 'standard', tone = 'cream', id }: ProductFamilySectionProps) {
   // Flagship (Chocolate Bites) gets larger artwork; single-SKU families
   // (The Hammer) stay at the original size rather than being stretched to
   // fill their column. Standard families sit at the row-favoring end of the
@@ -32,7 +34,8 @@ export function ProductFamilySection({ family, index, emphasis = 'standard', ton
 
   return (
     <section
-      className="border-t border-[var(--color-border)]"
+      id={id}
+      className="border-t border-[var(--color-border)] scroll-mt-16 md:scroll-mt-18"
       style={{ backgroundColor: tone === 'cream' ? 'var(--color-cream)' : 'var(--color-cream-2)' }}
     >
       <div className={`${G} ${emphasis === 'simple' ? 'py-10 md:py-12' : 'py-12 md:py-16'}`}>
