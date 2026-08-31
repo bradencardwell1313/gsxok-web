@@ -6,7 +6,7 @@ const G = 'w-full max-w-[1280px] mx-auto px-6 md:px-16 xl:px-24'
 interface ProductFamilySectionProps {
   family: ProductFamily
   index: number
-  /** Flagship gets a larger heading and larger package presentation. */
+  /** Flagship gets larger package artwork (not a larger heading, headings stay uniform across families). */
   emphasis?: 'flagship' | 'standard' | 'simple'
   tone?: 'cream' | 'cream-2'
 }
@@ -25,15 +25,16 @@ export function ProductFamilySection({ family, index, emphasis = 'standard', ton
       className="border-t border-[var(--color-border)]"
       style={{ backgroundColor: tone === 'cream' ? 'var(--color-cream)' : 'var(--color-cream-2)' }}
     >
-      <div className={`${G} ${emphasis === 'simple' ? 'py-14 md:py-16' : 'py-16 md:py-20'}`}>
+      <div className={`${G} ${emphasis === 'simple' ? 'py-10 md:py-12' : 'py-12 md:py-16'}`}>
         <p className="text-label text-[var(--color-muted)]">{String(index).padStart(2, '0')}</p>
-        <h2 className={`${emphasis === 'flagship' ? 'text-h1' : 'text-h2'} text-[var(--color-dark)] mt-2`}>
+        <h2 className="text-h2 text-[var(--color-dark)] mt-2">
           {family.name}
         </h2>
+        <div style={{ width: '40px', height: '2px', backgroundColor: 'var(--color-green)', marginTop: '0.9rem' }} />
         <p className="text-body text-[var(--color-muted)] mt-3 max-w-[52ch]">{family.description}</p>
 
         <div
-          className={`grid grid-cols-1 ${gridCols} gap-x-8 gap-y-12 md:gap-x-12 mt-8 md:mt-10 ${
+          className={`grid grid-cols-1 ${gridCols} gap-x-8 gap-y-12 md:gap-x-12 mt-6 md:mt-8 ${
             singleItemWidth ? `${singleItemWidth} mx-auto` : ''
           }`}
         >
