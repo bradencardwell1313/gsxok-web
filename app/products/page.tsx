@@ -19,6 +19,13 @@ const FAMILY_EMPHASIS: Record<string, 'flagship' | 'standard' | 'simple'> = {
   'the-hammer': 'simple',
 }
 
+// Matches the footer's existing "/products#gummies" and "/products#chocolates"
+// links, which had no matching target on this page until now.
+const FAMILY_ANCHOR_IDS: Record<string, string> = {
+  'chocolate-bites': 'chocolates',
+  'precision-crafted-gummies': 'gummies',
+}
+
 export default function ProductsPage() {
   return (
     <>
@@ -50,6 +57,7 @@ export default function ProductsPage() {
             index={i + 1}
             emphasis={FAMILY_EMPHASIS[family.slug] ?? 'standard'}
             tone={i % 2 === 0 ? 'cream' : 'cream-2'}
+            id={FAMILY_ANCHOR_IDS[family.slug]}
           />
         ))}
 
