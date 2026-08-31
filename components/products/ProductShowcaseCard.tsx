@@ -17,6 +17,14 @@ interface ProductShowcaseCardProps {
    * than enlarged to fill their column.
    */
   size?: 'default' | 'medium' | 'large'
+  /**
+   * True when this card shares a row with siblings (the family has more
+   * than one product) — lets the CTA align to a shared bottom baseline via
+   * the grid row's stretched height. A card that's always alone in its own
+   * row (The Hammer) has no sibling to stretch against, so it keeps a fixed
+   * gap instead — mt-auto would just collapse to 0 there.
+   */
+  alignToRow?: boolean
 }
 
 const maxWidthClass: Record<NonNullable<ProductShowcaseCardProps['size']>, string> = {
@@ -31,13 +39,17 @@ const imageSizes: Record<NonNullable<ProductShowcaseCardProps['size']>, string> 
   large: '(max-width: 768px) 60vw, 320px',
 }
 
-export function ProductShowcaseCard({ variant, size = 'default' }: ProductShowcaseCardProps) {
+export function ProductShowcaseCard({ variant, size = 'default', alignToRow = false }: ProductShowcaseCardProps) {
   const facts = [variant.enhancement, variant.ratio, variant.netWeight, variant.pieceCount, variant.perPiece].filter(
     Boolean
   )
 
   return (
-    <div className="flex flex-col items-center text-center">
+    // h-full + the parent row's default grid stretch means every card in a
+    // row shares the same height; mt-auto on the CTA then pushes it to a
+    // shared bottom baseline regardless of how many lines the name/flavor/
+    // facts text above it wraps to.
+    <div className="h-full flex flex-col items-center text-center">
       <div className={`w-full flex items-center justify-center ${maxWidthClass[size]}`}>
         <Image
           src={variant.imageUrl}
@@ -49,21 +61,28 @@ export function ProductShowcaseCard({ variant, size = 'default' }: ProductShowca
         />
       </div>
 
-      <h3 className="text-h4 text-[var(--color-dark)] mt-5">
-        {variant.name}
-      </h3>
+      <div className="flex flex-col items-center">
+        <h3 className="text-h4 text-[var(--color-dark)] mt-5">
+          {variant.name}
+        </h3>
 
-      {variant.flavor && (
-        <p className="text-body-sm text-[var(--color-muted)] mt-1">{variant.flavor}</p>
-      )}
+        {variant.flavor && (
+          <p className="text-body-sm text-[var(--color-muted)] mt-1">{variant.flavor}</p>
+        )}
 
-      {facts.length > 0 && (
-        <p className="text-label text-[var(--color-muted)] mt-2 max-w-[26ch]">
-          {facts.join(' · ')}
-        </p>
-      )}
+        {facts.length > 0 && (
+          <p className="text-label text-[var(--color-muted)] mt-2 max-w-[26ch]">
+            {facts.join(' · ')}
+          </p>
+        )}
+      </div>
 
-      <Button href="/find-gsx" variant="primary" size="sm" className="mt-5">
+      <Button
+        href="/find-gsx"
+        variant="primary"
+        size="sm"
+        className={`mt-5 ${alignToRow ? 'sm:mt-auto' : ''}`}
+      >
         Find This Product Near You
       </Button>
     </div>
