@@ -35,8 +35,19 @@ export function ProductFamilySection({ family, index, emphasis = 'standard', ton
   return (
     <section
       id={id}
-      className="border-t border-[var(--color-border)] scroll-mt-16 md:scroll-mt-18"
-      style={{ backgroundColor: tone === 'cream' ? 'var(--color-cream)' : 'var(--color-cream-2)' }}
+      className="relative border-t border-[var(--color-border)] scroll-mt-16 md:scroll-mt-18 bg-[length:100%_64px] md:bg-[length:100%_100px] bg-no-repeat bg-top"
+      style={{
+        backgroundColor: tone === 'cream' ? 'var(--color-cream)' : 'var(--color-cream-2)',
+        // Shallow green-to-cream fade at the very top edge only — strongest
+        // in the first 20% of the fade box (roughly 13px mobile / 20px
+        // desktop), fully resolved to transparent (pure cream showing
+        // through) by 60% of the box (roughly 38px mobile / 60px desktop),
+        // well before the family intro/product content renders. Percentage
+        // stops so the same gradient scales correctly for the two
+        // background-size heights set in className above.
+        backgroundImage:
+          'linear-gradient(to bottom, rgba(26,122,74,0.32) 0%, rgba(26,122,74,0.12) 20%, rgba(26,122,74,0) 60%, rgba(26,122,74,0) 100%)',
+      }}
     >
       <div className={`${G} ${emphasis === 'simple' ? 'py-10 md:py-12' : 'py-12 md:py-16'}`}>
         <div className={`xl:grid ${introSplit} xl:items-center xl:gap-x-12`}>
@@ -57,7 +68,7 @@ export function ProductFamilySection({ family, index, emphasis = 'standard', ton
             }`}
           >
             {family.variants.map((variant) => (
-              <ProductShowcaseCard key={variant.slug} variant={variant} size={cardSize} />
+              <ProductShowcaseCard key={variant.slug} variant={variant} size={cardSize} alignToRow={count > 1} />
             ))}
           </div>
         </div>
