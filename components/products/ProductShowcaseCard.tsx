@@ -10,8 +10,25 @@ import type { ProductVariant } from '@/lib/products/catalog'
 
 interface ProductShowcaseCardProps {
   variant: ProductVariant
-  /** Renders the image larger and the name at a bigger scale. Used for the flagship family. */
-  size?: 'default' | 'large'
+  /**
+   * 'large' = flagship (Chocolate Bites), 'medium' = the other multi-product
+   * families (Gummies, Fruit Crunchers), 'default' = single-SKU families
+   * (The Hammer) which are deliberately left at their original size rather
+   * than enlarged to fill their column.
+   */
+  size?: 'default' | 'medium' | 'large'
+}
+
+const maxWidthClass: Record<NonNullable<ProductShowcaseCardProps['size']>, string> = {
+  default: 'max-w-[220px]',
+  medium: 'max-w-[250px]',
+  large: 'max-w-[320px]',
+}
+
+const imageSizes: Record<NonNullable<ProductShowcaseCardProps['size']>, string> = {
+  default: '(max-width: 768px) 45vw, 220px',
+  medium: '(max-width: 768px) 45vw, 250px',
+  large: '(max-width: 768px) 60vw, 320px',
 }
 
 export function ProductShowcaseCard({ variant, size = 'default' }: ProductShowcaseCardProps) {
@@ -21,13 +38,13 @@ export function ProductShowcaseCard({ variant, size = 'default' }: ProductShowca
 
   return (
     <div className="flex flex-col items-center text-center">
-      <div className={`w-full flex items-center justify-center ${size === 'large' ? 'max-w-[320px]' : 'max-w-[220px]'}`}>
+      <div className={`w-full flex items-center justify-center ${maxWidthClass[size]}`}>
         <Image
           src={variant.imageUrl}
           alt={variant.imageAlt}
           width={variant.imageWidth}
           height={variant.imageHeight}
-          sizes={size === 'large' ? '(max-width: 768px) 60vw, 320px' : '(max-width: 768px) 45vw, 220px'}
+          sizes={imageSizes[size]}
           className="w-full h-auto"
         />
       </div>
