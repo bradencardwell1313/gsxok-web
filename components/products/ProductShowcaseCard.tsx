@@ -49,7 +49,7 @@ export function ProductShowcaseCard({ variant, size = 'default' }: ProductShowca
         />
       </div>
 
-      <h3 className={`${size === 'large' ? 'text-h3' : 'text-h4'} text-[var(--color-dark)] mt-5`}>
+      <h3 className="text-h4 text-[var(--color-dark)] mt-5">
         {variant.name}
       </h3>
 
