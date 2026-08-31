@@ -103,7 +103,7 @@ export const PRODUCT_FAMILIES: ProductFamily[] = [
       {
         name: 'Relax',
         slug: 'relax',
-        imageUrl: 'https://cdn.sanity.io/images/o7wavkxv/production/90c382b40c49a7bc3db2c12adfa7210149eaab79-1840x1812.png',
+        imageUrl: 'https://cdn.sanity.io/images/o7wavkxv/production/700d25707bcc7fbd61ca0a7b69021cfb300b89f6-1840x1812.png',
         imageWidth: 1840,
         imageHeight: 1812,
         imageAlt: 'GSX Precision Crafted Gummies, Relax, Cherry Berry package',
@@ -145,7 +145,7 @@ export const PRODUCT_FAMILIES: ProductFamily[] = [
       {
         name: 'Relax',
         slug: 'relax',
-        imageUrl: 'https://cdn.sanity.io/images/o7wavkxv/production/700d25707bcc7fbd61ca0a7b69021cfb300b89f6-1840x1812.png',
+        imageUrl: 'https://cdn.sanity.io/images/o7wavkxv/production/90c382b40c49a7bc3db2c12adfa7210149eaab79-1840x1812.png',
         imageWidth: 1840,
         imageHeight: 1812,
         imageAlt: 'GSX Fruit Crunchers, Relax package',
