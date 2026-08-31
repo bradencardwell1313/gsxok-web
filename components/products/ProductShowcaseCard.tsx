@@ -61,7 +61,11 @@ export function ProductShowcaseCard({ variant, size = 'default', alignToRow = fa
         />
       </div>
 
-      <div className="flex flex-col items-center">
+      {/* mb-8 is the guaranteed minimum gap to the CTA below, on every card,
+          at every breakpoint — not just whatever's left over after mt-auto
+          redistributes row-stretch space (which could be near-zero when
+          sibling cards have similarly short text). */}
+      <div className="flex flex-col items-center mb-8">
         <h3 className="text-h4 text-[var(--color-dark)] mt-5">
           {variant.name}
         </h3>
@@ -81,7 +85,7 @@ export function ProductShowcaseCard({ variant, size = 'default', alignToRow = fa
         href="/find-gsx"
         variant="primary"
         size="sm"
-        className={`mt-5 ${alignToRow ? 'sm:mt-auto' : ''}`}
+        className={alignToRow ? 'sm:mt-auto' : ''}
       >
         Find This Product Near You
       </Button>
