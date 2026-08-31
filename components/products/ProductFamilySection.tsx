@@ -35,13 +35,13 @@ export function ProductFamilySection({ family, index, emphasis = 'standard', ton
   return (
     <section
       id={id}
-      className="relative border-t border-[var(--color-border)] scroll-mt-16 md:scroll-mt-18 bg-[length:100%_64px] md:bg-[length:100%_100px] bg-no-repeat bg-top"
+      className="relative border-t border-[var(--color-border)] scroll-mt-16 md:scroll-mt-18 bg-[length:100%_96px] md:bg-[length:100%_160px] bg-no-repeat bg-top"
       style={{
         backgroundColor: tone === 'cream' ? 'var(--color-cream)' : 'var(--color-cream-2)',
         // Shallow green-to-cream fade at the very top edge only — strongest
-        // in the first 20% of the fade box (roughly 13px mobile / 20px
+        // in the first 20% of the fade box (roughly 19px mobile / 32px
         // desktop), fully resolved to transparent (pure cream showing
-        // through) by 60% of the box (roughly 38px mobile / 60px desktop),
+        // through) by 60% of the box (roughly 58px mobile / 96px desktop),
         // well before the family intro/product content renders. Percentage
         // stops so the same gradient scales correctly for the two
         // background-size heights set in className above.
