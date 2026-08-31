@@ -89,7 +89,7 @@ export function Nav() {
           </Link>
 
           {/* Desktop nav — centered in the viewport regardless of side-group width */}
-          <nav className="col-start-2 hidden md:flex items-center gap-16 justify-self-center" aria-label="Main navigation">
+          <nav className="col-start-2 hidden md:flex items-center gap-24 justify-self-center" aria-label="Main navigation">
             {navLinks.map(({ href, label }) => {
               const active = pathname === href || pathname.startsWith(href + '/')
               return (
