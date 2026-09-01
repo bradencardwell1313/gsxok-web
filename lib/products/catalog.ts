@@ -1,3 +1,4 @@
+// lib/products/catalog.ts
 // Products page catalog data.
 //
 // Sanity has a full `product` / `productFamily` schema (see
@@ -17,10 +18,10 @@
 export interface ProductVariant {
   name: string
   slug: string
-  imageUrl: string
-  imageWidth: number
-  imageHeight: number
-  imageAlt: string
+  imageUrl?: string
+  imageWidth?: number
+  imageHeight?: number
+  imageAlt?: string
   /** Flavor or bar description as printed on the package. */
   flavor?: string
   /** Formulation descriptor as printed on the package (e.g. "Sativa Enhanced"). */
@@ -33,6 +34,8 @@ export interface ProductVariant {
   pieceCount?: string
   /** Per-piece or per-square potency as printed on the package. */
   perPiece?: string
+  /** True when no approved package artwork exists yet. Renders a labeled placeholder instead of inventing artwork. */
+  placeholder?: boolean
 }
 
 export interface ProductFamily {
@@ -40,13 +43,24 @@ export interface ProductFamily {
   slug: string
   description: string
   variants: ProductVariant[]
+  /**
+   * Optional single-serve subsection rendered directly beneath this family's
+   * main product row (e.g. Chocolate Bites Singles). Matches Sanity's
+   * productFormat concept (Bag vs Single vs Bar) — same family, an alternate
+   * package format, not a separate productFamily document/section.
+   */
+  singles?: {
+    name: string
+    description: string
+    variants: ProductVariant[]
+  }
 }
 
 export const PRODUCT_FAMILIES: ProductFamily[] = [
   {
     name: 'Chocolate Bites',
     slug: 'chocolate-bites',
-    description: 'GSX’s flagship edible, formulated and molded in-house in Chelsea, Oklahoma.',
+    description: 'GSX’s flagship chocolate line, produced in-house in Chelsea, Oklahoma in Caramel, Solid Milk Chocolate, and Peanut Butter varieties.',
     variants: [
       {
         name: 'Caramel Bites',
@@ -82,11 +96,50 @@ export const PRODUCT_FAMILIES: ProductFamily[] = [
         pieceCount: '10 Pieces',
       },
     ],
+    singles: {
+      name: 'Chocolate Bites Singles',
+      description: 'Single-serve versions of the GSX Chocolate Bites lineup, made for a smaller individual format.',
+      variants: [
+        {
+          name: 'Caramel Bites',
+          slug: 'caramel-bites-single',
+          imageUrl: 'https://cdn.sanity.io/images/o7wavkxv/production/481b833fb738240568922d24d168cc38e7271627-1166x2000.png',
+          imageWidth: 1166,
+          imageHeight: 2000,
+          imageAlt: 'GSX Milk Chocolate Caramel Bites, single-serve package',
+          flavor: 'Milk Chocolate Caramel',
+          netWeight: '8g (0.28oz)',
+          pieceCount: '1 Piece',
+          perPiece: '100mg THC',
+        },
+        {
+          name: 'Solid Milk Chocolate Bites',
+          slug: 'solid-milk-chocolate-bites-single',
+          flavor: 'Solid Milk Chocolate',
+          netWeight: '8g (0.28oz)',
+          pieceCount: '1 Piece',
+          perPiece: '100mg THC',
+          placeholder: true,
+        },
+        {
+          name: 'Peanut Butter Bite',
+          slug: 'peanut-butter-bite-single',
+          imageUrl: 'https://cdn.sanity.io/images/o7wavkxv/production/a59a76ccb36798f62297f853494751b5b7bb2967-1164x2000.png',
+          imageWidth: 1164,
+          imageHeight: 2000,
+          imageAlt: 'GSX Milk Chocolate Peanut Butter Bite, single-serve package',
+          flavor: 'Milk Chocolate Peanut Butter',
+          netWeight: '8g (0.28oz)',
+          pieceCount: '1 Piece',
+          perPiece: '100mg THC',
+        },
+      ],
+    },
   },
   {
     name: 'Precision Crafted Gummies',
     slug: 'precision-crafted-gummies',
-    description: 'Three formulations, each built around a specific cannabinoid ratio.',
+    description: 'Three gummy formulations in distinct cannabinoid ratios, with Focus, Relax, and Balance varieties.',
     variants: [
       {
         name: 'Focus',
@@ -129,7 +182,7 @@ export const PRODUCT_FAMILIES: ProductFamily[] = [
   {
     name: 'Fruit Crunchers',
     slug: 'fruit-crunchers',
-    description: 'A crunch-shell fruit chew, sold in a 40-piece bag.',
+    description: 'GSX’s freeze-dried candy line, available in Elevate, Relax, and Boost varieties.',
     variants: [
       {
         name: 'Elevate',
@@ -169,7 +222,7 @@ export const PRODUCT_FAMILIES: ProductFamily[] = [
   {
     name: 'The Hammer',
     slug: 'the-hammer',
-    description: 'A high-potency chocolate bar, scored into individual squares.',
+    description: 'A high-potency chocolate bar divided into individual squares for clearly portioned servings.',
     variants: [
       {
         name: 'The Hammer',
