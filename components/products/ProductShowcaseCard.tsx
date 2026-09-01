@@ -15,9 +15,11 @@ interface ProductShowcaseCardProps {
    * 'large' = flagship (Chocolate Bites), 'medium' = the other multi-product
    * families (Gummies, Fruit Crunchers), 'default' = single-SKU families
    * (The Hammer) which are deliberately left at their original size rather
-   * than enlarged to fill their column.
+   * than enlarged to fill their column, 'small' = a subordinate subsection
+   * within a family (e.g. Chocolate Bites Singles) that should read as
+   * smaller than that family's own main row.
    */
-  size?: 'default' | 'medium' | 'large'
+  size?: 'small' | 'default' | 'medium' | 'large'
   /**
    * True when this card shares a row with siblings (the family has more
    * than one product) — lets the CTA align to a shared bottom baseline via
@@ -29,12 +31,14 @@ interface ProductShowcaseCardProps {
 }
 
 const maxWidthClass: Record<NonNullable<ProductShowcaseCardProps['size']>, string> = {
+  small: 'max-w-[180px]',
   default: 'max-w-[220px]',
   medium: 'max-w-[250px]',
   large: 'max-w-[320px]',
 }
 
 const imageSizes: Record<NonNullable<ProductShowcaseCardProps['size']>, string> = {
+  small: '(max-width: 768px) 40vw, 180px',
   default: '(max-width: 768px) 45vw, 220px',
   medium: '(max-width: 768px) 45vw, 250px',
   large: '(max-width: 768px) 60vw, 320px',
