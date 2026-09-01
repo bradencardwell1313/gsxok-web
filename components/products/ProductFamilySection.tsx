@@ -76,13 +76,14 @@ export function ProductFamilySection({ family, index, emphasis = 'standard', ton
         {/* Singles subsection: same family, alternate package format, and
             the same left-intro / right-products grid as the main row above
             (same xl:grid-cols-[30fr_70fr] proportions, same xl:items-center
-            vertical centering, same mt-8 xl:mt-0 handoff between stacked
-            mobile and side-by-side desktop). Only two things differ from the
-            main row: text-h3 instead of text-h2 for the heading (one step
-            down the same heading scale — still a category heading, not
-            body copy) and the 'small' card size for smaller artwork. */}
+            vertical centering). What differs from the main row: text-h3
+            instead of text-h2 for the heading (one step down the same
+            heading scale — still a category heading, not body copy), the
+            'small' card size for noticeably smaller artwork, and tighter
+            mt-6/gap-y-6 spacing so the whole subsection reads as compact
+            rather than a second full-size product row. */}
         {family.singles && (
-          <div className="mt-10 md:mt-12 xl:grid xl:grid-cols-[30fr_70fr] xl:items-center xl:gap-x-12">
+          <div className="mt-6 md:mt-8 xl:grid xl:grid-cols-[30fr_70fr] xl:items-center xl:gap-x-12">
             <div>
               <h3 className="text-h3 text-[var(--color-dark)]">{family.singles.name}</h3>
               <div style={{ width: '40px', height: '2px', backgroundColor: 'var(--color-green)', marginTop: '0.9rem' }} />
@@ -92,7 +93,7 @@ export function ProductFamilySection({ family, index, emphasis = 'standard', ton
             <div
               className={`grid grid-cols-2 ${
                 family.singles.variants.length >= 3 ? 'sm:grid-cols-3' : ''
-              } gap-x-6 gap-y-8 mt-8 xl:mt-0`}
+              } gap-x-6 gap-y-6 mt-6 xl:mt-0`}
             >
               {family.singles.variants.map((variant) => (
                 <ProductShowcaseCard key={variant.slug} variant={variant} size="small" alignToRow={family.singles!.variants.length > 1} />
