@@ -101,7 +101,7 @@ export const PRODUCT_FAMILIES: ProductFamily[] = [
       description: 'Single-serve versions of the GSX Chocolate Bites lineup, made for a smaller individual format.',
       variants: [
         {
-          name: 'Caramel Bites',
+          name: 'Caramel Bite',
           slug: 'caramel-bites-single',
           imageUrl: 'https://cdn.sanity.io/images/o7wavkxv/production/481b833fb738240568922d24d168cc38e7271627-1166x2000.png',
           imageWidth: 1166,
@@ -113,7 +113,7 @@ export const PRODUCT_FAMILIES: ProductFamily[] = [
           perPiece: '100mg THC',
         },
         {
-          name: 'Solid Milk Chocolate Bites',
+          name: 'Solid Milk Chocolate Bite',
           slug: 'solid-milk-chocolate-bites-single',
           flavor: 'Solid Milk Chocolate',
           netWeight: '8g (0.28oz)',
