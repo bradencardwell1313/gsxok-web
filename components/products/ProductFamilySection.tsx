@@ -1,3 +1,4 @@
+// components/products/ProductFamilySection.tsx
 import { ProductShowcaseCard } from './ProductShowcaseCard'
 import type { ProductFamily } from '@/lib/products/catalog'
 
@@ -71,6 +72,28 @@ export function ProductFamilySection({ family, index, emphasis = 'standard', ton
             ))}
           </div>
         </div>
+
+        {/* Singles subsection: same family, alternate package format. Smaller
+            heading, thinner rule, smaller artwork, and tighter spacing than
+            the main row above give it less visual weight, per spec, without
+            reading as a fifth family section. */}
+        {family.singles && (
+          <div className="mt-6 md:mt-8 pt-5 md:pt-6 border-t border-[var(--color-border)]">
+            <h3 className="text-h4 text-[var(--color-dark)]">{family.singles.name}</h3>
+            <div style={{ width: '24px', height: '2px', backgroundColor: 'var(--color-green)', marginTop: '0.6rem' }} />
+            <p className="text-body-sm text-[var(--color-muted)] mt-2 max-w-[42ch]">{family.singles.description}</p>
+
+            <div
+              className={`grid grid-cols-2 ${
+                family.singles.variants.length >= 3 ? 'sm:grid-cols-3' : ''
+              } gap-x-6 gap-y-6 mt-5`}
+            >
+              {family.singles.variants.map((variant) => (
+                <ProductShowcaseCard key={variant.slug} variant={variant} size="default" alignToRow={family.singles!.variants.length > 1} />
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     </section>
   )
