@@ -73,25 +73,26 @@ export function ProductFamilySection({ family, index, emphasis = 'standard', ton
           </div>
         </div>
 
-        {/* Singles subsection: same family, alternate package format. Same
-            heading/rule/description treatment as the family intro above,
-            just one step down the same type scale (h3/text-h4 and
-            text-body-sm instead of h2/text-h2 and text-body) and separated
-            by whitespace alone, matching how the intro and product row above
-            are already separated — no divider, panel, or border treatment
-            of its own. Smaller artwork ('small' card size) and a tighter
-            gap-y give it less visual weight without reading as a distinct
-            design system. */}
+        {/* Singles subsection: same family, alternate package format, and
+            the same left-intro / right-products grid as the main row above
+            (same xl:grid-cols-[30fr_70fr] proportions, same xl:items-center
+            vertical centering, same mt-8 xl:mt-0 handoff between stacked
+            mobile and side-by-side desktop). Only two things differ from the
+            main row: text-h3 instead of text-h2 for the heading (one step
+            down the same heading scale — still a category heading, not
+            body copy) and the 'small' card size for smaller artwork. */}
         {family.singles && (
-          <div className="mt-10 md:mt-12">
-            <h3 className="text-h4 text-[var(--color-dark)]">{family.singles.name}</h3>
-            <div style={{ width: '40px', height: '2px', backgroundColor: 'var(--color-green)', marginTop: '0.9rem' }} />
-            <p className="text-body-sm text-[var(--color-muted)] mt-3 max-w-[42ch]">{family.singles.description}</p>
+          <div className="mt-10 md:mt-12 xl:grid xl:grid-cols-[30fr_70fr] xl:items-center xl:gap-x-12">
+            <div>
+              <h3 className="text-h3 text-[var(--color-dark)]">{family.singles.name}</h3>
+              <div style={{ width: '40px', height: '2px', backgroundColor: 'var(--color-green)', marginTop: '0.9rem' }} />
+              <p className="text-body text-[var(--color-muted)] mt-3 max-w-[42ch]">{family.singles.description}</p>
+            </div>
 
             <div
               className={`grid grid-cols-2 ${
                 family.singles.variants.length >= 3 ? 'sm:grid-cols-3' : ''
-              } gap-x-6 gap-y-8 mt-8`}
+              } gap-x-6 gap-y-8 mt-8 xl:mt-0`}
             >
               {family.singles.variants.map((variant) => (
                 <ProductShowcaseCard key={variant.slug} variant={variant} size="small" alignToRow={family.singles!.variants.length > 1} />
