@@ -1,3 +1,4 @@
+// components/products/ProductShowcaseCard.tsx
 import Image from 'next/image'
 import { Button } from '@/components/ui/Button'
 import type { ProductVariant } from '@/lib/products/catalog'
@@ -51,14 +52,24 @@ export function ProductShowcaseCard({ variant, size = 'default', alignToRow = fa
     // facts text above it wraps to.
     <div className="h-full flex flex-col items-center text-center">
       <div className={`w-full flex items-center justify-center ${maxWidthClass[size]}`}>
-        <Image
-          src={variant.imageUrl}
-          alt={variant.imageAlt}
-          width={variant.imageWidth}
-          height={variant.imageHeight}
-          sizes={imageSizes[size]}
-          className="w-full h-auto"
-        />
+        {variant.placeholder ? (
+          <div
+            className="w-full aspect-[583/1000] flex items-center justify-center border border-dashed border-[var(--color-border)] bg-[rgba(0,0,0,0.03)]"
+            role="img"
+            aria-label={`${variant.name} package image coming soon`}
+          >
+            <span className="text-label text-[var(--color-muted)] text-center px-3">Image Coming Soon</span>
+          </div>
+        ) : (
+          <Image
+            src={variant.imageUrl!}
+            alt={variant.imageAlt!}
+            width={variant.imageWidth!}
+            height={variant.imageHeight!}
+            sizes={imageSizes[size]}
+            className="w-full h-auto"
+          />
+        )}
       </div>
 
       {/* mb-8 is the guaranteed minimum gap to the CTA below, on every card,
