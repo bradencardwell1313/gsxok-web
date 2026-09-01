@@ -31,14 +31,14 @@ interface ProductShowcaseCardProps {
 }
 
 const maxWidthClass: Record<NonNullable<ProductShowcaseCardProps['size']>, string> = {
-  small: 'max-w-[180px]',
+  small: 'max-w-[130px]',
   default: 'max-w-[220px]',
   medium: 'max-w-[250px]',
   large: 'max-w-[320px]',
 }
 
 const imageSizes: Record<NonNullable<ProductShowcaseCardProps['size']>, string> = {
-  small: '(max-width: 768px) 40vw, 180px',
+  small: '(max-width: 768px) 30vw, 130px',
   default: '(max-width: 768px) 45vw, 220px',
   medium: '(max-width: 768px) 45vw, 250px',
   large: '(max-width: 768px) 60vw, 320px',
