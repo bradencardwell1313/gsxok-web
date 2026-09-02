@@ -18,6 +18,10 @@ const FAMILY_EMPHASIS: Record<string, 'flagship' | 'standard' | 'simple'> = {
   'precision-crafted-gummies': 'standard',
   'fruit-crunchers': 'standard',
   'the-hammer': 'simple',
+  // 'simple' emphasis's tighter section padding is the desired effect here;
+  // its other effects (cardSize fallback, intro/row split) don't apply since
+  // this family already sets its own cardSize below and isn't flagship.
+  'chocolate-bites-singles': 'simple',
 }
 
 // Matches the footer's existing "/products#gummies" and "/products#chocolates"
@@ -32,6 +36,13 @@ const FAMILY_ANCHOR_IDS: Record<string, string> = {
 // but uses slightly smaller artwork than Gummies/Fruit Crunchers.
 const FAMILY_CARD_SIZE: Record<string, 'compact' | 'default' | 'medium' | 'large'> = {
   'chocolate-bites-singles': 'compact',
+}
+
+// Nudges the left intro block up (px, at xl+ only) so it reads balanced
+// against a row whose artwork is noticeably shorter than the section's
+// original card size — currently only needed for Chocolate Bites Singles.
+const FAMILY_INTRO_OFFSET: Record<string, number> = {
+  'chocolate-bites-singles': -32,
 }
 
 export default function ProductsPage() {
@@ -67,6 +78,7 @@ export default function ProductsPage() {
             tone={i % 2 === 0 ? 'cream' : 'cream-2'}
             id={FAMILY_ANCHOR_IDS[family.slug]}
             cardSize={FAMILY_CARD_SIZE[family.slug]}
+            introOffset={FAMILY_INTRO_OFFSET[family.slug]}
           />
         ))}
 
