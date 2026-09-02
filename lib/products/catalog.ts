@@ -89,7 +89,7 @@ export const PRODUCT_FAMILIES: ProductFamily[] = [
   {
     name: 'Chocolate Bites Singles',
     slug: 'chocolate-bites-singles',
-    description: 'Single-serve versions of the GSX Chocolate Bites lineup, made for a smaller individual format.',
+    description: 'Single-serve versions of the GSX Chocolate Bites lineup in a smaller individual format.',
     variants: [
       {
         name: 'Caramel Bite',
