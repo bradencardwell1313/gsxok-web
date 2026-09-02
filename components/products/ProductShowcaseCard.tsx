@@ -13,11 +13,13 @@ interface ProductShowcaseCardProps {
   variant: ProductVariant
   /**
    * 'large' = flagship (Chocolate Bites), 'medium' = the other multi-product
-   * families (Gummies, Fruit Crunchers, Chocolate Bites Singles), 'default'
-   * = single-SKU families (The Hammer) which are deliberately left at their
-   * original size rather than enlarged to fill their column.
+   * families (Gummies, Fruit Crunchers), 'default' = single-SKU families
+   * (The Hammer) which are deliberately left at their original size rather
+   * than enlarged to fill their column, 'compact' = Chocolate Bites Singles,
+   * slightly smaller than 'default' so tall poster-style package art reads
+   * a bit less large without shrinking the category itself.
    */
-  size?: 'default' | 'medium' | 'large'
+  size?: 'compact' | 'default' | 'medium' | 'large'
   /**
    * True when this card shares a row with siblings (the family has more
    * than one product) — lets the CTA align to a shared bottom baseline via
@@ -29,12 +31,14 @@ interface ProductShowcaseCardProps {
 }
 
 const maxWidthClass: Record<NonNullable<ProductShowcaseCardProps['size']>, string> = {
+  compact: 'max-w-[200px]',
   default: 'max-w-[220px]',
   medium: 'max-w-[250px]',
   large: 'max-w-[320px]',
 }
 
 const imageSizes: Record<NonNullable<ProductShowcaseCardProps['size']>, string> = {
+  compact: '(max-width: 768px) 40vw, 200px',
   default: '(max-width: 768px) 45vw, 220px',
   medium: '(max-width: 768px) 45vw, 250px',
   large: '(max-width: 768px) 60vw, 320px',
