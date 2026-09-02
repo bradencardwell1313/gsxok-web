@@ -12,9 +12,16 @@ interface ProductFamilySectionProps {
   tone?: 'cream' | 'cream-2'
   /** Anchor id for footer/nav deep links (e.g. footer's "/products#gummies"). */
   id?: string
+  /**
+   * Overrides the emphasis-derived artwork size for this family only, without
+   * touching that emphasis's column split or section padding (e.g. Chocolate
+   * Bites Singles keeps 'standard' emphasis/spacing but uses slightly smaller
+   * 'compact' artwork).
+   */
+  cardSize?: 'compact' | 'default' | 'medium' | 'large'
 }
 
-export function ProductFamilySection({ family, index, emphasis = 'standard', tone = 'cream', id }: ProductFamilySectionProps) {
+export function ProductFamilySection({ family, index, emphasis = 'standard', tone = 'cream', id, cardSize }: ProductFamilySectionProps) {
   // Flagship (Chocolate Bites) gets larger artwork; single-SKU families
   // (The Hammer) stay at the original size rather than being stretched to
   // fill their column. Standard families sit at the row-favoring end of the
@@ -26,7 +33,7 @@ export function ProductFamilySection({ family, index, emphasis = 'standard', ton
   // cramped to read as a "horizontal editorial row" rather than "squeezed",
   // so it stacks instead (full-width row, same responsive column count as
   // before this pass).
-  const cardSize = emphasis === 'flagship' ? 'large' : emphasis === 'simple' ? 'default' : 'medium'
+  const resolvedCardSize = cardSize ?? (emphasis === 'flagship' ? 'large' : emphasis === 'simple' ? 'default' : 'medium')
   const count = family.variants.length
   const introSplit = emphasis === 'flagship' ? 'xl:grid-cols-[26fr_74fr]' : 'xl:grid-cols-[30fr_70fr]'
 
@@ -68,7 +75,7 @@ export function ProductFamilySection({ family, index, emphasis = 'standard', ton
             }`}
           >
             {family.variants.map((variant) => (
-              <ProductShowcaseCard key={variant.slug} variant={variant} size={cardSize} alignToRow={count > 1} />
+              <ProductShowcaseCard key={variant.slug} variant={variant} size={resolvedCardSize} alignToRow={count > 1} />
             ))}
           </div>
         </div>
