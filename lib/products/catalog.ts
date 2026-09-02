@@ -94,7 +94,7 @@ export const PRODUCT_FAMILIES: ProductFamily[] = [
       {
         name: 'Caramel Bite',
         slug: 'caramel-bites-single',
-        imageUrl: 'https://cdn.sanity.io/images/o7wavkxv/production/de6ecb4e8f56c98f29740b0a6e7d464a76050763-427x640.png',
+        imageUrl: 'https://cdn.sanity.io/images/o7wavkxv/production/920a88a40650b5ab766d499f9813a9fd301481d0-427x640.png',
         imageWidth: 427,
         imageHeight: 640,
         imageAlt: 'GSX Milk Chocolate Caramel Bite, single-serve pouch',
@@ -106,7 +106,7 @@ export const PRODUCT_FAMILIES: ProductFamily[] = [
       {
         name: 'Solid Milk Chocolate Bite',
         slug: 'solid-milk-chocolate-bites-single',
-        imageUrl: 'https://cdn.sanity.io/images/o7wavkxv/production/a534a9f6ee3855b6b4c36085db881ff59c54a09e-427x640.png',
+        imageUrl: 'https://cdn.sanity.io/images/o7wavkxv/production/7ad89cac8439308a97e251bf047c36cf8674886f-427x640.png',
         imageWidth: 427,
         imageHeight: 640,
         imageAlt: 'GSX Solid Milk Chocolate Bite, single-serve pouch',
@@ -118,7 +118,7 @@ export const PRODUCT_FAMILIES: ProductFamily[] = [
       {
         name: 'Peanut Butter Bite',
         slug: 'peanut-butter-bite-single',
-        imageUrl: 'https://cdn.sanity.io/images/o7wavkxv/production/4d777722d40868a7edc50e757444eb209958c7f0-427x640.png',
+        imageUrl: 'https://cdn.sanity.io/images/o7wavkxv/production/04e2b7e1c9d422496410502ef399f21c2728b8a7-427x640.png',
         imageWidth: 427,
         imageHeight: 640,
         imageAlt: 'GSX Milk Chocolate Peanut Butter Bite, single-serve pouch',
