@@ -63,7 +63,7 @@ export default function ProductsPage() {
               className="text-[rgba(250,248,243,0.5)] font-[family-name:var(--font-manrope)] font-light"
               style={{ fontSize: '1.0625rem', lineHeight: '1.68', marginTop: '1rem', maxWidth: '56ch' }}
             >
-              Four product families, each formulated, manufactured, and packaged by our team in Chelsea, Oklahoma. Explore the lineup below, then find it at a licensed dispensary near you.
+              Explore the GSX lineup, formulated, manufactured, and packaged by our team in Chelsea, Oklahoma. Find GSX at a licensed dispensary near you.
             </p>
           </div>
         </section>
