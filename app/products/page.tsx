@@ -1,3 +1,4 @@
+// app/products/page.tsx
 import Link from 'next/link'
 import { Nav } from '@/components/layout/Nav'
 import { Footer } from '@/components/layout/Footer'
@@ -24,6 +25,13 @@ const FAMILY_EMPHASIS: Record<string, 'flagship' | 'standard' | 'simple'> = {
 const FAMILY_ANCHOR_IDS: Record<string, string> = {
   'chocolate-bites': 'chocolates',
   'precision-crafted-gummies': 'gummies',
+}
+
+// Overrides artwork size independent of emphasis (see ProductFamilySection's
+// cardSize prop) — Chocolate Bites Singles keeps standard emphasis/spacing
+// but uses slightly smaller artwork than Gummies/Fruit Crunchers.
+const FAMILY_CARD_SIZE: Record<string, 'compact' | 'default' | 'medium' | 'large'> = {
+  'chocolate-bites-singles': 'compact',
 }
 
 export default function ProductsPage() {
@@ -58,6 +66,7 @@ export default function ProductsPage() {
             emphasis={FAMILY_EMPHASIS[family.slug] ?? 'standard'}
             tone={i % 2 === 0 ? 'cream' : 'cream-2'}
             id={FAMILY_ANCHOR_IDS[family.slug]}
+            cardSize={FAMILY_CARD_SIZE[family.slug]}
           />
         ))}
 
