@@ -43,17 +43,6 @@ export interface ProductFamily {
   slug: string
   description: string
   variants: ProductVariant[]
-  /**
-   * Optional single-serve subsection rendered directly beneath this family's
-   * main product row (e.g. Chocolate Bites Singles). Matches Sanity's
-   * productFormat concept (Bag vs Single vs Bar) — same family, an alternate
-   * package format, not a separate productFamily document/section.
-   */
-  singles?: {
-    name: string
-    description: string
-    variants: ProductVariant[]
-  }
 }
 
 export const PRODUCT_FAMILIES: ProductFamily[] = [
@@ -96,45 +85,46 @@ export const PRODUCT_FAMILIES: ProductFamily[] = [
         pieceCount: '10 Pieces',
       },
     ],
-    singles: {
-      name: 'Chocolate Bites Singles',
-      description: 'Single-serve versions of the GSX Chocolate Bites lineup, made for a smaller individual format.',
-      variants: [
-        {
-          name: 'Caramel Bite',
-          slug: 'caramel-bites-single',
-          imageUrl: 'https://cdn.sanity.io/images/o7wavkxv/production/481b833fb738240568922d24d168cc38e7271627-1166x2000.png',
-          imageWidth: 1166,
-          imageHeight: 2000,
-          imageAlt: 'GSX Milk Chocolate Caramel Bites, single-serve package',
-          flavor: 'Milk Chocolate Caramel',
-          netWeight: '8g (0.28oz)',
-          pieceCount: '1 Piece',
-          perPiece: '100mg THC',
-        },
-        {
-          name: 'Solid Milk Chocolate Bite',
-          slug: 'solid-milk-chocolate-bites-single',
-          flavor: 'Solid Milk Chocolate',
-          netWeight: '8g (0.28oz)',
-          pieceCount: '1 Piece',
-          perPiece: '100mg THC',
-          placeholder: true,
-        },
-        {
-          name: 'Peanut Butter Bite',
-          slug: 'peanut-butter-bite-single',
-          imageUrl: 'https://cdn.sanity.io/images/o7wavkxv/production/a59a76ccb36798f62297f853494751b5b7bb2967-1164x2000.png',
-          imageWidth: 1164,
-          imageHeight: 2000,
-          imageAlt: 'GSX Milk Chocolate Peanut Butter Bite, single-serve package',
-          flavor: 'Milk Chocolate Peanut Butter',
-          netWeight: '8g (0.28oz)',
-          pieceCount: '1 Piece',
-          perPiece: '100mg THC',
-        },
-      ],
-    },
+  },
+  {
+    name: 'Chocolate Bites Singles',
+    slug: 'chocolate-bites-singles',
+    description: 'Single-serve versions of the GSX Chocolate Bites lineup, made for a smaller individual format.',
+    variants: [
+      {
+        name: 'Caramel Bite',
+        slug: 'caramel-bites-single',
+        imageUrl: 'https://cdn.sanity.io/images/o7wavkxv/production/481b833fb738240568922d24d168cc38e7271627-1166x2000.png',
+        imageWidth: 1166,
+        imageHeight: 2000,
+        imageAlt: 'GSX Milk Chocolate Caramel Bites, single-serve package',
+        flavor: 'Milk Chocolate Caramel',
+        netWeight: '8g (0.28oz)',
+        pieceCount: '1 Piece',
+        perPiece: '100mg THC',
+      },
+      {
+        name: 'Solid Milk Chocolate Bite',
+        slug: 'solid-milk-chocolate-bites-single',
+        flavor: 'Solid Milk Chocolate',
+        netWeight: '8g (0.28oz)',
+        pieceCount: '1 Piece',
+        perPiece: '100mg THC',
+        placeholder: true,
+      },
+      {
+        name: 'Peanut Butter Bite',
+        slug: 'peanut-butter-bite-single',
+        imageUrl: 'https://cdn.sanity.io/images/o7wavkxv/production/a59a76ccb36798f62297f853494751b5b7bb2967-1164x2000.png',
+        imageWidth: 1164,
+        imageHeight: 2000,
+        imageAlt: 'GSX Milk Chocolate Peanut Butter Bite, single-serve package',
+        flavor: 'Milk Chocolate Peanut Butter',
+        netWeight: '8g (0.28oz)',
+        pieceCount: '1 Piece',
+        perPiece: '100mg THC',
+      },
+    ],
   },
   {
     name: 'Precision Crafted Gummies',
