@@ -19,9 +19,17 @@ interface ProductFamilySectionProps {
    * 'compact' artwork).
    */
   cardSize?: 'compact' | 'default' | 'medium' | 'large'
+  /**
+   * Nudges the left intro block up (negative px) at xl+ only, for a family
+   * whose product row got noticeably shorter (e.g. Chocolate Bites Singles'
+   * smaller artwork) so the intro no longer centers against empty space left
+   * by the shrunk row. Below xl the intro stacks above the row normally and
+   * this has no effect. Applied via a CSS var so omitting it is a no-op.
+   */
+  introOffset?: number
 }
 
-export function ProductFamilySection({ family, index, emphasis = 'standard', tone = 'cream', id, cardSize }: ProductFamilySectionProps) {
+export function ProductFamilySection({ family, index, emphasis = 'standard', tone = 'cream', id, cardSize, introOffset }: ProductFamilySectionProps) {
   // Flagship (Chocolate Bites) gets larger artwork; single-SKU families
   // (The Hammer) stay at the original size rather than being stretched to
   // fill their column. Standard families sit at the row-favoring end of the
@@ -60,7 +68,10 @@ export function ProductFamilySection({ family, index, emphasis = 'standard', ton
       <div className={`${G} ${emphasis === 'simple' ? 'py-10 md:py-12' : 'py-12 md:py-16'}`}>
         <div className={`xl:grid ${introSplit} xl:items-center xl:gap-x-12`}>
           {/* Family intro: heading, green rule, description */}
-          <div>
+          <div
+            className="xl:[transform:translateY(var(--intro-offset,0px))]"
+            style={{ '--intro-offset': `${introOffset ?? 0}px` } as any}
+          >
             <h2 className="text-h2 text-[var(--color-dark)] mt-2">
               {family.name}
             </h2>
