@@ -1,4 +1,3 @@
-// app/about/page.tsx
 import Link from 'next/link'
 import Image from 'next/image'
 import { Nav } from '@/components/layout/Nav'
@@ -132,10 +131,17 @@ export default function AboutPage() {
           </div>
         </section>
 
-        {/* ── 4. MANUFACTURING IMAGE MOMENT — full-bleed, no container. ──
-            Larger and less cropped than the homepage's 4:3 treatment of
-            the same photo. Text stays minimal so the image carries it. */}
-        <section className="relative w-full aspect-[4/3] md:aspect-[16/9] bg-[var(--color-ink)] overflow-hidden">
+        {/* ── 4. MANUFACTURING IMAGE MOMENT — full-bleed editorial band.
+            Desktop height is fixed (not aspect-ratio-based) so it reads as
+            a deliberate band rather than however-tall-the-crop-happens-to-be.
+            object-position keeps the tray/equipment/worker in frame at any
+            viewport width (verified: cover always crops vertically here,
+            never horizontally, since this portrait photo is narrower than
+            any realistic band-shaped container — so only the Y value below
+            actually matters). Text sits inside the normal G container,
+            bottom-left, over a short, localized scrim only (not a full
+            card, not a half-image gradient). */}
+        <section className="relative w-full aspect-[4/3] md:aspect-auto md:h-[480px] bg-[var(--color-ink)] overflow-hidden">
           <Image
             src={PROCESS_PHOTO_URL}
             alt="GSX team member in gloves holding a tray of product beside production equipment in the Chelsea, Oklahoma facility"
@@ -143,13 +149,13 @@ export default function AboutPage() {
             sizes="100vw"
             priority
             className="object-cover"
-            style={{ objectPosition: '55% 28%' }}
+            style={{ objectPosition: '50% 26%' }}
           />
-          <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-[rgba(12,12,11,0.8)] to-transparent" />
-          <div className={`absolute bottom-0 left-0 right-0 ${G}`} style={{ paddingBottom: '2rem' }}>
+          <div className="absolute inset-x-0 bottom-0 h-[32%] bg-gradient-to-t from-[rgba(12,12,11,0.65)] to-transparent" />
+          <div className={`absolute inset-x-0 bottom-0 ${G}`} style={{ paddingBottom: '1.75rem' }}>
             <p
               className="text-[var(--color-cream)] font-[family-name:var(--font-space-grotesk)] font-semibold"
-              style={{ fontSize: 'clamp(1.125rem, 2vw, 1.5rem)', letterSpacing: '-0.015em' }}
+              style={{ fontSize: 'clamp(1.125rem, 2vw, 1.5rem)', letterSpacing: '-0.015em', maxWidth: '22ch' }}
             >
               Real equipment. Real process. Made here.
             </p>
@@ -182,41 +188,58 @@ export default function AboutPage() {
           </div>
         </section>
 
-        {/* ── 6. RESPECT THE DOSE — dark philosophy statement. ─────────── */}
+        {/* ── 6. RESPECT THE DOSE — dark philosophy statement, now a
+            balanced two-column composition. The small logo that used to
+            float above the heading is removed; the same mark returns
+            larger on the right, providing the visual balance instead. */}
         <section className="bg-[var(--color-dark)]">
           <div className={G} style={{ paddingTop: '4.5rem', paddingBottom: '4.5rem' }}>
-            <Image
-              src={RESPECT_LOGO_URL}
-              alt="Oklahoma outline, Respect the Dose, GSX Green Science Extracts"
-              width={808}
-              height={448}
-              className="h-14 md:h-16 w-auto"
-              style={{ marginBottom: '2rem' }}
-            />
-            <h2
-              className="text-[var(--color-cream)] font-[family-name:var(--font-space-grotesk)] font-semibold"
-              style={{ fontSize: 'clamp(2.125rem, 3.8vw, 3.25rem)', lineHeight: '1.05', letterSpacing: '-0.03em' }}
-            >
-              Respect the Dose.
-            </h2>
-            <p
-              className="font-[family-name:var(--font-manrope)] font-light"
-              style={{ color: 'rgba(250,248,243,0.6)', fontSize: '1.0625rem', lineHeight: '1.68', marginTop: '1.25rem', maxWidth: '58ch' }}
-            >
-              For GSX, Respect the Dose is more than a line on the package. It is a reminder that an edible should be made deliberately, labeled clearly, and treated like the product it is.
-            </p>
-            <p
-              className="font-[family-name:var(--font-manrope)] font-light"
-              style={{ color: 'rgba(250,248,243,0.45)', fontSize: '0.9375rem', lineHeight: '1.68', marginTop: '1rem', maxWidth: '58ch' }}
-            >
-              That idea runs through how we formulate, manufacture, package, and present the GSX lineup.
-            </p>
+            <div className="lg:grid lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:gap-16">
+              <div>
+                <h2
+                  className="text-[var(--color-cream)] font-[family-name:var(--font-space-grotesk)] font-semibold"
+                  style={{ fontSize: 'clamp(2.125rem, 3.8vw, 3.25rem)', lineHeight: '1.05', letterSpacing: '-0.03em' }}
+                >
+                  Respect the Dose.
+                </h2>
+                <p
+                  className="font-[family-name:var(--font-manrope)] font-light"
+                  style={{ color: 'rgba(250,248,243,0.6)', fontSize: '1.0625rem', lineHeight: '1.68', marginTop: '1.25rem', maxWidth: '58ch' }}
+                >
+                  For GSX, Respect the Dose is more than a line on the package. It is a reminder that an edible should be made deliberately, labeled clearly, and treated like the product it is.
+                </p>
+                <p
+                  className="font-[family-name:var(--font-manrope)] font-light"
+                  style={{ color: 'rgba(250,248,243,0.45)', fontSize: '0.9375rem', lineHeight: '1.68', marginTop: '1rem', maxWidth: '58ch' }}
+                >
+                  That idea runs through how we formulate, manufacture, package, and present the GSX lineup.
+                </p>
+              </div>
+              <div className="flex justify-center lg:justify-end mt-10 lg:mt-0">
+                <Image
+                  src={RESPECT_LOGO_URL}
+                  alt="Oklahoma outline, Respect the Dose, GSX Green Science Extracts"
+                  width={808}
+                  height={448}
+                  className="w-full h-auto"
+                  style={{ maxWidth: '360px' }}
+                />
+              </div>
+            </div>
           </div>
         </section>
 
-        {/* ── 7. PRODUCT FAMILY PROOF — cream, typography-only strip.
+        {/* ── 7. PRODUCT FAMILY PROOF — cream, lightweight proof strip.
             Bridges back into Products. Green fade applied: another
-            genuine dark-to-cream handoff. ──────────────────────────────── */}
+            genuine dark-to-cream handoff. One representative image per
+            family (its first/flagship variant) rendered in a fixed-size,
+            object-contain image area so all five stay visually aligned
+            despite each source image having a different native aspect
+            ratio — same principle used to align artwork on the Products
+            page, just applied at the box level here since these are much
+            smaller and don't need pixel-level baseline matching. Still not
+            a catalog: no descriptions, specs, per-product CTAs, or SKUs
+            beyond the one representative image. ───────────────────────── */}
         <section className={`${GREEN_FADE_CLASS} bg-[var(--color-cream)]`} style={GREEN_FADE}>
           <div className={G} style={{ paddingTop: '4.5rem', paddingBottom: '4.5rem' }}>
             <h2 className="text-h2 text-[var(--color-dark)]">
@@ -228,13 +251,29 @@ export default function AboutPage() {
 
             <div
               className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5"
-              style={{ gap: '1.5rem 2rem', marginTop: '2.5rem', paddingTop: '2rem', borderTop: '1px solid var(--color-border)' }}
+              style={{ gap: '2rem 1.5rem', marginTop: '2.5rem', paddingTop: '2rem', borderTop: '1px solid var(--color-border)' }}
             >
-              {PRODUCT_FAMILIES.map((family) => (
-                <p key={family.slug} className="text-h4 text-[var(--color-dark)]">
-                  {family.name}
-                </p>
-              ))}
+              {PRODUCT_FAMILIES.map((family) => {
+                const rep = family.variants[0]
+                return (
+                  <div key={family.slug} className="flex flex-col items-center text-center">
+                    <div className="relative" style={{ width: '80px', height: '80px' }}>
+                      {rep.imageUrl && (
+                        <Image
+                          src={rep.imageUrl}
+                          alt={`GSX ${family.name} package`}
+                          fill
+                          sizes="80px"
+                          className="object-contain"
+                        />
+                      )}
+                    </div>
+                    <p className="text-h4 text-[var(--color-dark)]" style={{ marginTop: '0.85rem' }}>
+                      {family.name}
+                    </p>
+                  </div>
+                )
+              })}
             </div>
 
             <Button href="/products" variant="primary" size="lg" style={{ marginTop: '2.5rem' }}>
