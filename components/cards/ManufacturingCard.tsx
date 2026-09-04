@@ -1,3 +1,4 @@
+// components/cards/ManufacturingCard.tsx
 import Image from 'next/image'
 import { urlFor } from '@/lib/sanity/client'
 import type { SanityImageSource } from '@sanity/image-url/lib/types/types'
@@ -7,14 +8,25 @@ interface ManufacturingCardProps {
   title: string
   description: string
   icon?: SanityImageSource & { alt?: string }
+  /**
+   * 'dark' (default) = cream text, for use on dark section backgrounds
+   * (existing behavior, unchanged). 'light' = ink text, for use on cream
+   * section backgrounds (e.g. About page's process section).
+   */
+  tone?: 'dark' | 'light'
 }
 
-export function ManufacturingCard({ order, title, description, icon }: ManufacturingCardProps) {
+export function ManufacturingCard({ order, title, description, icon, tone = 'dark' }: ManufacturingCardProps) {
+  const isLight = tone === 'light'
   return (
-    <div className="flex flex-col gap-5 p-6 border-t border-[rgba(250,248,243,0.12)]">
+    <div className={`flex flex-col gap-5 p-6 border-t ${isLight ? 'border-[var(--color-border)]' : 'border-[rgba(250,248,243,0.12)]'}`}>
       {/* Step number + icon row */}
       <div className="flex items-center gap-4">
-        <span className="text-display text-[rgba(250,248,243,0.08)] font-[family-name:var(--font-space-grotesk)] font-bold leading-none select-none">
+        <span
+          className={`text-display font-[family-name:var(--font-space-grotesk)] font-bold leading-none select-none ${
+            isLight ? 'text-[rgba(15,26,20,0.08)]' : 'text-[rgba(250,248,243,0.08)]'
+          }`}
+        >
           {String(order).padStart(2, '0')}
         </span>
         {icon && (
@@ -31,8 +43,8 @@ export function ManufacturingCard({ order, title, description, icon }: Manufactu
 
       {/* Text */}
       <div className="flex flex-col gap-2">
-        <h3 className="text-h3 text-[var(--color-cream)]">{title}</h3>
-        <p className="text-body text-[rgba(250,248,243,0.55)] leading-relaxed">{description}</p>
+        <h3 className={`text-h3 ${isLight ? 'text-[var(--color-dark)]' : 'text-[var(--color-cream)]'}`}>{title}</h3>
+        <p className={`text-body leading-relaxed ${isLight ? 'text-[var(--color-muted)]' : 'text-[rgba(250,248,243,0.55)]'}`}>{description}</p>
       </div>
     </div>
   )
