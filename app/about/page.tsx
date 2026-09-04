@@ -138,9 +138,11 @@ export default function AboutPage() {
             viewport width (verified: cover always crops vertically here,
             never horizontally, since this portrait photo is narrower than
             any realistic band-shaped container — so only the Y value below
-            actually matters). Text sits inside the normal G container,
-            bottom-left, over a short, localized scrim only (not a full
-            card, not a half-image gradient). */}
+            actually matters). Text sits inside the normal G container, with
+            extra inset on top of G's own gutter so it reads as placed with
+            intent rather than pinned to the photo's corner, over a short,
+            localized scrim only (not a full card, not a half-image
+            gradient). */}
         <section className="relative w-full aspect-[4/3] md:aspect-auto md:h-[480px] bg-[var(--color-ink)] overflow-hidden">
           <Image
             src={PROCESS_PHOTO_URL}
@@ -151,11 +153,11 @@ export default function AboutPage() {
             className="object-cover"
             style={{ objectPosition: '50% 26%' }}
           />
-          <div className="absolute inset-x-0 bottom-0 h-[32%] bg-gradient-to-t from-[rgba(12,12,11,0.65)] to-transparent" />
-          <div className={`absolute inset-x-0 bottom-0 ${G}`} style={{ paddingBottom: '1.75rem' }}>
+          <div className="absolute inset-x-0 bottom-0 h-[36%] bg-gradient-to-t from-[rgba(12,12,11,0.55)] to-transparent" />
+          <div className={`absolute inset-x-0 bottom-0 ${G}`} style={{ paddingBottom: 'clamp(2rem, 5vw, 3.25rem)' }}>
             <p
               className="text-[var(--color-cream)] font-[family-name:var(--font-space-grotesk)] font-semibold"
-              style={{ fontSize: 'clamp(1.125rem, 2vw, 1.5rem)', letterSpacing: '-0.015em', maxWidth: '22ch' }}
+              style={{ fontSize: 'clamp(1.125rem, 2vw, 1.5rem)', letterSpacing: '-0.015em', maxWidth: '22ch', paddingLeft: 'clamp(0.25rem, 1.2vw, 0.875rem)' }}
             >
               Real equipment. Real process. Made here.
             </p>
@@ -232,14 +234,17 @@ export default function AboutPage() {
         {/* ── 7. PRODUCT FAMILY PROOF — cream, lightweight proof strip.
             Bridges back into Products. Green fade applied: another
             genuine dark-to-cream handoff. One representative image per
-            family (its first/flagship variant) rendered in a fixed-size,
-            object-contain image area so all five stay visually aligned
-            despite each source image having a different native aspect
-            ratio — same principle used to align artwork on the Products
-            page, just applied at the box level here since these are much
-            smaller and don't need pixel-level baseline matching. Still not
-            a catalog: no descriptions, specs, per-product CTAs, or SKUs
-            beyond the one representative image. ───────────────────────── */}
+            family (its first/flagship variant), each rendered at a common
+            fixed HEIGHT (width follows its own native aspect ratio) inside
+            a shared-height, bottom-aligned wrapper. That's what keeps all
+            five sitting on the same visual baseline and reading as the same
+            size despite very different source shapes — a near-square
+            pouch photo, the tall Chocolate Bites Singles pouch, and the
+            wider Hammer bar package all get the same vertical presence;
+            only their natural width differs, which is correct (a bar
+            package IS wider than a pouch) rather than a mismatch to hide.
+            Still not a catalog: no descriptions, specs, per-product CTAs,
+            or SKUs beyond the one representative image. ────────────────── */}
         <section className={`${GREEN_FADE_CLASS} bg-[var(--color-cream)]`} style={GREEN_FADE}>
           <div className={G} style={{ paddingTop: '4.5rem', paddingBottom: '4.5rem' }}>
             <h2 className="text-h2 text-[var(--color-dark)]">
@@ -255,16 +260,20 @@ export default function AboutPage() {
             >
               {PRODUCT_FAMILIES.map((family) => {
                 const rep = family.variants[0]
+                const REP_HEIGHT = 72
+                const repWidth = rep.imageWidth && rep.imageHeight
+                  ? Math.round(REP_HEIGHT * (rep.imageWidth / rep.imageHeight))
+                  : REP_HEIGHT
                 return (
                   <div key={family.slug} className="flex flex-col items-center text-center">
-                    <div className="relative" style={{ width: '80px', height: '80px' }}>
+                    <div className="flex items-end justify-center w-full" style={{ height: `${REP_HEIGHT}px` }}>
                       {rep.imageUrl && (
                         <Image
                           src={rep.imageUrl}
                           alt={`GSX ${family.name} package`}
-                          fill
-                          sizes="80px"
-                          className="object-contain"
+                          width={repWidth}
+                          height={REP_HEIGHT}
+                          className="w-auto h-full object-contain"
                         />
                       )}
                     </div>
