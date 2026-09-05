@@ -153,42 +153,53 @@ export default function AboutPage() {
           </div>
         </section>
 
-        {/* ── 4. MANUFACTURING IMAGE MOMENT — full-bleed editorial band.
-            Went through a width-capped version (max-w-[1600px]) meant to
-            reduce upscale-induced softness on very wide monitors, but that
-            introduced visible dark bars beside the image on those same
-            screens, which read as an unfinished layout — worse than the
-            mild softness it was solving for. Reverted to true full-bleed:
-            checked the math and confirmed reducing the container height
-            does NOT reduce the horizontal upscale factor for a cover-fit
-            crop (that's fixed at viewport-width / 1152 regardless of
-            height, since width is what cover matches against for a
-            portrait source in a landscape band), so the fix has to be a
-            good crop, not a narrower box or a shorter band. object-position
-            Y=42% keeps the machine, the blue conveyor, and the product
-            trays framed together — verified by rendering the exact file
-            Next.js serves at 1920px width through this same crop, which
-            held up sharp. Text sits inside the normal G container, with
-            extra inset on top of G's own gutter, over a short, localized
-            scrim only (not a full card, not a half-image gradient). */}
-        <section className="relative w-full aspect-[4/3] md:aspect-auto md:h-[480px] bg-[var(--color-ink)] overflow-hidden">
-          <Image
-            src={PROCESS_PHOTO_URL}
-            alt="A tray of finished GSX product being pulled from packaging equipment in the Chelsea, Oklahoma facility"
-            fill
-            sizes="100vw"
-            priority
-            className="object-cover"
-            style={{ objectPosition: '50% 42%' }}
-          />
-          <div className="absolute inset-x-0 bottom-0 h-[36%] bg-gradient-to-t from-[rgba(12,12,11,0.55)] to-transparent" />
-          <div className={`absolute inset-x-0 bottom-0 ${G}`} style={{ paddingBottom: 'clamp(2rem, 5vw, 3.25rem)' }}>
-            <p
-              className="text-[var(--color-cream)] font-[family-name:var(--font-space-grotesk)] font-semibold"
-              style={{ fontSize: 'clamp(1.125rem, 2vw, 1.5rem)', letterSpacing: '-0.015em', maxWidth: '22ch', paddingLeft: 'clamp(0.25rem, 1.2vw, 0.875rem)' }}
-            >
-              Real equipment. Real process. Made here.
-            </p>
+        {/* ── 4. MANUFACTURING MOMENT — two-column editorial layout, not a
+            full-bleed band anymore. Tried full-bleed, then a width-capped
+            full-bleed, then a full-bleed re-crop; the underlying problem in
+            every version was the same — a 1152px-wide source stretched to
+            viewport width always needs meaningful upscaling, and no crop or
+            cap fixes that without visible softness or letterboxing. This
+            structure sidesteps the problem instead of fighting it: the
+            image now lives in a ~62%-wide column (roughly 700-800px at
+            typical desktop widths), well UNDER the source's native 1152px,
+            so it's being downscaled, not upscaled — sharp by construction,
+            not by luck. Mirrors Company Story's image/text split (section
+            2, image-left/text-right) but flipped to text-left/image-right,
+            giving the page an alternating editorial rhythm; also mirrors
+            Respect the Dose's (section 6) two-column dark layout closely
+            enough to reuse its heading/copy type styles verbatim. Square
+            image geometry (aspect-square) keeps the crop clean and
+            deliberate — object-position Y=35% keeps the equipment cabinet,
+            the blue conveyor, and the product tray together in frame. No
+            text-over-image treatment anymore, so no scrim/overlay needed. */}
+        <section className="bg-[var(--color-dark)]">
+          <div className={G} style={{ paddingTop: '4.5rem', paddingBottom: '4.5rem' }}>
+            <div className="lg:grid lg:grid-cols-[38fr_62fr] lg:items-center lg:gap-16">
+              <div>
+                <h2
+                  className="text-[var(--color-cream)] font-[family-name:var(--font-space-grotesk)] font-semibold"
+                  style={{ fontSize: 'clamp(2.125rem, 3.8vw, 3.25rem)', lineHeight: '1.05', letterSpacing: '-0.03em' }}
+                >
+                  Real equipment. Real process. Made here.
+                </h2>
+                <p
+                  className="font-[family-name:var(--font-manrope)] font-light"
+                  style={{ color: 'rgba(250,248,243,0.6)', fontSize: '1.0625rem', lineHeight: '1.68', marginTop: '1.25rem', maxWidth: '40ch' }}
+                >
+                  GSX products move through real production equipment inside our Chelsea operation, from manufacturing through final packaging.
+                </p>
+              </div>
+              <div className="relative w-full aspect-square overflow-hidden mt-10 lg:mt-0">
+                <Image
+                  src={PROCESS_PHOTO_URL}
+                  alt="A tray of finished GSX product on the packaging line's blue conveyor, inside stainless equipment in the Chelsea, Oklahoma facility"
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 62vw"
+                  className="object-cover"
+                  style={{ objectPosition: '50% 35%' }}
+                />
+              </div>
+            </div>
           </div>
         </section>
 
