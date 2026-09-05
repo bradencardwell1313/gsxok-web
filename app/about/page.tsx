@@ -30,15 +30,27 @@ const GREEN_FADE_CLASS = 'relative bg-[length:100%_96px] md:bg-[length:100%_160p
 // facility photo, and it fits "Built here from the beginning" literally.
 const FACILITY_PHOTO_URL = 'https://cdn.sanity.io/images/o7wavkxv/production/228662a9e3b637fb9dd547d26d519e3a2fff2048-1536x1152.jpg'
 
-// Approved manufacturing photo — a team member operating the packaging
-// line, with a tray of sealed product visible on the belt. Replaces an
-// earlier pick (03b7d7ac...) that measured noticeably soft (an unusual
-// 1536x710 crop consistent with a video-frame source, confirmed via
-// Laplacian-variance sharpness scoring against this file). This one is a
-// genuine still photo, unused elsewhere and unrelated to the Homepage's
-// process photo (gloved worker holding a tray), which stays exclusive to
-// the Homepage.
-const PROCESS_PHOTO_URL = 'https://cdn.sanity.io/images/o7wavkxv/production/4072508f5b80005e5135a9cb7f6e6f7f31657614-1152x1536.jpg'
+// Approved manufacturing photo — a tray of finished GSX product being
+// pulled from clean stainless packaging equipment. Third pick for this
+// slot: 03b7d7ac (too soft, an unusual 1536x710 crop consistent with a
+// video-frame source) and 4072508f (sharp, but shows a bare hand directly
+// handling equipment beside product — prohibited on this site) were both
+// ruled out. This asset has no person in frame at all, so the bare-hand
+// rule doesn't apply, and it checked out sharp at every size actually
+// rendered (375px, 1024px, 1280px crop widths), not just at full source
+// resolution. See the image-selection rules below this file's imports.
+const PROCESS_PHOTO_URL = 'https://cdn.sanity.io/images/o7wavkxv/production/8b4daec20b416d47f422574d4295ed4b914a435f-1152x1536.jpg'
+
+// ABOUT-PAGE IMAGE SELECTION RULES (apply to any future photo swap here):
+//   - no visible bare hands handling or working immediately around product
+//   - prioritize gloved workers when people appear in production imagery
+//   - no blurry or visibly low-resolution manufacturing imagery
+//   - no stock photography
+//   - no AI-generated replacement photography
+//   - no reuse of imagery already prominently featured on Homepage if
+//     another authentic option exists
+//   - verify sharpness at the ACTUAL rendered crop/size, not the source
+//     file's native resolution or filename dimensions alone
 
 // Approved Oklahoma-outline / "Respect the Dose" lockup — the same current
 // (non-legacy) mark used in the site nav, uploaded as a new Sanity asset.
@@ -145,24 +157,23 @@ export default function AboutPage() {
             Desktop height is fixed (not aspect-ratio-based) so it reads as
             a deliberate band rather than however-tall-the-crop-happens-to-be.
             Source photo is portrait (1152x1536), so cover crops vertically
-            at both breakpoints — object-position Y=38% was chosen by
-            simulating the actual crop window at both the desktop band
-            (1280x480) and mobile aspect-[4/3] sizes and checking the result
-            keeps the hand, the product tray, and the equipment control
-            panel in frame at each. Text sits inside the normal G container,
-            with extra inset on top of G's own gutter so it reads as placed
-            with intent rather than pinned to the photo's corner, over a
-            short, localized scrim only (not a full card, not a half-image
-            gradient). */}
+            at both breakpoints — object-position Y=42% was chosen by
+            simulating the actual crop window at 375px, 1024px, and 1280px
+            render widths and confirming the product tray and equipment
+            stay in frame and sharp at each. Text sits inside the normal G
+            container, with extra inset on top of G's own gutter so it
+            reads as placed with intent rather than pinned to the photo's
+            corner, over a short, localized scrim only (not a full card,
+            not a half-image gradient). */}
         <section className="relative w-full aspect-[4/3] md:aspect-auto md:h-[480px] bg-[var(--color-ink)] overflow-hidden">
           <Image
             src={PROCESS_PHOTO_URL}
-            alt="GSX team member operating the chocolate bites packaging and sealing equipment, with a tray of sealed product visible on the belt, in the Chelsea, Oklahoma facility"
+            alt="A tray of finished GSX product being pulled from packaging equipment in the Chelsea, Oklahoma facility"
             fill
             sizes="100vw"
             priority
             className="object-cover"
-            style={{ objectPosition: '50% 38%' }}
+            style={{ objectPosition: '50% 42%' }}
           />
           <div className="absolute inset-x-0 bottom-0 h-[36%] bg-gradient-to-t from-[rgba(12,12,11,0.55)] to-transparent" />
           <div className={`absolute inset-x-0 bottom-0 ${G}`} style={{ paddingBottom: 'clamp(2rem, 5vw, 3.25rem)' }}>
