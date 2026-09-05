@@ -9,9 +9,11 @@ import { Button } from '@/components/ui/Button'
 
 // Oklahoma / Respect the Dose GSX logo, the approved standalone lockup
 // (state outline, "Respect the Dose" script, GSX / Green Science Extracts
-// wordmark). Background removed via alpha extraction from the approved
-// source image, true transparency, verified against a dark background.
-const NAV_LOGO_URL = 'https://cdn.sanity.io/images/o7wavkxv/production/1b4c22a1c2ffe8f8ef712f03a818baf7260aa18d-808x448.png'
+// wordmark). This is the cleaned Sanity asset (white flecks and edge halo
+// removed pixel-by-pixel by saturation, no redesign) — same one now used
+// on the About page's Respect the Dose section, replacing the original
+// source asset that had the defect baked in.
+const NAV_LOGO_URL = 'https://cdn.sanity.io/images/o7wavkxv/production/00ee0021f084edb3e388c52345fe354c06ae45e7-808x448.png'
 
 const publicNavLinks = [
   { href: '/products', label: 'Products' },
