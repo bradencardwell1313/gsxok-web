@@ -175,10 +175,10 @@ export default function AboutPage() {
             <div className="lg:grid lg:grid-cols-[46fr_54fr] lg:items-center lg:gap-16">
               <div>
                 <h2 className="text-h2 text-[var(--color-dark)]">
-                  Real equipment. Real process. Made here.
+                  Made here. From equipment to package.
                 </h2>
                 <p className="text-body text-[var(--color-muted)]" style={{ marginTop: '1.1rem', maxWidth: '40ch' }}>
-                  GSX products move through real production equipment inside our Chelsea operation, from manufacturing through final packaging.
+                  Inside our Chelsea operation, GSX products move through the equipment and production steps that take them from manufacturing to final package.
                 </p>
               </div>
               <div className="relative w-full aspect-[4/3] overflow-hidden mt-10 lg:mt-0">
@@ -195,10 +195,18 @@ export default function AboutPage() {
           </div>
         </section>
 
-        {/* ── 5. PROCESS — cream, 4-step horizontal sequence. No fade:
-            this follows a photo section, not a flat dark one. id="process"
-            matches the footer's existing "/about#process" link. ────────── */}
-        <section id="process" className="bg-[var(--color-cream)] scroll-mt-16 md:scroll-mt-18">
+        {/* ── 5. PROCESS — cream, 4-step horizontal sequence. Now carries
+            the same shallow green-to-cream fade used elsewhere on cream
+            sections that need a deliberate section break: Manufacturing
+            (section 4, right above) is cream too, and the two previously
+            ran together with nothing marking where one ends and the next
+            begins. The fade is confined to the top ~96-160px of the
+            section (see GREEN_FADE_CLASS's bg-size) and is already fully
+            faded to transparent well before the heading's own text, so
+            it reads as a section marker, not color behind the process
+            content or numbering. id="process" matches the footer's
+            existing "/about#process" link. ─────────────────────────── */}
+        <section id="process" className={`${GREEN_FADE_CLASS} bg-[var(--color-cream)] scroll-mt-16 md:scroll-mt-18`} style={GREEN_FADE}>
           <div className={G} style={{ paddingTop: '4.5rem', paddingBottom: '4.5rem' }}>
             <h2 className="text-h2 text-[var(--color-dark)]">
               From formulation to final package.
