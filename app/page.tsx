@@ -196,7 +196,7 @@ export default async function HomePage() {
 
         <Rule />
 
-        {/* ── BUILT IN OKLAHOMA. MADE BY GSX. — real HTML/CSS, full-width ── */}
+        {/* ── BUILT IN OKLAHOMA, MADE BY GSX — real HTML/CSS, full-width ── */}
         <section className="w-full" style={{ backgroundColor: '#050505' }}>
           <div className={G} style={{ paddingTop: '4.5rem', paddingBottom: '4rem' }}>
             <div className="lg:grid lg:grid-cols-[1.05fr_1fr] lg:gap-16 lg:items-center">
@@ -215,9 +215,9 @@ export default async function HomePage() {
                   className="text-[var(--color-cream)] font-[family-name:var(--font-space-grotesk)] font-bold uppercase"
                   style={{ fontSize: 'clamp(2rem, 3.2vw, 2.75rem)', lineHeight: '1.08', letterSpacing: '-0.02em' }}
                 >
-                  Built in Oklahoma.
+                  Built in Oklahoma,
                   <br />
-                  <span style={{ color: 'var(--color-green)' }}>Made by GSX.</span>
+                  <span style={{ color: 'var(--color-green)' }}>made by GSX</span>
                 </h2>
                 <div style={{ width: '40px', height: '2px', backgroundColor: 'var(--color-green)', marginTop: '1.25rem', marginBottom: '1.25rem' }} />
                 <p
@@ -230,7 +230,7 @@ export default async function HomePage() {
                   className="text-label"
                   style={{ color: 'var(--color-green)', marginTop: '1rem' }}
                 >
-                  One Facility. One Team. One Standard.
+                  One Facility, One Team, One Standard
                 </p>
                 <Button href="/about" variant="secondary" size="lg" className="inline-flex items-center gap-2" style={{ marginTop: '2rem' }}>
                   Our Story
@@ -276,7 +276,7 @@ export default async function HomePage() {
                 className="text-[var(--color-cream)] font-[family-name:var(--font-space-grotesk)] font-semibold"
                 style={{ fontSize: 'clamp(1.75rem, 2.6vw, 2.5rem)', lineHeight: '1.05', letterSpacing: '-0.028em' }}
               >
-                Real equipment. Real people. Real product.
+                Real equipment, real people, real product
               </h2>
               <p
                 className="text-[rgba(250,248,243,0.48)] font-[family-name:var(--font-manrope)] font-light"
@@ -360,7 +360,7 @@ export default async function HomePage() {
                 </svg>
                 <div>
                   <h2 className="text-[var(--color-cream)] font-[family-name:var(--font-space-grotesk)] font-semibold" style={{ fontSize: 'clamp(1.375rem, 2vw, 1.75rem)', letterSpacing: '-0.02em' }}>
-                    Find GSX near you.
+                    Find GSX near you
                   </h2>
                   <p className="text-[rgba(250,248,243,0.4)] font-[family-name:var(--font-manrope)]" style={{ fontSize: '0.875rem', marginTop: '0.25rem' }}>
                     Available at select dispensaries across Oklahoma.
@@ -386,7 +386,7 @@ export default async function HomePage() {
                   className="text-[var(--color-cream)] font-[family-name:var(--font-space-grotesk)] font-semibold whitespace-nowrap"
                   style={{ fontSize: 'clamp(1.375rem, 2.2vw, 1.875rem)', letterSpacing: '-0.02em' }}
                 >
-                  Carry GSX in your store.
+                  Carry GSX in your store
                 </h2>
               </div>
               <p
