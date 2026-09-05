@@ -153,36 +153,45 @@ export default function AboutPage() {
           </div>
         </section>
 
-        {/* ── 4. MANUFACTURING IMAGE MOMENT — full-bleed editorial band.
-            Desktop height is fixed (not aspect-ratio-based) so it reads as
-            a deliberate band rather than however-tall-the-crop-happens-to-be.
-            Source photo is portrait (1152x1536), so cover crops vertically
-            at both breakpoints — object-position Y=42% was chosen by
-            simulating the actual crop window at 375px, 1024px, and 1280px
-            render widths and confirming the product tray and equipment
-            stay in frame and sharp at each. Text sits inside the normal G
-            container, with extra inset on top of G's own gutter so it
-            reads as placed with intent rather than pinned to the photo's
-            corner, over a short, localized scrim only (not a full card,
-            not a half-image gradient). */}
-        <section className="relative w-full aspect-[4/3] md:aspect-auto md:h-[480px] bg-[var(--color-ink)] overflow-hidden">
-          <Image
-            src={PROCESS_PHOTO_URL}
-            alt="A tray of finished GSX product being pulled from packaging equipment in the Chelsea, Oklahoma facility"
-            fill
-            sizes="100vw"
-            priority
-            className="object-cover"
-            style={{ objectPosition: '50% 42%' }}
-          />
-          <div className="absolute inset-x-0 bottom-0 h-[36%] bg-gradient-to-t from-[rgba(12,12,11,0.55)] to-transparent" />
-          <div className={`absolute inset-x-0 bottom-0 ${G}`} style={{ paddingBottom: 'clamp(2rem, 5vw, 3.25rem)' }}>
-            <p
-              className="text-[var(--color-cream)] font-[family-name:var(--font-space-grotesk)] font-semibold"
-              style={{ fontSize: 'clamp(1.125rem, 2vw, 1.5rem)', letterSpacing: '-0.015em', maxWidth: '22ch', paddingLeft: 'clamp(0.25rem, 1.2vw, 0.875rem)' }}
-            >
-              Real equipment. Real process. Made here.
-            </p>
+        {/* ── 4. MANUFACTURING IMAGE MOMENT — wide editorial band, NOT
+            full-bleed. The source photo is only 1152px wide; stretching it
+            edge-to-edge across a large desktop viewport (previously
+            sizes="100vw") upscaled it far enough to read as soft even
+            though the asset itself is sharp. Capping the image's own box at
+            1600px (wider than the standard 1280px content column, so it
+            still reads as a deliberate wide moment, but well short of full
+            viewport width on large screens) keeps the upscale factor mild
+            — 1600/1152 ≈ 1.39x at worst, vs. up to ~2.2x before on a wide
+            monitor. The outer section keeps the dark ink background full
+            width, so any margin beside the capped box on very wide screens
+            reads as intentional letterboxing, not a layout gap. Desktop
+            height is still fixed (not aspect-ratio-based) so it reads as a
+            deliberate band. Source photo is portrait (1152x1536), so cover
+            still crops vertically at both breakpoints — object-position
+            Y=42% unchanged from the approved crop. Text sits inside the
+            normal G container (nested inside the wider box), over a short,
+            localized scrim only (not a full card, not a half-image
+            gradient). */}
+        <section className="relative w-full bg-[var(--color-ink)]">
+          <div className="relative w-full max-w-[1600px] mx-auto aspect-[4/3] md:aspect-auto md:h-[480px] overflow-hidden">
+            <Image
+              src={PROCESS_PHOTO_URL}
+              alt="A tray of finished GSX product being pulled from packaging equipment in the Chelsea, Oklahoma facility"
+              fill
+              sizes="(min-width: 1600px) 1600px, 100vw"
+              priority
+              className="object-cover"
+              style={{ objectPosition: '50% 42%' }}
+            />
+            <div className="absolute inset-x-0 bottom-0 h-[36%] bg-gradient-to-t from-[rgba(12,12,11,0.55)] to-transparent" />
+            <div className={`absolute inset-x-0 bottom-0 ${G}`} style={{ paddingBottom: 'clamp(2rem, 5vw, 3.25rem)' }}>
+              <p
+                className="text-[var(--color-cream)] font-[family-name:var(--font-space-grotesk)] font-semibold"
+                style={{ fontSize: 'clamp(1.125rem, 2vw, 1.5rem)', letterSpacing: '-0.015em', maxWidth: '22ch', paddingLeft: 'clamp(0.25rem, 1.2vw, 0.875rem)' }}
+              >
+                Real equipment. Real process. Made here.
+              </p>
+            </div>
           </div>
         </section>
 
