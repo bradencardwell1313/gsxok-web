@@ -1,4 +1,3 @@
-// app/products/page.tsx
 import Link from 'next/link'
 import { Nav } from '@/components/layout/Nav'
 import { Footer } from '@/components/layout/Footer'
@@ -96,7 +95,7 @@ export default function ProductsPage() {
                 </svg>
                 <div>
                   <h2 className="text-[var(--color-cream)] font-[family-name:var(--font-space-grotesk)] font-semibold" style={{ fontSize: 'clamp(1.375rem, 2vw, 1.75rem)', letterSpacing: '-0.02em' }}>
-                    Find GSX near you.
+                    Find GSX near you
                   </h2>
                   <p className="text-[rgba(250,248,243,0.4)] font-[family-name:var(--font-manrope)]" style={{ fontSize: '0.875rem', marginTop: '0.25rem' }}>
                     Available at select dispensaries across Oklahoma.
@@ -122,7 +121,7 @@ export default function ProductsPage() {
                   className="text-[var(--color-cream)] font-[family-name:var(--font-space-grotesk)] font-semibold whitespace-nowrap"
                   style={{ fontSize: 'clamp(1.375rem, 2.2vw, 1.875rem)', letterSpacing: '-0.02em' }}
                 >
-                  Carry GSX in your store.
+                  Carry GSX in your store
                 </h2>
               </div>
               <p
