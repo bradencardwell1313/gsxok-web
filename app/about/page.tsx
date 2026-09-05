@@ -30,11 +30,15 @@ const GREEN_FADE_CLASS = 'relative bg-[length:100%_96px] md:bg-[length:100%_160p
 // facility photo, and it fits "Built here from the beginning" literally.
 const FACILITY_PHOTO_URL = 'https://cdn.sanity.io/images/o7wavkxv/production/228662a9e3b637fb9dd547d26d519e3a2fff2048-1536x1152.jpg'
 
-// Approved manufacturing photo — GSX Caramel Bites pouches moving through
-// the packaging/sealing line. A different, unused asset from the Sanity
-// library so this section doesn't repeat the Homepage's process photo
-// (gloved worker holding a tray), which stays exclusive to the Homepage.
-const PROCESS_PHOTO_URL = 'https://cdn.sanity.io/images/o7wavkxv/production/03b7d7ac5d70c5943ef07e65c7ba1da21d886d5e-1536x710.jpg'
+// Approved manufacturing photo — a team member operating the packaging
+// line, with a tray of sealed product visible on the belt. Replaces an
+// earlier pick (03b7d7ac...) that measured noticeably soft (an unusual
+// 1536x710 crop consistent with a video-frame source, confirmed via
+// Laplacian-variance sharpness scoring against this file). This one is a
+// genuine still photo, unused elsewhere and unrelated to the Homepage's
+// process photo (gloved worker holding a tray), which stays exclusive to
+// the Homepage.
+const PROCESS_PHOTO_URL = 'https://cdn.sanity.io/images/o7wavkxv/production/4072508f5b80005e5135a9cb7f6e6f7f31657614-1152x1536.jpg'
 
 // Approved Oklahoma-outline / "Respect the Dose" lockup — the same current
 // (non-legacy) mark used in the site nav, uploaded as a new Sanity asset.
@@ -140,23 +144,25 @@ export default function AboutPage() {
         {/* ── 4. MANUFACTURING IMAGE MOMENT — full-bleed editorial band.
             Desktop height is fixed (not aspect-ratio-based) so it reads as
             a deliberate band rather than however-tall-the-crop-happens-to-be.
-            Source photo is already wide (1536x710), so unlike the previous
-            portrait photo this crops only a little either way — object-
-            position keeps the packages/machine centered at any viewport
-            width. Text sits inside the normal G container, with extra inset
-            on top of G's own gutter so it reads as placed with intent
-            rather than pinned to the photo's corner, over a short,
-            localized scrim only (not a full card, not a half-image
+            Source photo is portrait (1152x1536), so cover crops vertically
+            at both breakpoints — object-position Y=38% was chosen by
+            simulating the actual crop window at both the desktop band
+            (1280x480) and mobile aspect-[4/3] sizes and checking the result
+            keeps the hand, the product tray, and the equipment control
+            panel in frame at each. Text sits inside the normal G container,
+            with extra inset on top of G's own gutter so it reads as placed
+            with intent rather than pinned to the photo's corner, over a
+            short, localized scrim only (not a full card, not a half-image
             gradient). */}
         <section className="relative w-full aspect-[4/3] md:aspect-auto md:h-[480px] bg-[var(--color-ink)] overflow-hidden">
           <Image
             src={PROCESS_PHOTO_URL}
-            alt="GSX Milk Chocolate Caramel Bites pouches moving through the packaging and sealing line in the Chelsea, Oklahoma facility"
+            alt="GSX team member operating the chocolate bites packaging and sealing equipment, with a tray of sealed product visible on the belt, in the Chelsea, Oklahoma facility"
             fill
             sizes="100vw"
             priority
             className="object-cover"
-            style={{ objectPosition: '50% 42%' }}
+            style={{ objectPosition: '50% 38%' }}
           />
           <div className="absolute inset-x-0 bottom-0 h-[36%] bg-gradient-to-t from-[rgba(12,12,11,0.55)] to-transparent" />
           <div className={`absolute inset-x-0 bottom-0 ${G}`} style={{ paddingBottom: 'clamp(2rem, 5vw, 3.25rem)' }}>
