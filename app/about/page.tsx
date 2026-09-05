@@ -108,7 +108,7 @@ export default function AboutPage() {
               </div>
               <div className="mt-10 lg:mt-0">
                 <h2 className="text-h2 text-[var(--color-dark)]">
-                  Built here from the beginning.
+                  Built here from the beginning
                 </h2>
                 <div style={{ width: '40px', height: '2px', backgroundColor: 'var(--color-green)', marginTop: '1.1rem', marginBottom: '1.25rem' }} />
                 <p className="text-body text-[var(--color-muted)]" style={{ maxWidth: '46ch' }}>
@@ -130,7 +130,7 @@ export default function AboutPage() {
               className="text-[var(--color-cream)] font-[family-name:var(--font-space-grotesk)] font-semibold"
               style={{ fontSize: 'clamp(2.125rem, 3.6vw, 3.25rem)', lineHeight: '1.08', letterSpacing: '-0.03em', maxWidth: '20ch' }}
             >
-              One facility. One team. One standard.
+              One facility, one team, one standard
             </h2>
             <p
               className="font-[family-name:var(--font-manrope)] font-light"
@@ -175,7 +175,7 @@ export default function AboutPage() {
             <div className="lg:grid lg:grid-cols-[46fr_54fr] lg:items-center lg:gap-16">
               <div>
                 <h2 className="text-h2 text-[var(--color-dark)]">
-                  Made here. From equipment to package.
+                  Made here, from production to package
                 </h2>
                 <p className="text-body text-[var(--color-muted)]" style={{ marginTop: '1.1rem', maxWidth: '40ch' }}>
                   Inside our Chelsea operation, GSX products move through the equipment and production steps that take them from manufacturing to final package.
@@ -213,7 +213,7 @@ export default function AboutPage() {
                   className="text-[var(--color-cream)] font-[family-name:var(--font-space-grotesk)] font-semibold"
                   style={{ fontSize: 'clamp(2.125rem, 3.8vw, 3.25rem)', lineHeight: '1.05', letterSpacing: '-0.03em' }}
                 >
-                  Respect the Dose.
+                  Respect the Dose
                 </h2>
                 <p
                   className="font-[family-name:var(--font-manrope)] font-light"
@@ -255,7 +255,7 @@ export default function AboutPage() {
         <section id="process" className={`${GREEN_FADE_CLASS} bg-[var(--color-cream)] scroll-mt-16 md:scroll-mt-18`} style={GREEN_FADE}>
           <div className={G} style={{ paddingTop: '4.5rem', paddingBottom: '4.5rem' }}>
             <h2 className="text-h2 text-[var(--color-dark)]">
-              From formulation to final package.
+              From formulation to final package
             </h2>
             <p className="text-body text-[var(--color-muted)]" style={{ marginTop: '0.75rem', maxWidth: '54ch' }}>
               GSX keeps the core production path connected inside its own operation.
@@ -290,7 +290,7 @@ export default function AboutPage() {
         <section className={`${GREEN_FADE_CLASS} bg-[var(--color-cream)]`} style={GREEN_FADE}>
           <div className={G} style={{ paddingTop: '4.5rem', paddingBottom: '4.5rem' }}>
             <h2 className="text-h2 text-[var(--color-dark)]">
-              One operation. Multiple product lines.
+              One operation, multiple product lines
             </h2>
             <p className="text-body text-[var(--color-muted)]" style={{ marginTop: '0.75rem', maxWidth: '62ch' }}>
               Chocolate Bites, Chocolate Bites Singles, Precision Crafted Gummies, Fruit Crunchers, and The Hammer are all part of the GSX lineup produced in Chelsea.
@@ -330,7 +330,7 @@ export default function AboutPage() {
                 </svg>
                 <div>
                   <h2 className="text-[var(--color-cream)] font-[family-name:var(--font-space-grotesk)] font-semibold" style={{ fontSize: 'clamp(1.375rem, 2vw, 1.75rem)', letterSpacing: '-0.02em' }}>
-                    Find GSX near you.
+                    Find GSX near you
                   </h2>
                   <p className="text-[rgba(250,248,243,0.4)] font-[family-name:var(--font-manrope)]" style={{ fontSize: '0.875rem', marginTop: '0.25rem' }}>
                     Available at select dispensaries across Oklahoma.
@@ -356,7 +356,7 @@ export default function AboutPage() {
                   className="text-[var(--color-cream)] font-[family-name:var(--font-space-grotesk)] font-semibold whitespace-nowrap"
                   style={{ fontSize: 'clamp(1.375rem, 2.2vw, 1.875rem)', letterSpacing: '-0.02em' }}
                 >
-                  Carry GSX in your store.
+                  Carry GSX in your store
                 </h2>
               </div>
               <p
