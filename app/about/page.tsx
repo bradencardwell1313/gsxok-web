@@ -23,22 +23,28 @@ const GREEN_FADE = {
 }
 const GREEN_FADE_CLASS = 'relative bg-[length:100%_96px] md:bg-[length:100%_160px] bg-no-repeat bg-top'
 
-// Approved Chelsea facility photo (production line, American and Oklahoma
-// flags, GSX wall logo). Already used on the homepage's "Built in Oklahoma.
-// Made by GSX." section — same asset, reused here rather than substituting
-// a different building photo.
-const FACILITY_PHOTO_URL = 'https://cdn.sanity.io/images/o7wavkxv/production/488d2b67b8289033440ea79284b9772023b2961c-1310x1200.jpg'
+// Approved Chelsea facility photo — the building's initial build-out
+// (framing, steel roof trusses, tools on the slab), not the finished
+// production line already shown on the Homepage. Deliberately a different,
+// unused asset from the Sanity library so About doesn't repeat Homepage's
+// facility photo, and it fits "Built here from the beginning" literally.
+const FACILITY_PHOTO_URL = 'https://cdn.sanity.io/images/o7wavkxv/production/228662a9e3b637fb9dd547d26d519e3a2fff2048-1536x1152.jpg'
 
-// Approved worker/process photo. Confirmed via direct Sanity query to be the
-// same 1152x1536 asset currently live as the homepage's
-// siteSettings.processImage (gloved worker holding a tray of product beside
-// production equipment) — i.e. the same source referred to elsewhere as
-// 6EFF0F4E-CD06-4965-A2CC-F6F1FC7A7FC2.jpeg.
-const PROCESS_PHOTO_URL = 'https://cdn.sanity.io/images/o7wavkxv/production/bb306e10297bb4f4b01bbac5b03ad393bd8a1ccd-1152x1536.jpg'
+// Approved manufacturing photo — GSX Caramel Bites pouches moving through
+// the packaging/sealing line. A different, unused asset from the Sanity
+// library so this section doesn't repeat the Homepage's process photo
+// (gloved worker holding a tray), which stays exclusive to the Homepage.
+const PROCESS_PHOTO_URL = 'https://cdn.sanity.io/images/o7wavkxv/production/03b7d7ac5d70c5943ef07e65c7ba1da21d886d5e-1536x710.jpg'
 
 // Approved Oklahoma-outline / "Respect the Dose" lockup — the same current
-// (non-legacy) mark used in the site nav.
-const RESPECT_LOGO_URL = 'https://cdn.sanity.io/images/o7wavkxv/production/1b4c22a1c2ffe8f8ef712f03a818baf7260aa18d-808x448.png'
+// (non-legacy) mark used in the site nav, uploaded as a new Sanity asset.
+// The original CDN source (1b4c22a1...) had white flecks and edge halo
+// baked into the pixels. This is that same artwork with the defect removed
+// pixel-by-pixel by saturation (real green stroke pixels are always highly
+// saturated, even where highlighted; the contamination is washed-out/pale,
+// so it can be cleared without ever touching real stroke pixels) — no
+// redesign, no substitution, shape/proportions/colors unchanged.
+const RESPECT_LOGO_URL = 'https://cdn.sanity.io/images/o7wavkxv/production/00ee0021f084edb3e388c52345fe354c06ae45e7-808x448.png'
 
 export default function AboutPage() {
   return (
@@ -77,9 +83,9 @@ export default function AboutPage() {
               <div className="w-full">
                 <Image
                   src={FACILITY_PHOTO_URL}
-                  alt="GSX production line with American and Oklahoma flags and the GSX Green Science Extracts wall logo in Chelsea, Oklahoma"
-                  width={1310}
-                  height={1200}
+                  alt="The GSX facility during its initial build-out in Chelsea, Oklahoma, showing exposed steel roof trusses and interior framing"
+                  width={1536}
+                  height={1152}
                   sizes="(max-width: 1024px) 100vw, 54vw"
                   className="w-full h-auto"
                 />
@@ -134,24 +140,23 @@ export default function AboutPage() {
         {/* ── 4. MANUFACTURING IMAGE MOMENT — full-bleed editorial band.
             Desktop height is fixed (not aspect-ratio-based) so it reads as
             a deliberate band rather than however-tall-the-crop-happens-to-be.
-            object-position keeps the tray/equipment/worker in frame at any
-            viewport width (verified: cover always crops vertically here,
-            never horizontally, since this portrait photo is narrower than
-            any realistic band-shaped container — so only the Y value below
-            actually matters). Text sits inside the normal G container, with
-            extra inset on top of G's own gutter so it reads as placed with
-            intent rather than pinned to the photo's corner, over a short,
+            Source photo is already wide (1536x710), so unlike the previous
+            portrait photo this crops only a little either way — object-
+            position keeps the packages/machine centered at any viewport
+            width. Text sits inside the normal G container, with extra inset
+            on top of G's own gutter so it reads as placed with intent
+            rather than pinned to the photo's corner, over a short,
             localized scrim only (not a full card, not a half-image
             gradient). */}
         <section className="relative w-full aspect-[4/3] md:aspect-auto md:h-[480px] bg-[var(--color-ink)] overflow-hidden">
           <Image
             src={PROCESS_PHOTO_URL}
-            alt="GSX team member in gloves holding a tray of product beside production equipment in the Chelsea, Oklahoma facility"
+            alt="GSX Milk Chocolate Caramel Bites pouches moving through the packaging and sealing line in the Chelsea, Oklahoma facility"
             fill
             sizes="100vw"
             priority
             className="object-cover"
-            style={{ objectPosition: '50% 26%' }}
+            style={{ objectPosition: '50% 42%' }}
           />
           <div className="absolute inset-x-0 bottom-0 h-[36%] bg-gradient-to-t from-[rgba(12,12,11,0.55)] to-transparent" />
           <div className={`absolute inset-x-0 bottom-0 ${G}`} style={{ paddingBottom: 'clamp(2rem, 5vw, 3.25rem)' }}>
@@ -232,19 +237,17 @@ export default function AboutPage() {
         </section>
 
         {/* ── 7. PRODUCT FAMILY PROOF — cream, lightweight proof strip.
-            Bridges back into Products. Green fade applied: another
-            genuine dark-to-cream handoff. One representative image per
-            family (its first/flagship variant), each rendered at a common
-            fixed HEIGHT (width follows its own native aspect ratio) inside
-            a shared-height, bottom-aligned wrapper. That's what keeps all
-            five sitting on the same visual baseline and reading as the same
-            size despite very different source shapes — a near-square
-            pouch photo, the tall Chocolate Bites Singles pouch, and the
-            wider Hammer bar package all get the same vertical presence;
-            only their natural width differs, which is correct (a bar
-            package IS wider than a pouch) rather than a mismatch to hide.
-            Still not a catalog: no descriptions, specs, per-product CTAs,
-            or SKUs beyond the one representative image. ────────────────── */}
+            Bridges back into Products. Green fade applied: another genuine
+            dark-to-cream handoff. Typography-led on purpose, no product
+            imagery: every representative pack shot available for these five
+            families is already the lead image on the Products page, and the
+            few alternate assets in the library are either near-duplicate
+            photos of the same packages or raw print-proof artwork (crop
+            marks, mm callouts) not fit for a public page — so rather than
+            repeat Products' pack shots or substitute something not
+            camera-ready, this section states the five family names
+            directly. Still not a catalog: no descriptions, specs,
+            per-product CTAs, or SKUs. ─────────────────────────────────── */}
         <section className={`${GREEN_FADE_CLASS} bg-[var(--color-cream)]`} style={GREEN_FADE}>
           <div className={G} style={{ paddingTop: '4.5rem', paddingBottom: '4.5rem' }}>
             <h2 className="text-h2 text-[var(--color-dark)]">
@@ -255,34 +258,17 @@ export default function AboutPage() {
             </p>
 
             <div
-              className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5"
-              style={{ gap: '2rem 1.5rem', marginTop: '2.5rem', paddingTop: '2rem', borderTop: '1px solid var(--color-border)' }}
+              className="flex flex-wrap items-center"
+              style={{ gap: '0.75rem 1.5rem', marginTop: '2.5rem', paddingTop: '2rem', borderTop: '1px solid var(--color-border)' }}
             >
-              {PRODUCT_FAMILIES.map((family) => {
-                const rep = family.variants[0]
-                const REP_HEIGHT = 72
-                const repWidth = rep.imageWidth && rep.imageHeight
-                  ? Math.round(REP_HEIGHT * (rep.imageWidth / rep.imageHeight))
-                  : REP_HEIGHT
-                return (
-                  <div key={family.slug} className="flex flex-col items-center text-center">
-                    <div className="flex items-end justify-center w-full" style={{ height: `${REP_HEIGHT}px` }}>
-                      {rep.imageUrl && (
-                        <Image
-                          src={rep.imageUrl}
-                          alt={`GSX ${family.name} package`}
-                          width={repWidth}
-                          height={REP_HEIGHT}
-                          className="w-auto h-full object-contain"
-                        />
-                      )}
-                    </div>
-                    <p className="text-h4 text-[var(--color-dark)]" style={{ marginTop: '0.85rem' }}>
-                      {family.name}
-                    </p>
-                  </div>
-                )
-              })}
+              {PRODUCT_FAMILIES.map((family, i) => (
+                <div key={family.slug} className="flex items-center" style={{ gap: '1.5rem' }}>
+                  <p className="text-h4 text-[var(--color-dark)]">{family.name}</p>
+                  {i < PRODUCT_FAMILIES.length - 1 && (
+                    <span aria-hidden="true" style={{ width: '5px', height: '5px', borderRadius: '9999px', backgroundColor: 'var(--color-green)' }} />
+                  )}
+                </div>
+              ))}
             </div>
 
             <Button href="/products" variant="primary" size="lg" style={{ marginTop: '2.5rem' }}>
