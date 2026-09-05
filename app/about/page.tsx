@@ -153,25 +153,26 @@ export default function AboutPage() {
           </div>
         </section>
 
-        {/* ── 4. MANUFACTURING MOMENT — separate cream section, two-column
-            editorial layout. Was previously dark (same bg-[var(--color-dark)]
-            as Operating Model above it) with no border or color break
-            between them, so despite being two real, separate <section>
-            elements in the DOM, they rendered as one continuous dark block.
-            Now cream, with the same green-to-cream fade used elsewhere on
-            this page wherever a cream section directly follows a dark one
-            (see Company Story, section 2, and Product Family Proof,
-            section 7) — shallow and restrained, just enough to read as a
-            deliberate transition, not a green block. Mirrors Company
-            Story's image/text split but flipped to text-left/image-right.
-            Image lives in a ~62%-wide column, well under its native
-            1152px width, so it's downscaled not upscaled — sharp by
-            construction. Square image geometry, object-position Y=35%
-            keeps the equipment cabinet, blue conveyor, and product tray
-            together in frame. */}
+        {/* ── 4. MANUFACTURING MOMENT — separate cream section, deliberately
+            built to match Company Story's (section 2, "Built here from the
+            beginning") proportions almost exactly, just mirrored: same
+            grid-cols ratio (54fr image / 46fr text, reversed to put text
+            first here), same lg:items-center, same 4.5rem top/bottom
+            padding, same lg:gap-16, same mt-10 lg:mt-0 mobile stacking gap.
+            The image was previously a tall aspect-square box, which made
+            this section's overall height (grid rows size to the tallest
+            column under items-center) balloon well past Company Story's,
+            reading as oversized and crowding the section below. Now uses
+            aspect-[4/3] — the exact ratio Company Story's own image
+            renders at (1536/1152) — so the two sections end up almost the
+            same height by construction. Source photo is portrait
+            (1152x1536), so this crops it into that landscape frame via
+            object-cover; object-position Y=40% keeps the equipment
+            cabinet, the blue conveyor, and the product tray together in
+            frame. Green fade at the top is unchanged from the last round. */}
         <section className={`${GREEN_FADE_CLASS} bg-[var(--color-cream)]`} style={GREEN_FADE}>
           <div className={G} style={{ paddingTop: '4.5rem', paddingBottom: '4.5rem' }}>
-            <div className="lg:grid lg:grid-cols-[38fr_62fr] lg:items-center lg:gap-16">
+            <div className="lg:grid lg:grid-cols-[46fr_54fr] lg:items-center lg:gap-16">
               <div>
                 <h2 className="text-h2 text-[var(--color-dark)]">
                   Real equipment. Real process. Made here.
@@ -180,14 +181,14 @@ export default function AboutPage() {
                   GSX products move through real production equipment inside our Chelsea operation, from manufacturing through final packaging.
                 </p>
               </div>
-              <div className="relative w-full aspect-square overflow-hidden mt-10 lg:mt-0">
+              <div className="relative w-full aspect-[4/3] overflow-hidden mt-10 lg:mt-0">
                 <Image
                   src={PROCESS_PHOTO_URL}
                   alt="A tray of finished GSX product on the packaging line's blue conveyor, inside stainless equipment in the Chelsea, Oklahoma facility"
                   fill
-                  sizes="(max-width: 1024px) 100vw, 62vw"
+                  sizes="(max-width: 1024px) 100vw, 54vw"
                   className="object-cover"
-                  style={{ objectPosition: '50% 35%' }}
+                  style={{ objectPosition: '50% 40%' }}
                 />
               </div>
             </div>
