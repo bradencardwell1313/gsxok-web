@@ -153,39 +153,30 @@ export default function AboutPage() {
           </div>
         </section>
 
-        {/* ── 4. MANUFACTURING MOMENT — two-column editorial layout, not a
-            full-bleed band anymore. Tried full-bleed, then a width-capped
-            full-bleed, then a full-bleed re-crop; the underlying problem in
-            every version was the same — a 1152px-wide source stretched to
-            viewport width always needs meaningful upscaling, and no crop or
-            cap fixes that without visible softness or letterboxing. This
-            structure sidesteps the problem instead of fighting it: the
-            image now lives in a ~62%-wide column (roughly 700-800px at
-            typical desktop widths), well UNDER the source's native 1152px,
-            so it's being downscaled, not upscaled — sharp by construction,
-            not by luck. Mirrors Company Story's image/text split (section
-            2, image-left/text-right) but flipped to text-left/image-right,
-            giving the page an alternating editorial rhythm; also mirrors
-            Respect the Dose's (section 6) two-column dark layout closely
-            enough to reuse its heading/copy type styles verbatim. Square
-            image geometry (aspect-square) keeps the crop clean and
-            deliberate — object-position Y=35% keeps the equipment cabinet,
-            the blue conveyor, and the product tray together in frame. No
-            text-over-image treatment anymore, so no scrim/overlay needed. */}
-        <section className="bg-[var(--color-dark)]">
+        {/* ── 4. MANUFACTURING MOMENT — separate cream section, two-column
+            editorial layout. Was previously dark (same bg-[var(--color-dark)]
+            as Operating Model above it) with no border or color break
+            between them, so despite being two real, separate <section>
+            elements in the DOM, they rendered as one continuous dark block.
+            Now cream, with the same green-to-cream fade used elsewhere on
+            this page wherever a cream section directly follows a dark one
+            (see Company Story, section 2, and Product Family Proof,
+            section 7) — shallow and restrained, just enough to read as a
+            deliberate transition, not a green block. Mirrors Company
+            Story's image/text split but flipped to text-left/image-right.
+            Image lives in a ~62%-wide column, well under its native
+            1152px width, so it's downscaled not upscaled — sharp by
+            construction. Square image geometry, object-position Y=35%
+            keeps the equipment cabinet, blue conveyor, and product tray
+            together in frame. */}
+        <section className={`${GREEN_FADE_CLASS} bg-[var(--color-cream)]`} style={GREEN_FADE}>
           <div className={G} style={{ paddingTop: '4.5rem', paddingBottom: '4.5rem' }}>
             <div className="lg:grid lg:grid-cols-[38fr_62fr] lg:items-center lg:gap-16">
               <div>
-                <h2
-                  className="text-[var(--color-cream)] font-[family-name:var(--font-space-grotesk)] font-semibold"
-                  style={{ fontSize: 'clamp(2.125rem, 3.8vw, 3.25rem)', lineHeight: '1.05', letterSpacing: '-0.03em' }}
-                >
+                <h2 className="text-h2 text-[var(--color-dark)]">
                   Real equipment. Real process. Made here.
                 </h2>
-                <p
-                  className="font-[family-name:var(--font-manrope)] font-light"
-                  style={{ color: 'rgba(250,248,243,0.6)', fontSize: '1.0625rem', lineHeight: '1.68', marginTop: '1.25rem', maxWidth: '40ch' }}
-                >
+                <p className="text-body text-[var(--color-muted)]" style={{ marginTop: '1.1rem', maxWidth: '40ch' }}>
                   GSX products move through real production equipment inside our Chelsea operation, from manufacturing through final packaging.
                 </p>
               </div>
