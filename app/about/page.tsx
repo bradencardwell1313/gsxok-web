@@ -195,44 +195,16 @@ export default function AboutPage() {
           </div>
         </section>
 
-        {/* ── 5. PROCESS — cream, 4-step horizontal sequence. Now carries
-            the same shallow green-to-cream fade used elsewhere on cream
-            sections that need a deliberate section break: Manufacturing
-            (section 4, right above) is cream too, and the two previously
-            ran together with nothing marking where one ends and the next
-            begins. The fade is confined to the top ~96-160px of the
-            section (see GREEN_FADE_CLASS's bg-size) and is already fully
-            faded to transparent well before the heading's own text, so
-            it reads as a section marker, not color behind the process
-            content or numbering. id="process" matches the footer's
-            existing "/about#process" link. ─────────────────────────── */}
-        <section id="process" className={`${GREEN_FADE_CLASS} bg-[var(--color-cream)] scroll-mt-16 md:scroll-mt-18`} style={GREEN_FADE}>
-          <div className={G} style={{ paddingTop: '4.5rem', paddingBottom: '4.5rem' }}>
-            <h2 className="text-h2 text-[var(--color-dark)]">
-              From formulation to final package.
-            </h2>
-            <p className="text-body text-[var(--color-muted)]" style={{ marginTop: '0.75rem', maxWidth: '54ch' }}>
-              GSX keeps the core production path connected inside its own operation.
-            </p>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4" style={{ marginTop: '2.5rem', gap: '1.5rem' }}>
-              {PROCESS_STEPS.map((step) => (
-                <ManufacturingCard
-                  key={step.order}
-                  order={step.order}
-                  title={step.title}
-                  description={step.description}
-                  tone="light"
-                />
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* ── 6. RESPECT THE DOSE — dark philosophy statement, now a
+        {/* ── 5. RESPECT THE DOSE — dark philosophy statement, now a
             balanced two-column composition. The small logo that used to
             float above the heading is removed; the same mark returns
-            larger on the right, providing the visual balance instead. */}
+            larger on the right, providing the visual balance instead.
+            Moved to sit right after Manufacturing (previously came after
+            Process): Manufacturing and Process are both cream, and back
+            to back they read as one oversized cream chapter with no
+            tonal reset. Putting this dark section between them restores
+            a clean cream/dark/cream rhythm and gives Manufacturing room
+            to stand on its own before Process begins. */}
         <section className="bg-[var(--color-dark)]">
           <div className={G} style={{ paddingTop: '4.5rem', paddingBottom: '4.5rem' }}>
             <div className="lg:grid lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:gap-16">
@@ -266,6 +238,39 @@ export default function AboutPage() {
                   style={{ maxWidth: '360px' }}
                 />
               </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ── 6. PROCESS — cream, 4-step horizontal sequence. Carries the
+            same shallow green-to-cream fade used elsewhere on cream
+            sections that directly follow a dark one (see Company Story,
+            section 2, and Product Family Proof, section 7) — now a
+            genuine dark-to-cream handoff from Respect the Dose, same as
+            those other two, rather than the cream-to-cream separator it
+            was standing in for before the section reorder. Confined to
+            the top ~96-160px (see GREEN_FADE_CLASS's bg-size) and fully
+            faded to transparent before the heading's own text. id="process"
+            matches the footer's existing "/about#process" link. ────── */}
+        <section id="process" className={`${GREEN_FADE_CLASS} bg-[var(--color-cream)] scroll-mt-16 md:scroll-mt-18`} style={GREEN_FADE}>
+          <div className={G} style={{ paddingTop: '4.5rem', paddingBottom: '4.5rem' }}>
+            <h2 className="text-h2 text-[var(--color-dark)]">
+              From formulation to final package.
+            </h2>
+            <p className="text-body text-[var(--color-muted)]" style={{ marginTop: '0.75rem', maxWidth: '54ch' }}>
+              GSX keeps the core production path connected inside its own operation.
+            </p>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4" style={{ marginTop: '2.5rem', gap: '1.5rem' }}>
+              {PROCESS_STEPS.map((step) => (
+                <ManufacturingCard
+                  key={step.order}
+                  order={step.order}
+                  title={step.title}
+                  description={step.description}
+                  tone="light"
+                />
+              ))}
             </div>
           </div>
         </section>
