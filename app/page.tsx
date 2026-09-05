@@ -119,7 +119,7 @@ export default async function HomePage() {
                     letterSpacing: '-0.03em',
                   }}
                 >
-                  Oklahoma&rsquo;s own edible company.
+                  Oklahoma&rsquo;s own edible company
                 </h1>
                 <p
                   className="text-[rgba(250,248,243,0.5)] font-[family-name:var(--font-manrope)] font-light"
