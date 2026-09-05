@@ -80,7 +80,7 @@ export default function AboutPage() {
               className="text-[var(--color-cream)] font-[family-name:var(--font-space-grotesk)] font-semibold"
               style={{ fontSize: 'clamp(2rem, 3.6vw, 3.125rem)', lineHeight: '1.05', letterSpacing: '-0.03em', maxWidth: '18ch' }}
             >
-              Made in Oklahoma. Built by GSX.
+              Made in Oklahoma, built by GSX
             </h1>
             <p
               className="text-[rgba(250,248,243,0.5)] font-[family-name:var(--font-manrope)] font-light"
