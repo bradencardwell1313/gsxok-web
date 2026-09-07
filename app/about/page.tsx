@@ -62,6 +62,14 @@ const PROCESS_PHOTO_URL = 'https://cdn.sanity.io/images/o7wavkxv/production/8b4d
 // redesign, no substitution, shape/proportions/colors unchanged.
 const RESPECT_LOGO_URL = 'https://cdn.sanity.io/images/o7wavkxv/production/00ee0021f084edb3e388c52345fe354c06ae45e7-808x448.png'
 
+// Per-variant zoom compensation for the "One operation, multiple product
+// lines" showcase row (section 7) — keyed by product variant slug. Only
+// needed when a specific pack-shot photo has visibly more backdrop padding
+// than its row siblings at the same frame size (see the scale usage below).
+const SHOWCASE_SCALE: Record<string, number> = {
+  'solid-milk-chocolate-bites': 1.12,
+}
+
 export default function AboutPage() {
   return (
     <>
@@ -303,15 +311,23 @@ export default function AboutPage() {
             >
               {PRODUCT_FAMILIES.map((family) => {
                 const shot = family.slug === 'chocolate-bites' ? family.variants[1] : family.variants[0]
+                // The Solid Milk Chocolate Bites source photo has noticeably
+                // more empty backdrop around the pouch than its siblings, so
+                // at identical frame size the pouch itself reads smaller.
+                // Scaling it up compensates so every product reads as the
+                // same physical size in this row; overflow-hidden on the
+                // frame keeps the slight zoom from bleeding past its box.
+                const scale = SHOWCASE_SCALE[shot.slug] ?? 1
                 return (
                   <div key={family.slug} className="flex flex-col items-center text-center">
-                    <div className="relative w-full" style={{ maxWidth: '150px', aspectRatio: '1 / 1' }}>
+                    <div className="relative w-full overflow-hidden" style={{ maxWidth: '150px', aspectRatio: '1 / 1' }}>
                       <Image
                         src={shot.imageUrl!}
                         alt={shot.imageAlt!}
                         fill
                         sizes="(max-width: 640px) 32vw, 150px"
                         className="object-contain"
+                        style={scale !== 1 ? { transform: `scale(${scale})` } : undefined}
                       />
                     </div>
                     <p className="text-label text-[var(--color-dark)]" style={{ marginTop: '1rem' }}>
