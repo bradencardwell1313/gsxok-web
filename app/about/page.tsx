@@ -277,16 +277,14 @@ export default function AboutPage() {
 
         {/* ── 7. PRODUCT FAMILY PROOF — cream, lightweight proof strip.
             Bridges back into Products. Green fade applied: another genuine
-            dark-to-cream handoff. Typography-led on purpose, no product
-            imagery: every representative pack shot available for these five
-            families is already the lead image on the Products page, and the
-            few alternate assets in the library are either near-duplicate
-            photos of the same packages or raw print-proof artwork (crop
-            marks, mm callouts) not fit for a public page — so rather than
-            repeat Products' pack shots or substitute something not
-            camera-ready, this section states the five family names
-            directly. Still not a catalog: no descriptions, specs,
-            per-product CTAs, or SKUs. ─────────────────────────────────── */}
+            dark-to-cream handoff. Each family now shows its real pack shot
+            (the first/flagship variant's approved product photo, reused
+            directly from lib/products/catalog.ts, the same source Products
+            page renders from) so the section reads as concrete rather than
+            a plain name list. One row of 5 on desktop, wrapping to a 2-3
+            column grid on smaller screens. Still not a catalog: no specs,
+            per-product CTAs, or SKUs beyond the single representative shot
+            and name. ────────────────────────────────────────────────── */}
         <section className={`${GREEN_FADE_CLASS} bg-[var(--color-cream)]`} style={GREEN_FADE}>
           <div className={G} style={{ paddingTop: '4.5rem', paddingBottom: '4.5rem' }}>
             <h2 className="text-h2 text-[var(--color-dark)]">
@@ -297,17 +295,28 @@ export default function AboutPage() {
             </p>
 
             <div
-              className="flex flex-wrap items-center"
-              style={{ gap: '0.75rem 1.5rem', marginTop: '2.5rem', paddingTop: '2rem', borderTop: '1px solid var(--color-border)' }}
+              className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5"
+              style={{ gap: '2rem', marginTop: '2.5rem', paddingTop: '2rem', borderTop: '1px solid var(--color-border)' }}
             >
-              {PRODUCT_FAMILIES.map((family, i) => (
-                <div key={family.slug} className="flex items-center" style={{ gap: '1.5rem' }}>
-                  <p className="text-h4 text-[var(--color-dark)]">{family.name}</p>
-                  {i < PRODUCT_FAMILIES.length - 1 && (
-                    <span aria-hidden="true" style={{ width: '5px', height: '5px', borderRadius: '9999px', backgroundColor: 'var(--color-green)' }} />
-                  )}
-                </div>
-              ))}
+              {PRODUCT_FAMILIES.map((family) => {
+                const shot = family.variants[0]
+                return (
+                  <div key={family.slug} className="flex flex-col items-center text-center">
+                    <div className="relative w-full" style={{ maxWidth: '150px', aspectRatio: '1 / 1' }}>
+                      <Image
+                        src={shot.imageUrl!}
+                        alt={shot.imageAlt!}
+                        fill
+                        sizes="(max-width: 640px) 32vw, 150px"
+                        className="object-contain"
+                      />
+                    </div>
+                    <p className="text-label text-[var(--color-dark)]" style={{ marginTop: '1rem' }}>
+                      {family.name}
+                    </p>
+                  </div>
+                )
+              })}
             </div>
 
             <Button href="/products" variant="primary" size="lg" style={{ marginTop: '2.5rem' }}>
