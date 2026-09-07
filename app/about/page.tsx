@@ -284,7 +284,10 @@ export default function AboutPage() {
             a plain name list. One row of 5 on desktop, wrapping to a 2-3
             column grid on smaller screens. Still not a catalog: no specs,
             per-product CTAs, or SKUs beyond the single representative shot
-            and name. ────────────────────────────────────────────────── */}
+            and name. Chocolate Bites intentionally shows its second variant
+            (Solid Milk Chocolate) rather than the first (Caramel) — every
+            other family still uses its first variant as the representative
+            shot. ────────────────────────────────────────────────────── */}
         <section className={`${GREEN_FADE_CLASS} bg-[var(--color-cream)]`} style={GREEN_FADE}>
           <div className={G} style={{ paddingTop: '4.5rem', paddingBottom: '4.5rem' }}>
             <h2 className="text-h2 text-[var(--color-dark)]">
@@ -299,7 +302,7 @@ export default function AboutPage() {
               style={{ gap: '2rem', marginTop: '2.5rem', paddingTop: '2rem', borderTop: '1px solid var(--color-border)' }}
             >
               {PRODUCT_FAMILIES.map((family) => {
-                const shot = family.variants[0]
+                const shot = family.slug === 'chocolate-bites' ? family.variants[1] : family.variants[0]
                 return (
                   <div key={family.slug} className="flex flex-col items-center text-center">
                     <div className="relative w-full" style={{ maxWidth: '150px', aspectRatio: '1 / 1' }}>
