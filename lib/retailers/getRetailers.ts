@@ -33,12 +33,14 @@ function mapDispensaryToRetailer(doc: SanityDispensary): Retailer | null {
   }
 }
 
-// Placeholder retailers are a local-development convenience only. They must
-// never be able to reach a real deployment: NODE_ENV is 'production' for
-// every `next build`/`next start` (Vercel included) and only 'development'
-// under `next dev`, so this isn't a flag anyone can leave on by accident —
-// it's tied to the same build/runtime distinction Next.js itself uses.
-const isProduction = process.env.NODE_ENV === 'production'
+// TEMPORARY, per explicit instruction: the rebuild is a development/review
+// deployment, not the live customer-facing GSX site, so it's acceptable to
+// show clearly-labeled test data here. Forced to false so the deployed
+// rebuild renders MOCK_RETAILERS instead of the "unavailable" fallback.
+// MUST be reverted to `process.env.NODE_ENV === 'production'` before this
+// rebuild replaces the real GSX website, and before Larry's real retailer
+// list goes into Sanity.
+const isProduction = false
 
 export async function getRetailers(): Promise<{ retailers: Retailer[]; source: RetailerDataSource }> {
   try {
