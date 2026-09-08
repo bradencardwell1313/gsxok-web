@@ -136,6 +136,34 @@ export function RetailerLocator({ retailers, dataSource }: RetailerLocatorProps)
           .fg-results-in {
             animation: fgResultsIn 300ms cubic-bezier(0.0, 0.0, 0.2, 1.0) both;
           }
+
+          /* Desktop two-column composition: "find nearest" on the left,
+             the full directory on the right, so the page uses the full
+             content width instead of leaving the right half of a wide
+             cream section empty. Single column below 1024px — mobile
+             order is simply DOM order (search block, then directory),
+             which already puts the ZIP form above any nearest-search
+             results above the directory, matching the required
+             search → nearest results → directory sequence. */
+          .fg-layout {
+            display: grid;
+            grid-template-columns: 1fr;
+            grid-template-areas: "search" "directory";
+            gap: 3rem;
+          }
+          .fg-search-col { grid-area: search; min-width: 0; }
+          .fg-directory-col { grid-area: directory; min-width: 0; }
+          @media (min-width: 1024px) {
+            .fg-layout {
+              grid-template-columns: 1fr 1fr;
+              grid-template-areas: "search directory";
+              column-gap: 4rem;
+            }
+            .fg-directory-col {
+              border-left: 1px solid var(--color-border);
+              padding-left: 4rem;
+            }
+          }
         `}</style>
 
         {dataSource === 'mock' && (
@@ -148,109 +176,119 @@ export function RetailerLocator({ retailers, dataSource }: RetailerLocatorProps)
           </div>
         )}
 
-        {/* ZIP search — prominent but constrained, not a full-bleed hero
-            control. */}
-        <div style={{ maxWidth: '640px' }}>
-          <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row sm:items-end gap-3">
-            <div className="flex-1 flex flex-col gap-1.5">
-              <label htmlFor={zipInputId} className="text-label" style={{ color: 'var(--color-muted)' }}>
-                ZIP code
-              </label>
-              <input
-                id={zipInputId}
-                type="text"
-                inputMode="numeric"
-                autoComplete="postal-code"
-                maxLength={5}
-                value={zip}
-                onChange={(e) => setZip(e.target.value.replace(/[^\d]/g, ''))}
-                placeholder="Enter ZIP code"
-                aria-invalid={validationError ? true : undefined}
-                aria-describedby={validationError ? zipErrorId : undefined}
-                className="h-12 px-4 text-body bg-white text-[var(--color-dark)] border border-[var(--color-border)] placeholder:text-[var(--color-muted)] focus:outline-none focus:border-[var(--color-green)] transition-colors duration-150"
-              />
-            </div>
-            <button
-              type="submit"
-              className="text-button px-6 h-12 bg-[var(--color-green)] text-[var(--color-cream)] border border-[var(--color-green)] hover:bg-[#155f3a] hover:border-[#155f3a] transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-dark)]"
-            >
-              Find GSX
-            </button>
-          </form>
+        <div className="fg-layout">
+          {/* Left — "find nearest" utility: ZIP search, then (once a
+              search completes) the nearest-results state. */}
+          <div className="fg-search-col">
+            <h2 className="text-h4 text-[var(--color-dark)]">Find retailers near you</h2>
 
-          {validationError && (
-            <p id={zipErrorId} role="alert" className="text-body-sm mt-3" style={{ color: 'var(--color-muted)' }}>
-              {validationError}
-            </p>
-          )}
-          {status === 'error' && (
-            <p role="alert" className="text-body-sm mt-3" style={{ color: 'var(--color-muted)' }}>
-              We couldn&rsquo;t complete that search. Please try again.
-            </p>
-          )}
-          {status === 'not-found' && (
-            <p role="alert" className="text-body-sm mt-3" style={{ color: 'var(--color-muted)' }}>
-              We couldn&rsquo;t find that ZIP code. Please check it and try again.
-            </p>
-          )}
-        </div>
+            {/* ZIP search — prominent but constrained, not a full-bleed
+                hero control. */}
+            <div className="mt-4" style={{ maxWidth: '640px' }}>
+              <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row sm:items-end gap-3">
+                <div className="flex-1 flex flex-col gap-1.5">
+                  <label htmlFor={zipInputId} className="text-label" style={{ color: 'var(--color-muted)' }}>
+                    ZIP code
+                  </label>
+                  <input
+                    id={zipInputId}
+                    type="text"
+                    inputMode="numeric"
+                    autoComplete="postal-code"
+                    maxLength={5}
+                    value={zip}
+                    onChange={(e) => setZip(e.target.value.replace(/[^\d]/g, ''))}
+                    placeholder="Enter ZIP code"
+                    aria-invalid={validationError ? true : undefined}
+                    aria-describedby={validationError ? zipErrorId : undefined}
+                    className="h-12 px-4 text-body bg-white text-[var(--color-dark)] border border-[var(--color-border)] placeholder:text-[var(--color-muted)] focus:outline-none focus:border-[var(--color-green)] transition-colors duration-150"
+                  />
+                </div>
+                <button
+                  type="submit"
+                  className="text-button px-6 h-12 bg-[var(--color-green)] text-[var(--color-cream)] border border-[var(--color-green)] hover:bg-[#155f3a] hover:border-[#155f3a] transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-dark)]"
+                >
+                  Find GSX
+                </button>
+              </form>
 
-        {/* Nearest results — only after a successful search. Keyed on
-            searchNonce (not searchedZip) so re-searching the same ZIP still
-            replays the entrance transition, per "every successful search
-            should clearly read as a new state." The top rule + generous
-            top spacing is the primary separation from the search controls
-            above — rules-based separation, not color banding, matching the
-            rest of the site. */}
-        {searchedZip && (
-          <div
-            key={searchNonce}
-            className="fg-results-in mt-12 pt-8"
-            style={{ maxWidth: '640px', borderTop: '1px solid var(--color-border)' }}
-          >
-            <h2 className="text-h3 text-[var(--color-dark)]">GSX near {searchedZip}</h2>
-            {nearestResults.length > 0 && (
-              <p className="text-body-sm mt-1" style={{ color: 'var(--color-muted)' }}>
-                Closest retailers, sorted by approximate distance
-              </p>
-            )}
-
-            {nearestResults.length === 0 ? (
-              <div className="mt-4 px-4 py-8 text-center border border-[var(--color-border)]">
-                <p className="text-h4 text-[var(--color-dark)]">No nearby GSX retailers found</p>
-                <p className="text-body-sm mt-2" style={{ color: 'var(--color-muted)' }}>
-                  Try another ZIP code or check back as we continue expanding retailer locations.
+              {validationError && (
+                <p id={zipErrorId} role="alert" className="text-body-sm mt-3" style={{ color: 'var(--color-muted)' }}>
+                  {validationError}
                 </p>
-              </div>
-            ) : (
-              <>
-                <ul className="mt-4 border border-[var(--color-border)]">
-                  {visibleNearest.map((r) => (
-                    <RetailerResult key={r.id} retailer={r} />
-                  ))}
-                </ul>
-                {hasMoreNearest && (
-                  <button
-                    type="button"
-                    onClick={() => setShowAllNearest(true)}
-                    className="text-button mt-4 px-5 h-11 bg-transparent text-[var(--color-dark)] border border-[var(--color-dark)] hover:bg-[var(--color-dark)] hover:text-[var(--color-cream)] transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-green)]"
-                  >
-                    Show More
-                  </button>
+              )}
+              {status === 'error' && (
+                <p role="alert" className="text-body-sm mt-3" style={{ color: 'var(--color-muted)' }}>
+                  We couldn&rsquo;t complete that search. Please try again.
+                </p>
+              )}
+              {status === 'not-found' && (
+                <p role="alert" className="text-body-sm mt-3" style={{ color: 'var(--color-muted)' }}>
+                  We couldn&rsquo;t find that ZIP code. Please check it and try again.
+                </p>
+              )}
+            </div>
+
+            {/* Nearest results — only after a successful search. Keyed on
+                searchNonce (not searchedZip) so re-searching the same ZIP
+                still replays the entrance transition, per "every
+                successful search should clearly read as a new state." The
+                top rule + generous top spacing is the primary separation
+                from the search controls above — rules-based separation,
+                not color banding, matching the rest of the site. */}
+            {searchedZip && (
+              <div
+                key={searchNonce}
+                className="fg-results-in mt-12 pt-8"
+                style={{ maxWidth: '640px', borderTop: '1px solid var(--color-border)' }}
+              >
+                <h2 className="text-h3 text-[var(--color-dark)]">GSX near {searchedZip}</h2>
+                {nearestResults.length > 0 && (
+                  <p className="text-body-sm mt-1" style={{ color: 'var(--color-muted)' }}>
+                    Closest retailers, sorted by approximate distance
+                  </p>
                 )}
-              </>
+
+                {nearestResults.length === 0 ? (
+                  <div className="mt-4 px-4 py-8 text-center border border-[var(--color-border)]">
+                    <p className="text-h4 text-[var(--color-dark)]">No nearby GSX retailers found</p>
+                    <p className="text-body-sm mt-2" style={{ color: 'var(--color-muted)' }}>
+                      Try another ZIP code or check back as we continue expanding retailer locations.
+                    </p>
+                  </div>
+                ) : (
+                  <>
+                    <ul className="mt-4 border border-[var(--color-border)]">
+                      {visibleNearest.map((r) => (
+                        <RetailerResult key={r.id} retailer={r} />
+                      ))}
+                    </ul>
+                    {hasMoreNearest && (
+                      <button
+                        type="button"
+                        onClick={() => setShowAllNearest(true)}
+                        className="text-button mt-4 px-5 h-11 bg-transparent text-[var(--color-dark)] border border-[var(--color-dark)] hover:bg-[var(--color-dark)] hover:text-[var(--color-cream)] transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-green)]"
+                      >
+                        Show More
+                      </button>
+                    )}
+                  </>
+                )}
+              </div>
             )}
           </div>
-        )}
 
-        {/* All GSX retailers — always browseable, no search required. */}
-        <div className="mt-12" style={{ maxWidth: '640px' }}>
-          <h2 className="text-h4 text-[var(--color-dark)]">All GSX retailers</h2>
-          <ul className="mt-4 border border-[var(--color-border)]">
-            {baseList.map((r) => (
-              <RetailerResult key={r.id} retailer={r} />
-            ))}
-          </ul>
+          {/* Right — "browse all" utility: the full directory, always
+              visible, no search required. Never shows distance — these
+              rows have no search origin to measure from. */}
+          <div className="fg-directory-col">
+            <h2 className="text-h4 text-[var(--color-dark)]">All GSX retailers</h2>
+            <ul className="mt-4 border border-[var(--color-border)]" style={{ maxWidth: '640px' }}>
+              {baseList.map((r) => (
+                <RetailerResult key={r.id} retailer={r} />
+              ))}
+            </ul>
+          </div>
         </div>
       </div>
     </section>
