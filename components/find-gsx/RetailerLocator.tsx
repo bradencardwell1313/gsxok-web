@@ -1,121 +1,91 @@
 'use client'
 
-import { useMemo, useRef, useState } from 'react'
+import { useId, useMemo, useState } from 'react'
 import type { Retailer, RetailerDataSource, RetailerWithDistance } from '@/lib/retailers/types'
 import { distanceMiles } from '@/lib/geo/distance'
-import { geocodeLocation } from '@/lib/geo/geocode'
-import { RetailerMap, type RetailerMapHandle } from './RetailerMap'
 import { RetailerResult } from './RetailerResult'
 
-// The Find GSX locator: search controls, map, and retailer results as one
-// integrated experience. Desktop layout is a 2-column grid (~38% controls +
-// results / ~62% map); mobile reflows to controls → map → results via
-// grid-template-areas rather than squeezing the desktop layout down (see
-// the <style> block below) — a single CSS grid keeps controls+results in
-// one DOM order for both breakpoints while only the map's position in the
-// visual flow changes, so nothing needs to render twice.
+// The Find GSX locator: a ZIP-code search plus a full retailer directory.
+// No map — see the earlier Mapbox implementation this replaced. The
+// primary flow is deliberately simple: enter a ZIP, see the nearest
+// eligible retailers and their addresses; browse the full list below that
+// without searching at all.
 
-const OKLAHOMA_DEFAULT_CENTER = { lat: 35.55, lng: -97.4 }
-const OKLAHOMA_DEFAULT_ZOOM = 6.2
-const SEARCH_ZOOM = 10.5
-const NEARBY_RADIUS_MILES = 100
+const RESULTS_PAGE_SIZE = 5
 
-type SearchStatus = 'idle' | 'loading' | 'error' | 'location-denied'
+// Retailers beyond this are not shown as a search result, even if they're
+// technically the "nearest" one on file — a ZIP search for a distant or
+// out-of-state code shouldn't present a retailer hundreds of miles away as
+// if it were a normal nearby result. Wider than the old map-based radius
+// (100mi) since a ZIP centroid is less precise than a geocoded address.
+const NEARBY_RADIUS_MILES = 150
+
+const ZIP_PATTERN = /^\d{5}$/
+
+type SearchStatus = 'idle' | 'loading' | 'error' | 'not-found'
 
 interface RetailerLocatorProps {
   retailers: Retailer[]
   dataSource: RetailerDataSource
-  mapboxToken: string
 }
 
 function sortByCity(list: Retailer[]): Retailer[] {
   return [...list].sort((a, b) => a.city.localeCompare(b.city) || a.name.localeCompare(b.name))
 }
 
-export function RetailerLocator({ retailers, dataSource, mapboxToken }: RetailerLocatorProps) {
-  const hasMapbox = mapboxToken.length > 0
-  const mapRef = useRef<RetailerMapHandle>(null)
+export function RetailerLocator({ retailers, dataSource }: RetailerLocatorProps) {
+  const zipInputId = useId()
+  const zipErrorId = useId()
 
-  const [query, setQuery] = useState('')
-  const [userLocation, setUserLocation] = useState<{ lat: number; lng: number } | null>(null)
-  const [selectedId, setSelectedId] = useState<string | null>(null)
+  const [zip, setZip] = useState('')
+  const [validationError, setValidationError] = useState<string | null>(null)
   const [status, setStatus] = useState<SearchStatus>('idle')
-  const [locationDeniedOnce, setLocationDeniedOnce] = useState(false)
+  const [searchedZip, setSearchedZip] = useState<string | null>(null)
+  const [nearestResults, setNearestResults] = useState<RetailerWithDistance[]>([])
+  const [showAllNearest, setShowAllNearest] = useState(false)
 
   const baseList = useMemo(() => sortByCity(retailers), [retailers])
 
-  const results: RetailerWithDistance[] = useMemo(() => {
-    if (!userLocation) return baseList
-
-    return baseList
-      .map((r) => ({ ...r, distanceMiles: distanceMiles(userLocation, r) }))
-      .filter((r) => r.distanceMiles <= NEARBY_RADIUS_MILES)
-      .sort((a, b) => a.distanceMiles - b.distanceMiles)
-  }, [baseList, userLocation])
-
-  function selectAndFocus(id: string) {
-    setSelectedId(id)
-    const target = results.find((r) => r.id === id) ?? retailers.find((r) => r.id === id)
-    if (target) mapRef.current?.flyTo({ lat: target.lat, lng: target.lng }, 12.5)
-  }
-
-  async function handleSearchSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
-    if (!query.trim()) return
+    const trimmed = zip.trim()
 
-    if (!hasMapbox) {
-      setStatus('error')
+    if (!ZIP_PATTERN.test(trimmed)) {
+      setValidationError('Enter a valid 5-digit ZIP code.')
+      setSearchedZip(null)
       return
     }
 
+    setValidationError(null)
     setStatus('loading')
+
     try {
-      const result = await geocodeLocation(query.trim(), mapboxToken)
-      if (!result) {
-        setStatus('error')
+      const res = await fetch(`/api/zip-lookup?zip=${trimmed}`)
+      if (!res.ok) {
+        setStatus(res.status === 404 ? 'not-found' : 'error')
+        setSearchedZip(null)
         return
       }
-      setUserLocation({ lat: result.lat, lng: result.lng })
-      setSelectedId(null)
+      const { location } = await res.json()
+
+      const withDistance = baseList
+        .map((r) => ({ ...r, distanceMiles: distanceMiles(location, r) }))
+        .filter((r) => r.distanceMiles <= NEARBY_RADIUS_MILES)
+        .sort((a, b) => a.distanceMiles - b.distanceMiles)
+
+      setNearestResults(withDistance)
+      setSearchedZip(trimmed)
+      setShowAllNearest(false)
       setStatus('idle')
-      mapRef.current?.flyTo({ lat: result.lat, lng: result.lng }, SEARCH_ZOOM)
     } catch {
       setStatus('error')
+      setSearchedZip(null)
     }
   }
 
-  function handleUseMyLocation() {
-    if (!('geolocation' in navigator)) {
-      setStatus('error')
-      return
-    }
-
-    setStatus('loading')
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        const loc = { lat: position.coords.latitude, lng: position.coords.longitude }
-        setUserLocation(loc)
-        setSelectedId(null)
-        setStatus('idle')
-        mapRef.current?.flyTo(loc, SEARCH_ZOOM)
-      },
-      (err) => {
-        if (err.code === err.PERMISSION_DENIED) {
-          setLocationDeniedOnce(true)
-          setStatus('location-denied')
-        } else {
-          setStatus('error')
-        }
-      },
-      { timeout: 8000 }
-    )
-  }
-
-  // Production with zero real Sanity retailers (see getRetailers.ts) — a
-  // truthful "we don't have this yet" state, never placeholder stores
-  // standing in for real ones. Replaces the whole locator (search/map/
-  // results) rather than showing controls that can only ever return
-  // nothing.
+  // Production with zero real Sanity retailers — a truthful "we don't have
+  // this yet" state, never placeholder stores standing in for real ones.
+  // Unchanged from the map-based build: approved as-is, not being redesigned.
   if (dataSource === 'unavailable') {
     return (
       <section
@@ -135,6 +105,9 @@ export function RetailerLocator({ retailers, dataSource, mapboxToken }: Retailer
     )
   }
 
+  const visibleNearest = showAllNearest ? nearestResults : nearestResults.slice(0, RESULTS_PAGE_SIZE)
+  const hasMoreNearest = !showAllNearest && nearestResults.length > RESULTS_PAGE_SIZE
+
   return (
     <section
       className="relative bg-[var(--color-cream)] bg-[length:100%_96px] md:bg-[length:100%_160px] bg-no-repeat bg-top"
@@ -146,7 +119,7 @@ export function RetailerLocator({ retailers, dataSource, mapboxToken }: Retailer
       <div className="w-full max-w-[1280px] mx-auto px-6 md:px-16 xl:px-24" style={{ paddingTop: '3rem', paddingBottom: '4rem' }}>
         {dataSource === 'mock' && (
           <div
-            className="text-label px-4 py-2.5 mb-6"
+            className="text-label px-4 py-2.5 mb-8"
             style={{ color: 'var(--color-muted)', border: '1px solid var(--color-border)', backgroundColor: 'var(--color-cream-2)' }}
             role="status"
           >
@@ -154,120 +127,94 @@ export function RetailerLocator({ retailers, dataSource, mapboxToken }: Retailer
           </div>
         )}
 
-        <style>{`
-          .find-gsx-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            grid-template-areas: "controls" "map" "results";
-            gap: 1.75rem;
-          }
-          .find-gsx-grid > .fg-controls { grid-area: controls; }
-          .find-gsx-grid > .fg-map { grid-area: map; }
-          .find-gsx-grid > .fg-results { grid-area: results; }
-          @media (min-width: 1024px) {
-            .find-gsx-grid {
-              grid-template-columns: 38fr 62fr;
-              grid-template-areas: "controls map" "results map";
-              align-items: start;
-              gap: 2.5rem;
-            }
-          }
-        `}</style>
-
-        <div className="find-gsx-grid">
-          {/* Search controls */}
-          <div className="fg-controls">
-            <form onSubmit={handleSearchSubmit} className="flex flex-col gap-3">
-              <label htmlFor="retailer-search" className="text-label" style={{ color: 'var(--color-muted)' }}>
-                Search by location
+        {/* ZIP search — prominent but constrained, not a full-bleed hero
+            control. */}
+        <div style={{ maxWidth: '640px' }}>
+          <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row sm:items-end gap-3">
+            <div className="flex-1 flex flex-col gap-1.5">
+              <label htmlFor={zipInputId} className="text-label" style={{ color: 'var(--color-muted)' }}>
+                ZIP code
               </label>
-              <div className="flex gap-3">
-                <input
-                  id="retailer-search"
-                  type="text"
-                  inputMode="search"
-                  value={query}
-                  onChange={(e) => setQuery(e.target.value)}
-                  placeholder="City or ZIP code"
-                  className="flex-1 h-12 px-4 text-body bg-white text-[var(--color-dark)] border border-[var(--color-border)] placeholder:text-[var(--color-muted)] focus:outline-none focus:border-[var(--color-green)] transition-colors duration-150"
-                />
-                <button
-                  type="submit"
-                  className="text-button px-6 h-12 bg-[var(--color-green)] text-[var(--color-cream)] border border-[var(--color-green)] hover:bg-[#155f3a] hover:border-[#155f3a] transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-dark)]"
-                >
-                  Search
-                </button>
-              </div>
-
-              {/* Independent of Mapbox — plain browser geolocation plus the
-                  haversine distance helper, so this still works even when
-                  NEXT_PUBLIC_MAPBOX_TOKEN isn't configured (see the map/
-                  search fallbacks below, which do require it). */}
-              <button
-                type="button"
-                onClick={handleUseMyLocation}
-                className="self-start text-button px-5 h-11 bg-transparent text-[var(--color-dark)] border border-[var(--color-dark)] hover:bg-[var(--color-dark)] hover:text-[var(--color-cream)] transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-green)]"
-              >
-                Use My Location
-              </button>
-            </form>
-
-            {status === 'error' && (
-              <p className="text-body-sm mt-3" style={{ color: 'var(--color-muted)' }}>
-                {hasMapbox
-                  ? "We couldn't complete that search. Please try a different city or ZIP code."
-                  : 'Location search is not available in this environment yet. Try Use My Location, or check back soon.'}
-              </p>
-            )}
-            {status === 'location-denied' && (
-              <p className="text-body-sm mt-3" style={{ color: 'var(--color-muted)' }}>
-                Location access was denied. You can still search by city or ZIP code above.
-              </p>
-            )}
-          </div>
-
-          {/* Map */}
-          <div className="fg-map" style={{ height: 340 }}>
-            <div className="w-full h-full lg:h-[560px] lg:sticky lg:top-24 overflow-hidden border border-[var(--color-border)]" style={{ height: 340 }}>
-              {hasMapbox ? (
-                <RetailerMap
-                  ref={mapRef}
-                  token={mapboxToken}
-                  retailers={results}
-                  selectedId={selectedId}
-                  onSelect={selectAndFocus}
-                  initialCenter={OKLAHOMA_DEFAULT_CENTER}
-                  initialZoom={OKLAHOMA_DEFAULT_ZOOM}
-                />
-              ) : (
-                <div className="w-full h-full flex items-center justify-center bg-[var(--color-cream-2)] px-8 text-center">
-                  <p className="text-body-sm" style={{ color: 'var(--color-muted)' }}>
-                    Map is temporarily unavailable in this environment. Retailer results are still shown below.
-                  </p>
-                </div>
-              )}
+              <input
+                id={zipInputId}
+                type="text"
+                inputMode="numeric"
+                autoComplete="postal-code"
+                maxLength={5}
+                value={zip}
+                onChange={(e) => setZip(e.target.value.replace(/[^\d]/g, ''))}
+                placeholder="Enter ZIP code"
+                aria-invalid={validationError ? true : undefined}
+                aria-describedby={validationError ? zipErrorId : undefined}
+                className="h-12 px-4 text-body bg-white text-[var(--color-dark)] border border-[var(--color-border)] placeholder:text-[var(--color-muted)] focus:outline-none focus:border-[var(--color-green)] transition-colors duration-150"
+              />
             </div>
-          </div>
+            <button
+              type="submit"
+              className="text-button px-6 h-12 bg-[var(--color-green)] text-[var(--color-cream)] border border-[var(--color-green)] hover:bg-[#155f3a] hover:border-[#155f3a] transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-dark)]"
+            >
+              Find GSX
+            </button>
+          </form>
 
-          {/* Results */}
-          <div className="fg-results">
-            <div className="lg:max-h-[560px] lg:overflow-y-auto border border-[var(--color-border)]">
-              {results.length === 0 ? (
-                <div className="px-4 py-8 text-center">
-                  <p className="text-h4 text-[var(--color-dark)]">No nearby GSX retailers found</p>
-                  <p className="text-body-sm mt-2" style={{ color: 'var(--color-muted)' }}>
-                    Try another city or ZIP code.
-                  </p>
-                </div>
-              ) : (
-                <ul>
-                  {results.map((r) => (
-                    <RetailerResult key={r.id} retailer={r} selected={selectedId === r.id} onSelect={selectAndFocus} />
+          {validationError && (
+            <p id={zipErrorId} role="alert" className="text-body-sm mt-3" style={{ color: 'var(--color-muted)' }}>
+              {validationError}
+            </p>
+          )}
+          {status === 'error' && (
+            <p role="alert" className="text-body-sm mt-3" style={{ color: 'var(--color-muted)' }}>
+              We couldn&rsquo;t complete that search. Please try again.
+            </p>
+          )}
+          {status === 'not-found' && (
+            <p role="alert" className="text-body-sm mt-3" style={{ color: 'var(--color-muted)' }}>
+              We couldn&rsquo;t find that ZIP code. Please check it and try again.
+            </p>
+          )}
+        </div>
+
+        {/* Nearest results — only after a successful search. */}
+        {searchedZip && (
+          <div className="mt-10" style={{ maxWidth: '640px' }}>
+            <h2 className="text-h4 text-[var(--color-dark)]">GSX near {searchedZip}</h2>
+
+            {nearestResults.length === 0 ? (
+              <div className="mt-4 px-4 py-8 text-center border border-[var(--color-border)]">
+                <p className="text-h4 text-[var(--color-dark)]">No nearby GSX retailers found</p>
+                <p className="text-body-sm mt-2" style={{ color: 'var(--color-muted)' }}>
+                  Try another ZIP code or check back as we continue expanding retailer locations.
+                </p>
+              </div>
+            ) : (
+              <>
+                <ul className="mt-4 border border-[var(--color-border)]">
+                  {visibleNearest.map((r) => (
+                    <RetailerResult key={r.id} retailer={r} />
                   ))}
                 </ul>
-              )}
-            </div>
+                {hasMoreNearest && (
+                  <button
+                    type="button"
+                    onClick={() => setShowAllNearest(true)}
+                    className="text-button mt-4 px-5 h-11 bg-transparent text-[var(--color-dark)] border border-[var(--color-dark)] hover:bg-[var(--color-dark)] hover:text-[var(--color-cream)] transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-green)]"
+                  >
+                    Show More
+                  </button>
+                )}
+              </>
+            )}
           </div>
+        )}
+
+        {/* All GSX retailers — always browseable, no search required. */}
+        <div className="mt-12" style={{ maxWidth: '640px' }}>
+          <h2 className="text-h4 text-[var(--color-dark)]">All GSX retailers</h2>
+          <ul className="mt-4 border border-[var(--color-border)]">
+            {baseList.map((r) => (
+              <RetailerResult key={r.id} retailer={r} />
+            ))}
+          </ul>
         </div>
       </div>
     </section>
