@@ -20,8 +20,15 @@ interface RetailerResultProps {
 export function RetailerResult({ retailer }: RetailerResultProps) {
   const directionsUrl = retailer.directionsUrl ?? googleMapsDirectionsUrl(retailer.lat, retailer.lng)
 
+  // Always keep the bottom border, including on the last item — this
+  // component renders inside both a plain single-column list (search
+  // results) and a 2-column grid (the full directory). In a grid,
+  // ":last-child" only ever matches one literal item, which would leave
+  // its row-neighbor's border in place and read as a lopsided last row.
+  // The container's own bottom border sits directly against this one on
+  // the true last item, reading as a single line, not a doubled one.
   return (
-    <li className="border-b border-[var(--color-border)] last:border-b-0 px-4 py-4">
+    <li className="border-b border-[var(--color-border)] px-4 py-4">
       <p className="text-h4 text-[var(--color-dark)]">{retailer.name}</p>
       <p className="text-body-sm text-[var(--color-muted)] mt-1">
         {retailer.address}
