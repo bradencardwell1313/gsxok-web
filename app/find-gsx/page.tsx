@@ -16,7 +16,6 @@ const G = 'w-full max-w-[1280px] mx-auto px-6 md:px-16 xl:px-24'
 
 export default async function FindGsxPage() {
   const { retailers, source } = await getRetailers()
-  const mapboxToken = process.env.NEXT_PUBLIC_MAPBOX_TOKEN ?? ''
 
   return (
     <>
@@ -42,17 +41,17 @@ export default async function FindGsxPage() {
               className="text-[rgba(250,248,243,0.5)] font-[family-name:var(--font-manrope)] font-light"
               style={{ fontSize: '1.0625rem', lineHeight: '1.68', marginTop: '1rem', maxWidth: '56ch' }}
             >
-              Search for licensed Oklahoma dispensaries carrying GSX products near you
+              Enter your ZIP code to find GSX retailers near you
             </p>
           </div>
         </section>
 
-        {/* ── 2. LOCATOR — the centerpiece. Search controls, map, and
-            retailer results as one integrated experience. See
+        {/* ── 2. LOCATOR — ZIP search + nearest results + the full
+            retailer directory. No map. See
             components/find-gsx/RetailerLocator.tsx for the full
-            architecture (search, geolocation, map/list selection sync,
-            empty/error states, mock-data fallback). ─────────────────── */}
-        <RetailerLocator retailers={retailers} dataSource={source} mapboxToken={mapboxToken} />
+            architecture (ZIP lookup, distance sort, empty/error states,
+            mock-data fallback). ─────────────────────────────────────── */}
+        <RetailerLocator retailers={retailers} dataSource={source} />
 
         {/* ── 3. PRODUCT AVAILABILITY NOTE — compact, restrained. Not a
             marketing section, not a real-time inventory claim. ───────── */}
