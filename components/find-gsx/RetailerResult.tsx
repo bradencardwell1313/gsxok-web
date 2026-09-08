@@ -6,6 +6,12 @@ import type { RetailerWithDistance } from '@/lib/retailers/types'
 // presentational: with no map to sync selection with, this is just a
 // semantic list item (name, address, optional distance, a real Directions
 // link) rather than an interactive control.
+//
+// Distance only ever renders here when the caller passes a retailer with
+// `distanceMiles` set — the directory listing never sets it, so it's
+// naturally omitted there without any extra prop or branch. When present,
+// it's sized and weighted as the strongest secondary element (bigger than
+// the address), with green as an accent rather than the only signal.
 
 interface RetailerResultProps {
   retailer: RetailerWithDistance
@@ -23,9 +29,17 @@ export function RetailerResult({ retailer }: RetailerResultProps) {
         {retailer.city}, {retailer.state} {retailer.zip}
       </p>
       {typeof retailer.distanceMiles === 'number' && (
-        <p className="text-label mt-1.5" style={{ color: 'var(--color-green)' }}>
-          {retailer.distanceMiles < 0.1 ? 'Approx. <0.1 miles' : `Approx. ${retailer.distanceMiles.toFixed(1)} miles`}
-        </p>
+        <div className="mt-2">
+          <p
+            className="font-[family-name:var(--font-space-grotesk)] font-semibold"
+            style={{ fontSize: '1.25rem', lineHeight: '1.2', letterSpacing: '-0.01em', color: 'var(--color-green)' }}
+          >
+            {retailer.distanceMiles < 0.1 ? '<0.1 miles away' : `${retailer.distanceMiles.toFixed(1)} miles away`}
+          </p>
+          <p className="text-caption" style={{ color: 'var(--color-muted)' }}>
+            Approximate distance
+          </p>
+        </div>
       )}
       <a
         href={directionsUrl}
