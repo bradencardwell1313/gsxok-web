@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Image from 'next/image'
 import { Nav } from '@/components/layout/Nav'
 import { Footer } from '@/components/layout/Footer'
 import { Button } from '@/components/ui/Button'
@@ -19,6 +20,23 @@ const GREEN_FADE = {
     'linear-gradient(to bottom, rgba(26,122,74,0.32) 0%, rgba(26,122,74,0.12) 20%, rgba(26,122,74,0) 60%, rgba(26,122,74,0) 100%)',
 }
 const GREEN_FADE_CLASS = 'relative bg-[length:100%_96px] md:bg-[length:100%_160px] bg-no-repeat bg-top'
+
+// The same approved Oklahoma-outline / "Respect the Dose" lockup used in the
+// site nav and on the About page's own Respect the Dose section — the
+// cleaned Sanity asset (white flecks and edge halo removed pixel-by-pixel by
+// saturation, no redesign, no substitution). Reused verbatim, not
+// regenerated, per the "use the existing approved asset only" requirement.
+const RESPECT_LOGO_URL = 'https://cdn.sanity.io/images/o7wavkxv/production/00ee0021f084edb3e388c52345fe354c06ae45e7-808x448.png'
+
+// Per-variant zoom compensation for the product-format showcase row below —
+// same fix used on the About page's "One operation, multiple product lines"
+// row. The Solid Milk Chocolate Bites source photo has noticeably more empty
+// backdrop around the pouch than its siblings, so at an identical frame size
+// the pouch itself reads smaller; scaling it up keeps every product reading
+// as the same physical size in the row.
+const SHOWCASE_SCALE: Record<string, number> = {
+  'solid-milk-chocolate-bites': 1.12,
+}
 
 const STORAGE_POINTS = [
   'Keep products in their original packaging',
@@ -80,20 +98,36 @@ export default function LearnPage() {
           </div>
         </section>
 
-        {/* ── 2. RESPECT THE DOSE — cream, the strongest section on the
-            page by virtue of being first after the hero and using the
-            same text-h2 scale as every other page's lead cream section,
-            not by any one-off decorative treatment. ────────────────── */}
+        {/* ── 2. RESPECT THE DOSE — cream. Balanced two-column composition:
+            education on the left (unchanged heading/copy), the approved
+            Respect the Dose / Oklahoma-outline mark on the right as a
+            restrained, secondary visual — not a promotional hero. Source
+            order keeps text first, art second, so mobile stacks text-then-
+            artwork automatically with no extra ordering rules needed. */}
         <section className={`${GREEN_FADE_CLASS} bg-[var(--color-cream)]`} style={GREEN_FADE}>
           <div className={G} style={{ paddingTop: '4.5rem', paddingBottom: '4.5rem' }}>
-            <h2 className="text-h2 text-[var(--color-dark)]">Respect the Dose</h2>
-            <div style={{ width: '40px', height: '2px', backgroundColor: 'var(--color-green)', marginTop: '1.1rem', marginBottom: '1.25rem' }} />
-            <p className="text-body text-[var(--color-muted)]" style={{ maxWidth: '60ch' }}>
-              Edibles can take time to fully take effect. Start with the labeled serving size, give it time before taking more, and always read the package before use.
-            </p>
-            <p className="text-body-sm text-[var(--color-muted)]" style={{ marginTop: '1rem', maxWidth: '60ch' }}>
-              GSX packages are labeled to help consumers understand serving size and total package content.
-            </p>
+            <div className="lg:grid lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:gap-16">
+              <div>
+                <h2 className="text-h2 text-[var(--color-dark)]">Respect the Dose</h2>
+                <div style={{ width: '40px', height: '2px', backgroundColor: 'var(--color-green)', marginTop: '1.1rem', marginBottom: '1.25rem' }} />
+                <p className="text-body text-[var(--color-muted)]" style={{ maxWidth: '60ch' }}>
+                  Edibles can take time to fully take effect. Start with the labeled serving size, give it time before taking more, and always read the package before use.
+                </p>
+                <p className="text-body-sm text-[var(--color-muted)]" style={{ marginTop: '1rem', maxWidth: '60ch' }}>
+                  GSX packages are labeled to help consumers understand serving size and total package content.
+                </p>
+              </div>
+              <div className="flex justify-center lg:justify-end mt-10 lg:mt-0">
+                <Image
+                  src={RESPECT_LOGO_URL}
+                  alt="Oklahoma outline, Respect the Dose, GSX Green Science Extracts"
+                  width={808}
+                  height={448}
+                  className="w-full h-auto"
+                  style={{ maxWidth: '260px' }}
+                />
+              </div>
+            </div>
           </div>
         </section>
 
@@ -116,11 +150,19 @@ export default function LearnPage() {
           </div>
         </section>
 
-        {/* ── 4. PRODUCT FORMATS — cream. Family names sourced from the
-            same catalog Products/About already use, not a hardcoded
-            duplicate list. Names only, no artwork — keeps this section
-            educational rather than a second product showcase, and avoids
-            any question of reusing locked packaging imagery here. ────── */}
+        {/* ── 4. PRODUCT FORMATS — cream. One representative authentic
+            product photo per family, sourced from the same catalog
+            Products/About already use (not new artwork, not a hardcoded
+            duplicate list), reusing the exact showcase pattern from the
+            About page's "One operation, multiple product lines" row: a
+            fixed square frame with object-contain keeps every pack shot
+            reading as the same physical size despite different real
+            packaging shapes, and the per-slug scale compensation above
+            corrects the one photo with extra backdrop padding. Deliberately
+            modest — no cards, borders, hover states, specs, or per-product
+            CTAs; the name is a plain caption, same as About. Chocolate
+            Bites shows its Solid Milk Chocolate variant, matching the
+            About page's own choice for this exact row. ────────────────── */}
         <section className={`${GREEN_FADE_CLASS} bg-[var(--color-cream)]`} style={GREEN_FADE}>
           <div className={G} style={{ paddingTop: '4.5rem', paddingBottom: '4.5rem' }}>
             <h2 className="text-h2 text-[var(--color-dark)]">Different formats, same responsibility</h2>
@@ -130,13 +172,29 @@ export default function LearnPage() {
 
             <div
               className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5"
-              style={{ gap: '1.5rem', marginTop: '2.5rem', paddingTop: '2rem', borderTop: '1px solid var(--color-border)' }}
+              style={{ gap: '2rem', marginTop: '2.5rem', paddingTop: '2rem', borderTop: '1px solid var(--color-border)' }}
             >
-              {PRODUCT_FAMILIES.map((family) => (
-                <p key={family.slug} className="text-h4 text-[var(--color-dark)]">
-                  {family.name}
-                </p>
-              ))}
+              {PRODUCT_FAMILIES.map((family) => {
+                const shot = family.slug === 'chocolate-bites' ? family.variants[1] : family.variants[0]
+                const scale = SHOWCASE_SCALE[shot.slug] ?? 1
+                return (
+                  <div key={family.slug} className="flex flex-col items-center text-center">
+                    <div className="relative w-full overflow-hidden" style={{ maxWidth: '150px', aspectRatio: '1 / 1' }}>
+                      <Image
+                        src={shot.imageUrl!}
+                        alt={shot.imageAlt!}
+                        fill
+                        sizes="(max-width: 640px) 32vw, 150px"
+                        className="object-contain"
+                        style={scale !== 1 ? { transform: `scale(${scale})` } : undefined}
+                      />
+                    </div>
+                    <p className="text-label text-[var(--color-dark)]" style={{ marginTop: '1rem' }}>
+                      {family.name}
+                    </p>
+                  </div>
+                )
+              })}
             </div>
           </div>
         </section>
