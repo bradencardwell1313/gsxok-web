@@ -43,6 +43,10 @@ export function RetailerLocator({ retailers, dataSource }: RetailerLocatorProps)
   const [searchedZip, setSearchedZip] = useState<string | null>(null)
   const [nearestResults, setNearestResults] = useState<RetailerWithDistance[]>([])
   const [showAllNearest, setShowAllNearest] = useState(false)
+  // Bumped on every successfully-completed search (result or empty) so the
+  // results block below can key off it and replay its entrance transition
+  // even when searching the same ZIP twice in a row.
+  const [searchNonce, setSearchNonce] = useState(0)
 
   const baseList = useMemo(() => sortByCity(retailers), [retailers])
 
@@ -76,6 +80,7 @@ export function RetailerLocator({ retailers, dataSource }: RetailerLocatorProps)
       setNearestResults(withDistance)
       setSearchedZip(trimmed)
       setShowAllNearest(false)
+      setSearchNonce((n) => n + 1)
       setStatus('idle')
     } catch {
       setStatus('error')
@@ -117,6 +122,22 @@ export function RetailerLocator({ retailers, dataSource }: RetailerLocatorProps)
       }}
     >
       <div className="w-full max-w-[1280px] mx-auto px-6 md:px-16 xl:px-24" style={{ paddingTop: '3rem', paddingBottom: '4rem' }}>
+        {/* Restrained entrance transition for a freshly-completed search —
+            reuses the site's existing motion tokens (300ms, the same
+            cubic-bezier as --ease-enter) rather than inventing new timing.
+            Automatically neutralized by the global prefers-reduced-motion
+            rule in globals.css, which forces all animation-duration to
+            0.01ms. */}
+        <style>{`
+          @keyframes fgResultsIn {
+            from { opacity: 0; transform: translateY(4px); }
+            to { opacity: 1; transform: translateY(0); }
+          }
+          .fg-results-in {
+            animation: fgResultsIn 300ms cubic-bezier(0.0, 0.0, 0.2, 1.0) both;
+          }
+        `}</style>
+
         {dataSource === 'mock' && (
           <div
             className="text-label px-4 py-2.5 mb-8"
@@ -174,10 +195,25 @@ export function RetailerLocator({ retailers, dataSource }: RetailerLocatorProps)
           )}
         </div>
 
-        {/* Nearest results — only after a successful search. */}
+        {/* Nearest results — only after a successful search. Keyed on
+            searchNonce (not searchedZip) so re-searching the same ZIP still
+            replays the entrance transition, per "every successful search
+            should clearly read as a new state." The top rule + generous
+            top spacing is the primary separation from the search controls
+            above — rules-based separation, not color banding, matching the
+            rest of the site. */}
         {searchedZip && (
-          <div className="mt-10" style={{ maxWidth: '640px' }}>
-            <h2 className="text-h4 text-[var(--color-dark)]">GSX near {searchedZip}</h2>
+          <div
+            key={searchNonce}
+            className="fg-results-in mt-12 pt-8"
+            style={{ maxWidth: '640px', borderTop: '1px solid var(--color-border)' }}
+          >
+            <h2 className="text-h3 text-[var(--color-dark)]">GSX near {searchedZip}</h2>
+            {nearestResults.length > 0 && (
+              <p className="text-body-sm mt-1" style={{ color: 'var(--color-muted)' }}>
+                Closest retailers, sorted by approximate distance
+              </p>
+            )}
 
             {nearestResults.length === 0 ? (
               <div className="mt-4 px-4 py-8 text-center border border-[var(--color-border)]">
