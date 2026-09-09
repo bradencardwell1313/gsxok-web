@@ -60,12 +60,13 @@ export default function ContactPage() {
             Vercel environment. Shipping a form against that would risk
             silently failing for real visitors, so per instructions this
             uses verified contact details only (email, phone, location).
-            See the completion report
-            for the full blocker writeup. id="contact" is the anchor target
-            for the retailer-guidance section below. ────────────────────── */}
+            See the completion report for the full blocker writeup. ────── */}
         <section id="contact" className={`${GREEN_FADE_CLASS} bg-[var(--color-cream)]`} style={GREEN_FADE}>
           <div className={G} style={{ paddingTop: '4.5rem', paddingBottom: '4.5rem' }}>
             <h2 className="text-h2 text-[var(--color-dark)]">Contact GSX</h2>
+            <p className="text-body text-[var(--color-muted)]" style={{ marginTop: '0.75rem', maxWidth: '58ch' }}>
+              Have a question about GSX products, availability, or something else? Reach out by email or phone and our team will help point you in the right direction.
+            </p>
 
             <div className="sm:flex sm:flex-wrap" style={{ marginTop: '2rem', gap: '2rem 4rem' }}>
               <div style={{ marginTop: '1.5rem' }} className="sm:mt-0">
@@ -104,40 +105,11 @@ export default function ContactPage() {
           </div>
         </section>
 
-        {/* ── 3. RETAILER / WHOLESALE GUIDANCE — dark, compact. Points to
-            the contact section above rather than duplicating a sales page.
-            "Carry GSX" here jumps to #contact — the actual working channel
-            on this page — since the site-wide convention of linking that
-            label to /contact would otherwise point back at this same
-            page. ───────────────────────────────────────────────────────── */}
-        <section className="bg-[var(--color-dark)]">
-          <div className={G} style={{ paddingTop: '3.5rem', paddingBottom: '3.5rem' }}>
-            <h2
-              className="text-[var(--color-cream)] font-[family-name:var(--font-space-grotesk)] font-semibold"
-              style={{ fontSize: 'clamp(1.5rem, 2.4vw, 2rem)', letterSpacing: '-0.02em', maxWidth: '20ch' }}
-            >
-              Interested in carrying GSX?
-            </h2>
-            <p
-              className="font-[family-name:var(--font-manrope)] font-light"
-              style={{ color: 'rgba(250,248,243,0.55)', fontSize: '1rem', lineHeight: '1.6', marginTop: '1rem', maxWidth: '52ch' }}
-            >
-              Oklahoma-licensed dispensaries can apply to carry GSX through the retailer application.
-            </p>
-            <div className="flex flex-wrap items-center gap-6" style={{ marginTop: '1.75rem' }}>
-              <Button href="/contact#contact" variant="primary" size="lg">Carry GSX</Button>
-              <Link
-                href="/login"
-                className="text-button text-[rgba(250,248,243,0.55)] hover:text-[var(--color-cream)] transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:rounded-sm"
-              >
-                Retailer Portal
-              </Link>
-            </div>
-          </div>
-        </section>
-
-        {/* ── 4. RETAILER CONVERSION BAND — reused verbatim from
-            Homepage / Products / About / Find GSX. ─────────────────── */}
+        {/* ── 3. RETAILER CONVERSION BAND — reused verbatim from
+            Homepage / Products / About / Find GSX. The separate dark
+            "Interested in carrying GSX?" section that used to sit above
+            this was removed as redundant — this band already covers the
+            same message (heading, copy, Carry GSX, Retailer Portal). ── */}
         <section className="bg-[var(--color-green)]">
           <div className={G} style={{ paddingTop: '2.25rem', paddingBottom: '2.25rem' }}>
             <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
