@@ -19,11 +19,10 @@ const GREEN_FADE = {
 }
 const GREEN_FADE_CLASS = 'relative bg-[length:100%_96px] md:bg-[length:100%_160px] bg-no-repeat bg-top'
 
-// Only verified contact details go here. No phone number: none is
-// confirmed anywhere in the project (the Sanity siteSettings schema has a
-// contactPhone field, but zero documents exist in the dataset yet, so
-// there's no real value to show). Do not add one without a verified source.
-const CONTACT_EMAIL = 'sales@gsxok.com'
+// Verified public contact details from the original GSX site.
+const CONTACT_EMAIL = 'contact@gsxok.com'
+const CONTACT_PHONE = '855-962-5326'
+const CONTACT_PHONE_TEL = 'tel:+18559625326'
 
 export default function ContactPage() {
   return (
@@ -60,14 +59,15 @@ export default function ContactPage() {
             key and verified sending domain are configured in the production
             Vercel environment. Shipping a form against that would risk
             silently failing for real visitors, so per instructions this
-            uses the verified email contact only. See the completion report
+            uses verified contact details only (email, phone, location).
+            See the completion report
             for the full blocker writeup. id="contact" is the anchor target
             for the retailer-guidance section below. ────────────────────── */}
         <section id="contact" className={`${GREEN_FADE_CLASS} bg-[var(--color-cream)]`} style={GREEN_FADE}>
           <div className={G} style={{ paddingTop: '4.5rem', paddingBottom: '4.5rem' }}>
             <h2 className="text-h2 text-[var(--color-dark)]">Contact GSX</h2>
 
-            <div className="sm:flex sm:gap-16" style={{ marginTop: '2rem' }}>
+            <div className="sm:flex sm:flex-wrap" style={{ marginTop: '2rem', gap: '2rem 4rem' }}>
               <div style={{ marginTop: '1.5rem' }} className="sm:mt-0">
                 <p className="text-label" style={{ color: 'var(--color-muted)', marginBottom: '0.5rem' }}>
                   Email
@@ -78,6 +78,18 @@ export default function ContactPage() {
                   style={{ color: 'var(--color-green)' }}
                 >
                   {CONTACT_EMAIL}
+                </a>
+              </div>
+              <div style={{ marginTop: '1.5rem' }} className="sm:mt-0">
+                <p className="text-label" style={{ color: 'var(--color-muted)', marginBottom: '0.5rem' }}>
+                  Phone
+                </p>
+                <a
+                  href={CONTACT_PHONE_TEL}
+                  className="text-h4"
+                  style={{ color: 'var(--color-green)' }}
+                >
+                  {CONTACT_PHONE}
                 </a>
               </div>
               <div style={{ marginTop: '1.5rem' }} className="sm:mt-0">
