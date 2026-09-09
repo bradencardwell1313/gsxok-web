@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { Nav } from '@/components/layout/Nav'
 import { Footer } from '@/components/layout/Footer'
 import { Button } from '@/components/ui/Button'
+import { ContactForm } from '@/components/contact/ContactForm'
 
 export const metadata = {
   title: 'Contact',
@@ -51,16 +52,12 @@ export default function ContactPage() {
           </div>
         </section>
 
-        {/* ── 2. MAIN CONTACT — cream, editorial, not a card grid. No form:
-            the project has the `resend` package listed as a dependency and
-            RESEND_API_KEY/EMAIL_FROM placeholders in .env.example, but no
-            code anywhere in the repo actually calls the Resend SDK (grep
-            confirmed), and there is no way from here to confirm a real API
-            key and verified sending domain are configured in the production
-            Vercel environment. Shipping a form against that would risk
-            silently failing for real visitors, so per instructions this
-            uses verified contact details only (email, phone, location).
-            See the completion report for the full blocker writeup. ────── */}
+        {/* ── 2. MAIN CONTACT — cream. Intro copy and verified contact
+            details up top, form below with its own constrained width (see
+            ContactForm). The form posts to app/api/contact/route.ts, which
+            sends via Resend server-side only — no key ever reaches the
+            browser. See the completion report for the anti-spam layers and
+            what production configuration is still required. ───────────── */}
         <section id="contact" className={`${GREEN_FADE_CLASS} bg-[var(--color-cream)]`} style={GREEN_FADE}>
           <div className={G} style={{ paddingTop: '4.5rem', paddingBottom: '4.5rem' }}>
             <h2 className="text-h2 text-[var(--color-dark)]">Contact GSX</h2>
@@ -101,6 +98,10 @@ export default function ContactPage() {
                   Chelsea, Oklahoma 74016
                 </p>
               </div>
+            </div>
+
+            <div style={{ marginTop: '3rem', paddingTop: '2.5rem', borderTop: '1px solid var(--color-border)' }}>
+              <ContactForm />
             </div>
           </div>
         </section>
