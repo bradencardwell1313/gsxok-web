@@ -1,0 +1,166 @@
+import Link from 'next/link'
+import { Nav } from '@/components/layout/Nav'
+import { Footer } from '@/components/layout/Footer'
+import { Button } from '@/components/ui/Button'
+
+export const metadata = {
+  title: 'Contact',
+  description: 'Get in touch with GSX about products, availability, or carrying GSX in your store.',
+}
+
+const G = 'w-full max-w-[1280px] mx-auto px-6 md:px-16 xl:px-24'
+
+// Same green-to-cream fade used on every other public page — reused
+// selectively here, only where a dark section hands off directly into a
+// cream one.
+const GREEN_FADE = {
+  backgroundImage:
+    'linear-gradient(to bottom, rgba(26,122,74,0.32) 0%, rgba(26,122,74,0.12) 20%, rgba(26,122,74,0) 60%, rgba(26,122,74,0) 100%)',
+}
+const GREEN_FADE_CLASS = 'relative bg-[length:100%_96px] md:bg-[length:100%_160px] bg-no-repeat bg-top'
+
+// Only verified contact details go here. No phone number: none is
+// confirmed anywhere in the project (the Sanity siteSettings schema has a
+// contactPhone field, but zero documents exist in the dataset yet, so
+// there's no real value to show). Do not add one without a verified source.
+const CONTACT_EMAIL = 'sales@gsxok.com'
+
+export default function ContactPage() {
+  return (
+    <>
+      <Nav />
+      <main>
+
+        {/* ── 1. HERO — compact, dark, typographic. No imagery. ────────── */}
+        <section className="bg-[var(--color-ink)]">
+          <div className={G} style={{ paddingTop: '3.5rem', paddingBottom: '3.5rem' }}>
+            <p className="text-label" style={{ color: 'rgba(250,248,243,0.5)', marginBottom: '1rem' }}>
+              Contact
+            </p>
+            <h1
+              className="text-[var(--color-cream)] font-[family-name:var(--font-space-grotesk)] font-semibold"
+              style={{ fontSize: 'clamp(2rem, 3.4vw, 3rem)', lineHeight: '1.05', letterSpacing: '-0.03em' }}
+            >
+              Get in touch with GSX
+            </h1>
+            <p
+              className="text-[rgba(250,248,243,0.5)] font-[family-name:var(--font-manrope)] font-light"
+              style={{ fontSize: '1.0625rem', lineHeight: '1.68', marginTop: '1rem', maxWidth: '56ch' }}
+            >
+              Questions about GSX products, availability, or carrying GSX in your store? Reach out and we&rsquo;ll point you in the right direction.
+            </p>
+          </div>
+        </section>
+
+        {/* ── 2. MAIN CONTACT — cream, editorial, not a card grid. No form:
+            the project has the `resend` package listed as a dependency and
+            RESEND_API_KEY/EMAIL_FROM placeholders in .env.example, but no
+            code anywhere in the repo actually calls the Resend SDK (grep
+            confirmed), and there is no way from here to confirm a real API
+            key and verified sending domain are configured in the production
+            Vercel environment. Shipping a form against that would risk
+            silently failing for real visitors, so per instructions this
+            uses the verified email contact only. See the completion report
+            for the full blocker writeup. id="contact" is the anchor target
+            for the retailer-guidance section below. ────────────────────── */}
+        <section id="contact" className={`${GREEN_FADE_CLASS} bg-[var(--color-cream)]`} style={GREEN_FADE}>
+          <div className={G} style={{ paddingTop: '4.5rem', paddingBottom: '4.5rem' }}>
+            <h2 className="text-h2 text-[var(--color-dark)]">Contact GSX</h2>
+
+            <div className="sm:flex sm:gap-16" style={{ marginTop: '2rem' }}>
+              <div style={{ marginTop: '1.5rem' }} className="sm:mt-0">
+                <p className="text-label" style={{ color: 'var(--color-muted)', marginBottom: '0.5rem' }}>
+                  Email
+                </p>
+                <a
+                  href={`mailto:${CONTACT_EMAIL}`}
+                  className="text-h4"
+                  style={{ color: 'var(--color-green)' }}
+                >
+                  {CONTACT_EMAIL}
+                </a>
+              </div>
+              <div style={{ marginTop: '1.5rem' }} className="sm:mt-0">
+                <p className="text-label" style={{ color: 'var(--color-muted)', marginBottom: '0.5rem' }}>
+                  Location
+                </p>
+                <p className="text-h4 text-[var(--color-dark)]">
+                  Chelsea, Oklahoma 74016
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ── 3. RETAILER / WHOLESALE GUIDANCE — dark, compact. Points to
+            the contact section above rather than duplicating a sales page.
+            "Carry GSX" here jumps to #contact — the actual working channel
+            on this page — since the site-wide convention of linking that
+            label to /contact would otherwise point back at this same
+            page. ───────────────────────────────────────────────────────── */}
+        <section className="bg-[var(--color-dark)]">
+          <div className={G} style={{ paddingTop: '3.5rem', paddingBottom: '3.5rem' }}>
+            <h2
+              className="text-[var(--color-cream)] font-[family-name:var(--font-space-grotesk)] font-semibold"
+              style={{ fontSize: 'clamp(1.5rem, 2.4vw, 2rem)', letterSpacing: '-0.02em', maxWidth: '20ch' }}
+            >
+              Interested in carrying GSX?
+            </h2>
+            <p
+              className="font-[family-name:var(--font-manrope)] font-light"
+              style={{ color: 'rgba(250,248,243,0.55)', fontSize: '1rem', lineHeight: '1.6', marginTop: '1rem', maxWidth: '52ch' }}
+            >
+              Oklahoma-licensed dispensaries can apply to carry GSX through the retailer application.
+            </p>
+            <div className="flex flex-wrap items-center gap-6" style={{ marginTop: '1.75rem' }}>
+              <Button href="/contact#contact" variant="primary" size="lg">Carry GSX</Button>
+              <Link
+                href="/login"
+                className="text-button text-[rgba(250,248,243,0.55)] hover:text-[var(--color-cream)] transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:rounded-sm"
+              >
+                Retailer Portal
+              </Link>
+            </div>
+          </div>
+        </section>
+
+        {/* ── 4. RETAILER CONVERSION BAND — reused verbatim from
+            Homepage / Products / About / Find GSX. ─────────────────── */}
+        <section className="bg-[var(--color-green)]">
+          <div className={G} style={{ paddingTop: '2.25rem', paddingBottom: '2.25rem' }}>
+            <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+              <div className="shrink-0">
+                <p className="text-label" style={{ color: 'rgba(250,248,243,0.7)', marginBottom: '0.3rem' }}>
+                  For Retailers
+                </p>
+                <h2
+                  className="text-[var(--color-cream)] font-[family-name:var(--font-space-grotesk)] font-semibold whitespace-nowrap"
+                  style={{ fontSize: 'clamp(1.375rem, 2.2vw, 1.875rem)', letterSpacing: '-0.02em' }}
+                >
+                  Carry GSX in your store
+                </h2>
+              </div>
+              <p
+                className="text-[rgba(250,248,243,0.68)] font-[family-name:var(--font-manrope)]"
+                style={{ fontSize: '0.9375rem', maxWidth: '34ch' }}
+              >
+                Oklahoma-licensed dispensaries can apply to stock GSX products.
+              </p>
+              <div className="flex flex-wrap items-center gap-5 shrink-0">
+                <Button href="/contact" variant="secondary" size="lg">Carry GSX</Button>
+                <Link
+                  href="/login"
+                  className="text-button text-[rgba(250,248,243,0.55)] hover:text-[var(--color-cream)] transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-cream)] focus-visible:rounded-sm"
+                >
+                  Retailer Portal →
+                </Link>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </main>
+      <Footer />
+    </>
+  )
+}
