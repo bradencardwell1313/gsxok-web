@@ -20,7 +20,7 @@ const publicNavLinks = [
   { href: '/products', label: 'Products' },
   { href: '/find-gsx', label: 'Find GSX' },
   { href: '/about', label: 'About' },
-  { href: '/learn', label: 'Learn' },
+  { href: '/contact', label: 'Contact' },
 ]
 
 const retailerNavLinks = [
@@ -70,7 +70,7 @@ export function Nav() {
       }`}
     >
       <div className="w-full px-6 lg:px-10">
-        <div className="grid grid-cols-[1fr_auto_1fr] items-center h-16 md:h-18">
+        <div className="grid grid-cols-[1fr_auto_1fr] items-center h-16 md:h-18 gap-x-4">
 
           {/* Logo — far left */}
           <Link
@@ -94,11 +94,12 @@ export function Nav() {
           {/* Desktop nav — centered in the viewport regardless of side-group width.
               Gap scales fluidly from 768px (tight, avoids colliding with the
               logo/CTA groups) up to 1280px, where it locks at the approved
-              96px and stays there through every wider desktop width.
-              Recalibrated (6px floor, was 10px) after adding the 5th item
-              ("Home") — the extra label/gap pair ate the buffer the old
-              4-item formula relied on; verified against the actual
-              Portal Login/Carry GSX group at 768px, not just the grid math. */}
+              96px and stays there through every wider desktop width. The
+              outer grid's own gap-x-4 (below) is what actually guarantees
+              breathing room to the logo/CTA groups — added after swapping
+              "Learn" for the wider "Contact" label pushed the centered nav
+              flush against Portal Login at 768px with zero gap, since the
+              grid's 1fr side tracks had no minimum spacing of their own. */}
           <nav
             className="col-start-2 hidden md:flex items-center justify-self-center"
             style={{ columnGap: 'clamp(6px, 17.578vw - 129px, 96px)' }}
