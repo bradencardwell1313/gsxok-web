@@ -5,12 +5,15 @@ import { z } from 'zod'
 // immediate feedback; every submission is re-validated here regardless of
 // what the browser already checked.
 
+// Each option identifies a situation where someone actually needs to reach
+// a person at GSX — not ordinary product-info questions the site itself
+// already answers.
 export const CONTACT_REASONS = [
-  'General Question',
-  'Product Question',
-  'Product Availability',
-  'Retailer / Wholesale',
-  'Website Question',
+  'Retailer / Wholesale Inquiry',
+  'Existing Retailer Support',
+  'Product Concern or Feedback',
+  'Business / Partnership Inquiry',
+  'Website / Technical Issue',
   'Other',
 ] as const
 
